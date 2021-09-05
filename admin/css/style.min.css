@@ -13671,7 +13671,7 @@ html[dir=ltr] body .p-l-0 {
 #main-wrapper[data-layout=horizontal] .topbar[data-navbarbg=skin5],
 #main-wrapper[data-layout=vertical] .topbar .navbar-collapse[data-navbarbg=skin5],
 #main-wrapper[data-layout=vertical] .topbar[data-navbarbg=skin5] {
-    background: #2f323e
+    background: #8180e0
 }
 
 #main-wrapper[data-layout=horizontal] .topbar .top-navbar .navbar-header[data-logobg=skin6],
@@ -15889,7 +15889,7 @@ html body .waves-notransition {
     -o-transition: all 0.4s ease-out;
 }
 .common_btn::after {
-    background: #222222;
+    background: #8180e0;
     color: white !important;
     border-radius: 3px;
     bottom: 0;
