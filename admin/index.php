@@ -1,8 +1,17 @@
 <?php
 
     include 'connection.php';
-//    include 'auth.php';
+    include 'auth.php';
     $conn = OpenCon();
+
+    $sql = "SELECT * FROM users";
+    $assistants = $conn->query($sql);
+    
+    if($assistants){
+        $users = mysqli_num_rows($assistants);
+    }else{
+        $users = 0;
+    }
 
 ?>
 <!DOCTYPE html>
@@ -96,7 +105,7 @@
                             <a class="profile-pic" href="#">
                                 <!-- <img src="plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"> -->
                                 <span class="text-white font-medium">
-                                    Admin
+                                <?php echo $_SESSION["username"]; ?>
                                 </span>
                             </a>
                         </li>
@@ -204,40 +213,40 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-12">
                         <div class="white-box analytics-info">
-                            <h3 class="box-title">Total Results Posted</h3>
+                            <h3 class="box-title">Total Users Registered</h3>
                             <ul class="list-inline two-part d-flex align-items-center mb-0">
                                 <li>
                                     <div id="sparklinedash"><canvas width="67" height="30"
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-success"></span></li>
+                                <li class="ms-auto"><span class="counter text-success"><?php echo $users; ?></span></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="white-box analytics-info">
-                            <h3 class="box-title">Total Assistant Admin</h3>
+                            <h3 class="box-title">Loans Approved</h3>
                             <ul class="list-inline two-part d-flex align-items-center mb-0">
                                 <li>
                                     <div id="sparklinedash2"><canvas width="67" height="30"
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-purple"></span></li>
+                                <li class="ms-auto"><span class="counter text-purple">99</span></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="white-box analytics-info">
-                            <h3 class="box-title">Times Messages Set</h3>
+                            <h3 class="box-title">Loans Rejected</h3>
                             <ul class="list-inline two-part d-flex align-items-center mb-0">
                                 <li>
                                     <div id="sparklinedash3"><canvas width="67" height="30"
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-info"></span>
+                                <li class="ms-auto"><span class="counter text-info">9</span>
                                 </li>
                             </ul>
                         </div>
@@ -263,7 +272,7 @@
             <!-- footer -->
             <!-- ============================================================== -->
             <footer class="footer text-center"> 2021 © Eazy Credit Solution Admin <a
-                    href="#">EazyCreditSolution</a>
+                    href="http://eazycreditsolution.com/">EazyCreditSolution</a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

@@ -148,8 +148,6 @@
                                 <span class="hide-menu">Mortgage Loan</span>
                             </a>
                         </li>
-
-                        
                         <li class="sidebar-item common_btn">
                             <a class="sidebar-link" href="cc-and-od.php"
                                 aria-expanded="false">
@@ -194,7 +192,64 @@
             <!-- ============================================================== -->
             <!-- End Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-            
+            <!-- ============================================================== -->
+            <!-- Start Applied Loans -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <div class="row">
+                        <div class="col-md-12 col-lg-12 col-sm-12">
+                            <div class="white-box">
+                                <div class="d-md-flex mb-3">
+                                    <h3 class="box-title mb-0">CC and OD Loan Stats</h3>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-top-0">#</th>
+                                                <th class="border-top-0">Organize</th>
+                                                <th class="border-top-0">Date</th>
+                                                <th class="border-top-0">F/R</th>
+                                                <th class="border-top-0">S/R</th>
+                                                <th class="border-top-0">Verified</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                            if ($result->num_rows > 0) {
+                                                // output data of each row
+                                                $text = '';
+                                                $i = 0;
+                                                while($row = $result->fetch_assoc()) {
+                                                    $i += 1;
+                                                    $dat = strval($row["date"]);
+                                                    $dat = substr($dat, 0, 10);
+                                                    $text= $text. '<tr>
+                                                        <td>'.$i.'</td>
+                                                        <td class="txt-oflo">'.$row["city"].'</td>
+                                                        <td>'.$dat.'</td>
+                                                        <td><span class="text-info">'.$row["F/R"].'</span></td>
+                                                        <td><span class="text-info">'.$row["S/R"].'</span></td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-info" value="'.$row['id'].'" onclick="edit(this.value)">Edit</button>
+                                                            <button type="button" class="btn btn-danger" value="'.$row['id'].'" onclick="remove(this.value)">Remove</button>
+                                                        </td>
+
+                                                    </tr>';
+                                                }
+                                                echo $text;
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Applied Loans -->
+            <!-- ============================================================== -->
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
