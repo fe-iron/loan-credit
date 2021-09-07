@@ -339,7 +339,7 @@
             {
                 $.ajax({
                     type: "POST",
-                    url: 'ajax/mail.php',
+                    url: 'feedback.php',
                     data: {f_name: f_name, l_name: l_name, email: email, phone: phone, address: address, message: message},
                     success: function (data)
                     {

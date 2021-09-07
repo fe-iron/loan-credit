@@ -198,3 +198,9 @@ ul li{
 .color_aaa{
     color: #aaaaaa;
 }
+
+@media (max-width: 576px) {
+    .logo img{
+        width: 200px;
+    }
+}
