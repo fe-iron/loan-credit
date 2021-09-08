@@ -32,6 +32,7 @@
     <!-- <link rel="stylesheet" href="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"> -->
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
+    <link rel="icon"  type="image/png" href="../images/fav.png">
 </head>
 
 <body>

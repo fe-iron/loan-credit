@@ -27,6 +27,7 @@
         }
         // echo $query;
         $result = mysqli_query($con,$query);
+
         if($result){
             header("Location: index.php?result=Registered Successfully!");
         }else{

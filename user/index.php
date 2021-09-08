@@ -6,7 +6,9 @@
 
     $sql = "SELECT * FROM users";
     $assistants = $conn->query($sql);
-    
+    $total_loans = 0;
+    $loans_approved = 0;
+    $loans_rejected = 0;
     if($assistants){
         $users = mysqli_num_rows($assistants);
     }else{
@@ -31,7 +33,8 @@
     
     <!-- <link rel="stylesheet" href="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"> -->
     <!-- Custom CSS -->
-    <link href="css/style.min.css" rel="stylesheet">
+    <link href="../admin/css/style.min.css" rel="stylesheet">
+    <link rel="icon"  type="image/png" href="../images/fav.png">
 </head>
 
 <body>
@@ -213,14 +216,14 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-12">
                         <div class="white-box analytics-info">
-                            <h3 class="box-title">Total Users Registered</h3>
+                            <h3 class="box-title">Total Loans Applied</h3>
                             <ul class="list-inline two-part d-flex align-items-center mb-0">
                                 <li>
                                     <div id="sparklinedash"><canvas width="67" height="30"
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-success"><?php echo $users; ?></span></li>
+                                <li class="ms-auto"><span class="counter text-success"><?php echo $total_loans; ?></span></li>
                             </ul>
                         </div>
                     </div>
@@ -233,7 +236,7 @@
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-purple">99</span></li>
+                                <li class="ms-auto"><span class="counter text-purple"><?php echo $loans_approved ; ?></span></li>
                             </ul>
                         </div>
                     </div>
@@ -246,23 +249,12 @@
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-info">9</span>
+                                <li class="ms-auto"><span class="counter text-info"><?php echo $loans_rejected; ?></span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- PRODUCTS YEARLY SALES -->
-                <!-- ============================================================== -->
-               
-                <!-- ============================================================== -->
-                <!-- RECENT SALES -->
-                <!-- ============================================================== -->
-                
-                <!-- ============================================================== -->
-                <!-- Recent Comments -->
-                <!-- ============================================================== -->
                 
             </div>
             <!-- ============================================================== -->
@@ -288,22 +280,22 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../admin/plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <!-- <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
     <!-- <script src="js/app-style-switcher.js"></script> -->
-    <script src="plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="../admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
     <!--Wave Effects -->
-    <script src="js/waves.js"></script>
+    <script src="../admin/js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
+    <script src="../admin/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-    <script src="js/custom.js"></script>
+    <script src="../admin/js/custom.js"></script>
     <!--This page JavaScript -->
     <!--chartis chart-->
-    <script src="plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="js/pages/dashboards/dashboard1.js"></script>
+    <script src="../admin/plugins/bower_components/chartist/dist/chartist.min.js"></script>
+    <script src="../admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="../admin/js/pages/dashboards/dashboard1.js"></script>
 </body>
 
 </html>

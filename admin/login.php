@@ -21,11 +21,16 @@ if (isset($_POST['username'])){
     
     if($rows==1){
         $row = $result->fetch_assoc();
-        $_SESSION['username'] =  $row['full_name'];
-        $_SESSION['email'] =  $row['email'];
+        if('admin@eazycreditsolution.com' != $row['email']){
+            $set_cond = True;
+        }else{
+            $_SESSION['username'] =  $row['full_name'];
+            $_SESSION['email'] =  $row['email'];
         
-        // Redirect user to index.php
-        header("Location: index.php");
+            // Redirect user to index.php
+            header("Location: index.php");
+        }
+        
     }else{
         $set_cond = True;
     }
@@ -48,6 +53,7 @@ if (isset($_POST['username'])){
     <link href='images/16.ico' rel="shortcut icon" type=image/x-icon>
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
+    <link rel="icon"  type="image/png" href="../images/fav.png">
 
 </head>
 

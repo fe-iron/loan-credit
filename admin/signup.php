@@ -26,6 +26,7 @@
     <link href='images/16.ico' rel="shortcut icon" type=image/x-icon>
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
+    <link rel="icon"  type="image/png" href="../images/fav.png">
 
 </head>
 
