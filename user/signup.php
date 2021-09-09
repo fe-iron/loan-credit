@@ -46,31 +46,12 @@
     <!-- ============================================================== -->
     <div id="main-wrapper"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
        
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-     
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
         <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
             
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
@@ -96,8 +77,8 @@
                             ?>
                             <p class="text-info h2 py-2 text-center">Sign up Here</p>
                             
-                            <form class="form-horizontal form-material" action="registration.php" method="post">
-                                    <div class="form-group mb-4">
+                            <form class="form-horizontal form-material" action="registration.php" method="post" name="register">
+                                    <!-- <div class="form-group mb-4">
                                         <label class="col-md-12 p-0">Full Name</label>
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="text" placeholder="Full Name"
@@ -109,7 +90,7 @@
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="email" placeholder="Email"
                                                 class="form-control p-0 border-0" name="email"
-                                                id="example-email"  required>
+                                                id="example-email"  required />
                                         </div>
                                     </div>
                                     <div class="form-group mb-4">
@@ -118,19 +99,41 @@
                                             <input type="password" placeholder="Enter password" class="form-control p-0 border-0"
                                             name="password" required>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group mb-4">
                                         <label class="col-md-12 p-0">Phone No</label>
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="tel" placeholder="Mobile Number"
-                                                class="form-control p-0 border-0" name="phone">
+                                                class="form-control p-0 border-0" name="phone" id="mob">
                                         </div>
                                     </div>
+
+                                    <div class="form-group mb-4">
+                                        <p class="col-md-12 p-0" id="msg" style="color: orangered;"></p>
+                                        <div class="col-md-12 p-0">
+                                            <button type="button" onclick="send_otp();" id="get-otp" class="btn btn-success">Get OTP</button>  
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4" style="display: none;" id="otp-input-block">
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="tel" placeholder="Enter OTP..."
+                                                class="form-control p-0 border-0" name="phone" id="verificationCode">
+                                        </div>
+                                        <br><a href="#" onclick="send_otp();">Resend OTP</a>
+                                        
+                                    </div>
+
                                     <div class="form-group mb-4">
                                         <div class="col-sm-12">
-                                            <button class="btn btn-success" type="submit">Create Profile</button>
+                                            <button class="btn btn-success" type="submit" id="signup-btn" onclick="codeVerify()">next</button>
                                         </div>
                                     </div>
+                                    <div id="recaptcha-container"></div>
+                                            <input type="checkbox" class="check-box-field" id="input-terms" checked>
+											<label for="input-terms">
+													I agree with <a href="#">terms and Conditions</a> and  <a href="#">privacy policy.</a>
+											</label>
                                 </form>
                                 <h4 class="text-info">Already Registered! <a href="login.php"> Click Here</a> </h4>
                             </div>
@@ -139,16 +142,7 @@
                     <!-- Column -->
                 </div>
                 <!-- Row -->
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Right sidebar -->
-                <!-- ============================================================== -->
-                <!-- .right-sidebar -->
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
+                
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -173,16 +167,16 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
+    
     <script src="../admin/plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="../admin/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="js/app-style-switcher.js"></script> -->
-    <!--Wave Effects -->
-    <!-- <script src="js/waves.js"></script> -->
-    <!--Menu sidebar -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
     <script src="../admin/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="../admin/js/custom.js"></script>
+    <script src="../js/phone_auth.js"></script>
+    
 </body>
 
 </html>
