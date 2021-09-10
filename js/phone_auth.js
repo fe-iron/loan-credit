@@ -31,14 +31,14 @@ function render() {
 
 function send_otp() {
   var number = document.getElementById('mob').value;
+  document.getElementById('button-block').innerHTML =
+    '<button type="button" class="next action-button" id="verify">Verify</button>';
   number = '+91' + number;
-
+  // onclick="codeVerify()"
   if(number.length < 13 || number.length > 13){
     alert(" Don't include +91 or 0, Mobile Number should be 10 digits long!");
   }else{
       document.getElementById('verificationCode').style.display = 'block';
-      // document.getElementById('signup-btn').style.display = 'block';
-      document.getElementById('otp-next-button').style.display = 'block';
 
       firebase
         .auth()
@@ -48,7 +48,7 @@ function send_otp() {
           // user in with confirmationResult.confirm(code).
           window.confirmationResult = confirmationResult
           codeResult = confirmationResult
-          console.log(codeResult);
+          // console.log(codeResult);
           alert('message sent check your phone!')
         })
         .catch((error) => {
@@ -67,8 +67,8 @@ function codeVerify() {
     .confirm(otp)
     .then((result) => {
       // User signed in successfully.
-      const user = result.user
-
+      const user = result.user;
+      
     })
     .catch((error) => {
       // User couldn't sign in (bad verification code?)

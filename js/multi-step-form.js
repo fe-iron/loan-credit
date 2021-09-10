@@ -5,6 +5,26 @@ var animating; //flag to prevent quick multi-click glitches
 
 
 $(".next").click(function(){
+	console.log("hello   "+$(this).attr("id"));
+	if($(this).attr("id") === 'verify'){
+		console.log($(this).attr("id"));
+
+		var otp = document.getElementById('verificationCode').value
+		codeResult
+		.confirm(otp)
+		.then((result) => {
+		// User signed in successfully.
+		const user = result.user;
+		
+		})
+		.catch((error) => {
+		// User couldn't sign in (bad verification code?)
+		// ...
+		document.getElementById('msg').innerHTML =
+			'Something went wrong! Try again'
+		})
+	}
+	
 	if(animating) return false;
 	animating = true;
 	

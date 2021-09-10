@@ -273,10 +273,10 @@
             min: 1,
             max: 181600,
             slide: function (event, ui) {
-                $("#amount").val("$" + ui.value);
+                $("#amount").val("₹" + ui.value);
             }
         });
-        $("#amount").val("$" + $("#price_range").slider("value"));
+        $("#amount").val("₹" + $("#price_range").slider("value"));
     }
 
     /*--------------------------------------------------------
