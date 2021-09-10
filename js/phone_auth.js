@@ -1,4 +1,3 @@
-console.log("Google");
 const config = {
     apiKey: "AIzaSyBo8-sCXefSEqgxJrLxlStMhivuyOday8w",
     authDomain: "eazycreditsolution-248d9.firebaseapp.com",
@@ -14,7 +13,7 @@ firebase.initializeApp(config)
 
 window.onload = function () {
   render()
-  document.getElementById('otp-input-block').style.display = 'none'
+  document.getElementById('verificationCode').style.display = 'none'
   document.getElementById('signup-btn').style.display = 'none'
 }
 function render() {
@@ -32,15 +31,15 @@ function render() {
 
 function send_otp() {
   var number = document.getElementById('mob').value;
-  if(number.length < 10 || number.length > 10){
-    alert("Mobile Number should be 10 digits long!");
-  }
-  number = '+91' + number
-  if(number == '+91'){
-    alert("Enter Mobile Number first!");
+  number = '+91' + number;
+
+  if(number.length < 13 || number.length > 13){
+    alert(" Don't include +91 or 0, Mobile Number should be 10 digits long!");
   }else{
-      document.getElementById('otp-input-block').style.display = 'block';
-      document.getElementById('signup-btn').style.display = 'block'
+      document.getElementById('verificationCode').style.display = 'block';
+      // document.getElementById('signup-btn').style.display = 'block';
+      document.getElementById('otp-next-button').style.display = 'block';
+
       firebase
         .auth()
         .signInWithPhoneNumber(number, recaptchaVerifier)
@@ -49,7 +48,7 @@ function send_otp() {
           // user in with confirmationResult.confirm(code).
           window.confirmationResult = confirmationResult
           codeResult = confirmationResult
-          console.log(codeResult)
+          console.log(codeResult);
           alert('message sent check your phone!')
         })
         .catch((error) => {
@@ -57,7 +56,7 @@ function send_otp() {
           // ...
           document.getElementById('msg').innerHTML =
             'Enter only 10 digit Number without +91'
-          console.log(error)
+          console.log(error);
         })
       }
 }
@@ -69,7 +68,7 @@ function codeVerify() {
     .then((result) => {
       // User signed in successfully.
       const user = result.user
-      document.forms['register'].submit()
+
     })
     .catch((error) => {
       // User couldn't sign in (bad verification code?)
