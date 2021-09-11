@@ -5,9 +5,9 @@ var animating; //flag to prevent quick multi-click glitches
 
 
 $(".next").click(function(){
-	console.log("hello   "+$(this).attr("id"));
+	// console.log("hello   "+$(this).attr("id"));
 	if($(this).attr("id") === 'verify'){
-		console.log($(this).attr("id"));
+		// console.log($(this).attr("id"));
 
 		var otp = document.getElementById('verificationCode').value
 		codeResult

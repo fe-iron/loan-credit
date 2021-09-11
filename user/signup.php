@@ -68,6 +68,7 @@
 
                         <span id="button-block">
                             <button type="button" onclick="send_otp();" class="action-button" id="get-otp" class="btn btn-success">Get OTP</button>
+                            <input type="button" class="next action-button" id="verify" value="Verify" style="display: none;">
                             <!-- <br> -->
                             <!-- <button type="button"  class="action-button" class="btn btn-success" onclick="codeVerify()">Verify</button>
                             <input type="button" name="previous" class="previous action-button" value="Previous" />
