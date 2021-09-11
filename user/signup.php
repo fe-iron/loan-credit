@@ -34,7 +34,15 @@
 
 <body>
 
-                    <!-- multistep form -->
+                    
+<div class="container">
+    <div class="row">
+        <div class="col-md d-flex justify-content-center">
+            <img src="../images/loan_logo.png" alt="logo" width="200px">
+        </div>
+    </div>
+</div>
+<!-- multistep form -->
                     <form id="msform" action="registration.php" method="post">
                             <?php 
                                     if($msg == "Registered Successfully!" || $msg == "Successfully Updated"){
@@ -74,9 +82,9 @@
                         
                         <div id="recaptcha-container"></div>
                         
-                        
+                        <input type="button" name="previous" class="previous action-button" value="Previous" />
                         <button type="button" onclick="send_otp();" class="action-button" id="get-otp" class="btn btn-success">Get OTP</button>
-                        <input type="button" name="next" onclick="codeVerify()" class="next action-button" value="Next" />    
+                        <input type="button" name="next" onclick="codeVerify()" id="mobile_next" class="next action-button"  style="background:#2f523e;" value="Next" disabled/>    
                     </fieldset>
                     <fieldset>
                         <h2 class="fs-title">Personal Details</h2>
@@ -223,31 +231,9 @@
                     
                 </div> -->
                 <!-- Row -->
-                
-            <!-- </div> -->
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <!-- <footer class="footer text-center"> 2021 © Eazy Credit Solution Admin <a
-                    href="http://eazycreditsolution.com/">EazyCreditSolution</a>
-            </footer> -->
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
-        <!-- </div> -->
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
-    <!-- </div> -->
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
+                <footer class="footer text-center text-white" style="background: transparent;"> 2021 © Eazy Credit Solution Admin 
+                    <a href="http://eazycreditsolution.com/" class="text-white">EazyCreditSolution</a>
+                </footer>
     
 
     <script src="../admin/plugins/bower_components/jquery/dist/jquery.min.js"></script>

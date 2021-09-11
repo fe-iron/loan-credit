@@ -31,15 +31,15 @@ function render() {
 
 function send_otp() {
   var number = document.getElementById('mob').value;
-
+  
   number = '+91' + number;
 
   if (number.length < 13 || number.length > 13) {
     alert(" Don't include +91 or 0, Mobile Number should be 10 digits long!");
   } else {
+    document.getElementById('get-otp').setAttribute('onclick', 'codeVerify()');
+    document.getElementById('get-otp').innerHTML = 'Verify';
     document.getElementById('verificationCode').style.display = 'block';
-    document.getElementById('verify').style.display = 'block';
-    document.getElementById('get-otp').style.display = 'none';
     
     firebase 
       .auth()
@@ -62,14 +62,17 @@ function send_otp() {
   }
 }
 
+
 function codeVerify() {
   var otp = document.getElementById('verificationCode').value
+  
   codeResult
     .confirm(otp)
     .then((result) => {
       // User signed in successfully.
       const user = result.user;
-      
+      $('#mobile_next').prop('disabled', false);
+      $('#mobile_next').css('background', "#27AE60");
     })
     .catch((error) => {
       // User couldn't sign in (bad verification code?)
