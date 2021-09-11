@@ -269,11 +269,22 @@
     if ($('#price_range').length > 0) {
         $("#price_range").slider({
             range: "min",
-            value: 90800,
-            min: 1,
-            max: 181600,
+            value: 25000,
+            min: 10000,
+            max: 1000000,
             slide: function (event, ui) {
-                $("#amount").val("₹" + ui.value);
+                var val = ui.value;
+                val = String(val);
+                if(val.length == 5){
+                    val = val.slice(0,2)+ "," + val.slice(2);
+                    
+                }else if(val.length == 6){
+                    val = val.slice(0,1)+ "," + val.slice(1,3) + "," + val.slice(3);
+                }else{
+                    val = val.slice(0,2)+ "," + val.slice(2);
+                }
+                $("#amount").val("₹" + val);
+                
             }
         });
         $("#amount").val("₹" + $("#price_range").slider("value"));

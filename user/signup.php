@@ -35,7 +35,15 @@
 <body>
 
                     <!-- multistep form -->
-                    <form id="msform">
+                    <form id="msform" action="registration.php" method="post">
+                            <?php 
+                                    if($msg == "Registered Successfully!" || $msg == "Successfully Updated"){
+                                        print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
+                                    }else{
+                                        print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
+                                    }
+                            ?> 
+                            
                     <!-- progressbar -->
                     <ul id="progressbar">
                         <li class="active">Kind of Loan</li>
@@ -65,15 +73,10 @@
                         <input type="tel" placeholder="Enter OTP..." id="verificationCode">
                         
                         <div id="recaptcha-container"></div>
-
-                        <span id="button-block">
-                            <button type="button" onclick="send_otp();" class="action-button" id="get-otp" class="btn btn-success">Get OTP</button>
-                            <input type="button" class="next action-button" id="verify" value="Verify" style="display: none;">
-                            <!-- <br> -->
-                            <!-- <button type="button"  class="action-button" class="btn btn-success" onclick="codeVerify()">Verify</button>
-                            <input type="button" name="previous" class="previous action-button" value="Previous" />
-                            <input type="button" name="next" class="next action-button" style="display: noe;" id="otp-next-button" value="Next"/> -->
-                        </span>
+                        
+                        
+                        <button type="button" onclick="send_otp();" class="action-button" id="get-otp" class="btn btn-success">Get OTP</button>
+                        <input type="button" name="next" onclick="codeVerify()" class="next action-button" value="Next" />    
                     </fieldset>
                     <fieldset>
                         <h2 class="fs-title">Personal Details</h2>
@@ -152,13 +155,7 @@
 
 
 
-                            <!-- <?php 
-                                    if($msg == "Registered Successfully!" || $msg == "Successfully Updated"){
-                                        print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
-                                    }else{
-                                        print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
-                                    }
-                            ?> -->
+                            
                             <!-- <p class="text-info h2 py-2 text-center">Sign up Here</p> -->
                              
                             <!-- <form class="form-horizontal form-material" action="registration.php" method="post" name="register">

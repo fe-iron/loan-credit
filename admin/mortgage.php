@@ -14,7 +14,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Teer | Super | Lucky Teer Online: </title>
+    <title>Admin | Eazy Credit Solution </title>
     
     <!-- Favicon icon -->
     <link href='images/16.ico' rel="shortcut icon" type=image/x-icon>

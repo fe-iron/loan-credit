@@ -4,33 +4,14 @@ var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 
 
-$(".next").click(function(){
-	// console.log("hello   "+$(this).attr("id"));
-	if($(this).attr("id") === 'verify'){
-		// console.log($(this).attr("id"));
 
-		var otp = document.getElementById('verificationCode').value
-		codeResult
-		.confirm(otp)
-		.then((result) => {
-		// User signed in successfully.
-		const user = result.user;
-		
-		})
-		.catch((error) => {
-		// User couldn't sign in (bad verification code?)
-		// ...
-		document.getElementById('msg').innerHTML =
-			'Something went wrong! Try again'
-		})
-	}
-	
+$(".next").click(function(){
 	if(animating) return false;
 	animating = true;
 	
 	current_fs = $(this).parent();
 	next_fs = $(this).parent().next();
-	
+
 	//activate next step on progressbar using the index of next_fs
 	$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 	
@@ -70,6 +51,7 @@ $(".previous").click(function(){
 	
 	current_fs = $(this).parent();
 	previous_fs = $(this).parent().prev();
+
 	
 	//de-activate current step on progressbar
 	$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
@@ -99,6 +81,3 @@ $(".previous").click(function(){
 	});
 });
 
-$(".submit").click(function(){
-	return false;
-})

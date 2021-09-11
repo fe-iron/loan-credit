@@ -14,7 +14,7 @@ firebase.initializeApp(config)
 window.onload = function () {
   render()
   document.getElementById('verificationCode').style.display = 'none'
-  document.getElementById('signup-btn').style.display = 'none'
+  
 }
 function render() {
   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
@@ -41,7 +41,7 @@ function send_otp() {
     document.getElementById('verify').style.display = 'block';
     document.getElementById('get-otp').style.display = 'none';
     
-    firebase
+    firebase 
       .auth()
       .signInWithPhoneNumber(number, recaptchaVerifier)
       .then((confirmationResult) => {
@@ -69,7 +69,7 @@ function codeVerify() {
     .then((result) => {
       // User signed in successfully.
       const user = result.user;
-
+      
     })
     .catch((error) => {
       // User couldn't sign in (bad verification code?)

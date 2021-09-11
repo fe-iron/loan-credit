@@ -4,23 +4,23 @@
 
     $con = OpenCon();
      // If form submitted, insert values into the database.
-     if (isset($_POST['email'])){
+     if (isset($_POST['phone'])){
         // removes backslashes
-        $username = stripslashes($_REQUEST['email']);
-        //escapes special characters in a string
-
-        $email = stripslashes($_REQUEST['email']);
-        $email = mysqli_real_escape_string($con,$email);
-        $password = stripslashes($_REQUEST['password']);
-        $password = mysqli_real_escape_string($con,$password);
-        $name = $_POST['fullname'];
+        $name = $_POST['fname'];
         $phone = $_POST['phone'];
+        $loan = $_POST['loan'];
+        $dob = $_POST['dob'];
+        $gender = $_POST['gender'];
+        $gender = $_POST['address'];
+        $gender = $_POST['pin'];
+        $state = $_POST['state'];
+        $occupation = $_POST['occupation'];
 
-        $sql = "SELECT * FROM `users` WHERE email='$email'";
+        $sql = "SELECT * FROM `users` WHERE phone='$phone'";
         $result = $con->query($sql);
 
         if ($result->num_rows > 0) {
-            header("Location: signup.php?result=Email Already Exists!");
+            header("Location: signup.php?result=Mobile Number Exists!");
         }else{
                 $query = "INSERT into `users` (phone_number, email, password, full_name) 
                         VALUES ('$phone', '$email', '".md5($password)."', '$name')";       
