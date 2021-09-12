@@ -84,7 +84,7 @@
                         
                         <input type="button" name="previous" class="previous action-button" value="Previous" />
                         <button type="button" onclick="send_otp();" class="action-button" id="get-otp" class="btn btn-success">Get OTP</button>
-                        <input type="button" name="next" onclick="codeVerify()" id="mobile_next" class="next action-button"  style="background:#2f523e;" value="Next" disabled/>    
+                        <input type="button" name="next" onclick="codeVerify()" id="mobile_next" class="next action-button"  style="background:#2f523e;" value="Verify & Next" disabled/>    
                     </fieldset>
                     <fieldset>
                         <h2 class="fs-title">Personal Details</h2>

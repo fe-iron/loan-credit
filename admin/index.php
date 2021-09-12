@@ -133,40 +133,59 @@
                         <li class="sidebar-item pt-2 common_btn">
                             <a class="sidebar-link" href="index.php"
                                 aria-expanded="false">
-                                <i class="far fa-clock" aria-hidden="true"></i>
+                                
+                                <i class="fa fa-tachometer-alt" aria-hidden="true"></i>
                                 <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
                         <li class="sidebar-item common_btn">
-                            <a class="sidebar-link " href="bt-plus-loan.php"
+                            
+                            <a class="sidebar-link" style="padding-left: 52px;" onclick="myfun()"
                                 aria-expanded="false">
-                                <i class=" fas fa-edit" aria-hidden="true"></i>
-                                <span class="hide-menu">BT + Home Loan</span>
+                                
+                                <span class="hide-menu">Loan</span>
+                                <i class="fas fa-caret-down" aria-hidden="true"></i>
                             </a>
                         </li>
-                        <li class="sidebar-item common_btn">
-                            <a class="sidebar-link" href="personal-loan.php"
-                                aria-expanded="false">
-                                <i class=" fas fa-edit" aria-hidden="true"></i>
-                                <span class="hide-menu">Personal Loan</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item common_btn">
-                            <a class="sidebar-link" href="mortgage.php"
-                                aria-expanded="false">
-                                <i class=" fas fa-upload" aria-hidden="true"></i>
-                                <span class="hide-menu">Mortgage Loan</span>
-                            </a>
-                        </li>
+                        <div id="sub-menu" style="display: none;">
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="personal-loan.php"
+                                    aria-expanded="false">
+                                    <i class="far fa-clock" aria-hidden="true"></i>
+                                    <span class="hide-menu">Personal Loan</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="mortgage.php"
+                                    aria-expanded="false">
+                                    <i class="far fa-clock" aria-hidden="true"></i>
+                                    <span class="hide-menu">Mortgage Loan</span>
+                                </a>
+                            </li>
 
-                        
+                            
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="cc-and-od.php"
+                                    aria-expanded="false">
+                                    <i class="far fa-clock" aria-hidden="true"></i>
+                                    <span class="hide-menu">CC and OD Loan</span>
+                                </a>
+                            </li> 
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="bt-plus-loan.php"
+                                    aria-expanded="false">
+                                    <i class="far fa-clock" aria-hidden="true"></i>
+                                    <span class="hide-menu">BT+ Loan</span>
+                                </a>
+                            </li> 
+                        </div> 
                         <li class="sidebar-item common_btn">
                             <a class="sidebar-link" href="cc-and-od.php"
                                 aria-expanded="false">
-                                <i class=" fas fa-map-marker" aria-hidden="true"></i>
-                                <span class="hide-menu">CC and OD Loan</span>
+                                <i class="far fa-clock" aria-hidden="true"></i>
+                                <span class="hide-menu">Website Setting</span>
                             </a>
-                        </li>  
+                        </li> 
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->

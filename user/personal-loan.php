@@ -4,16 +4,41 @@
     include '../admin/auth.php';    
     $conn = OpenCon();
 
-    $sql = "SELECT * FROM users";
-    $assistants = $conn->query($sql);
-    
-    $total_loans = 0;
-    $loans_approved = 0;
-    $loans_rejected = 0;
-    if($assistants){
-        $users = mysqli_num_rows($assistants);
+    if(empty($_GET)) {
+        $msg = " ";
     }else{
-        $users = 0;
+        $msg = $_GET['result'];
+    }
+    
+    
+    
+    $occupation = '';
+    if(isset($_POST['s'])){
+        $name = $_FILES['img_file']['name'];
+        $page = $_POST['page'];
+        $target_dir = "upload/";
+        $target_file = $target_dir . basename($_FILES["img_file"]["name"]);
+      
+        // Select file type
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+      
+        // Valid file extensions
+        $extensions_arr = array("jpg","jpeg","png","gif");
+      
+        // Check extension
+        if( in_array($imageFileType,$extensions_arr) ){
+           // Upload file
+           if(move_uploaded_file($_FILES['img_file']['tmp_name'],$target_dir.$name)){
+              // Insert record
+              $query = "INSERT INTO images (image_url, page) values('".$name."', '$page')";
+              $result = mysqli_query($conn,$query);
+              if($result){
+                    $msg = "Uploaded Successfully!";
+               }else{
+                    $msg = "Image Saving Failed!";
+               }
+           }
+        }
     }
 
 ?>
@@ -202,7 +227,7 @@
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Dashboard</h4>
+                        <h4 class="page-title text-center">Personal Loan</h4>
                     </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <div class="d-md-flex">
@@ -224,51 +249,155 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Three charts -->
-                <!-- ============================================================== -->
-                <div class="row justify-content-center">
-                    <div class="col-lg-4 col-md-12">
-                        <div class="white-box analytics-info">
-                            <h3 class="box-title">Total Loans Applied</h3>
-                            <ul class="list-inline two-part d-flex align-items-center mb-0">
-                                <li>
-                                    <div id="sparklinedash"><canvas width="67" height="30"
-                                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
+            <div class="row">
+                    <div class="col-lg-8 col-xlg-9 col-md-12" style="margin-left: auto; margin-right: auto;">
+                        <div class="card">
+                            <div class="card-body">
+                                <?php 
+                                    if($msg == "Uploaded Successfully!" || $msg == "Successfully Deleted!"){
+                                        print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
+                                    }else{
+                                        print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
+                                    }
+                                ?>
+
+                            
+                                <form class="form-horizontal form-material" action="" method="post"
+                                    enctype="multipart/form-data" onSubmit="return validateImage();">
+                                    <h3 class="text-center">Application form</h3> <br>
+
+                                    <p class="form-group mb-4 text-danger">All documents should be Uploaded in PDF format.</p>
+                                    <p class="form-group mb-4 text-info text-center">Personal Details</p>
+                            
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">KYC Applicant</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="kyc"
+                                                id="img_kyc" required>
+                                        </div>
                                     </div>
-                                </li>
-                                <li class="ms-auto"><span class="counter text-success"><?php echo $total_loans; ?></span></li>
-                            </ul>
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">Bank statement of last 1 year</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="bank_statement"
+                                                id="img_bank" required>
+                                        </div>
+                                    </div>
+
+                                
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">Your Photo</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="bank_statement"
+                                                id="img_gst" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">Last 3 Months salary slip</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="salary_slip"
+                                                id="img_salary_slip" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">Form 16 last 2 years</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="form16"
+                                                id="img_form_16" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0"> Joining letter and ID card(in one PDF)</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="joining_letter"
+                                                id="img_joining_letter" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="form-group mb-4 text-info text-center">Other Documents</p>
+                                    
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">Previous Loan Sanction letter</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="previous_loan_sanction"
+                                                id="img_previous_loan_sanction" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">Current Statement with Foreclosures Amount</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="current_statement"
+                                                id="img_current_statement" required>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="form-group mb-4">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-success" value="Submit" name="s">Submit Form</button>
+                                        </div>
+                                    </div>
+                                    <p class="form-group mb-4 text-danger">DO NOT UPLOAD PDFs OF SIZE MORE THAN 10MB</p>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="white-box analytics-info">
-                            <h3 class="box-title">Loans Approved</h3>
-                            <ul class="list-inline two-part d-flex align-items-center mb-0">
-                                <li>
-                                    <div id="sparklinedash2"><canvas width="67" height="30"
-                                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
-                                    </div>
-                                </li>
-                                <li class="ms-auto"><span class="counter text-purple"><?php echo $loans_approved ; ?></span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="white-box analytics-info">
-                            <h3 class="box-title">Loans Rejected</h3>
-                            <ul class="list-inline two-part d-flex align-items-center mb-0">
-                                <li>
-                                    <div id="sparklinedash3"><canvas width="67" height="30"
-                                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
-                                    </div>
-                                </li>
-                                <li class="ms-auto"><span class="counter text-info"><?php echo $loans_rejected; ?></span>
-                                </li>
-                            </ul>
+                    <!-- Column -->
+                </div>
+                <!-- Row -->
+            
+            
+            <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3">
+                                <h3 class="box-title mb-0">Loans Applied</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-top-0">#</th>
+                                            <th class="border-top-0">Bank statement</th>
+                                            <th class="border-top-0">photo</th>
+                                            <th class="border-top-0">ITR</th>
+                                            <th class="border-top-0">Trade</th>
+                                            <th class="border-top-0">Status</th>
+                                            <th class="border-top-0">Deed</th>
+                                            <th class="border-top-0">Update Parcha</th>
+                                            <th class="border-top-0">Estimate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                                    <td>1</td>
+                                                    <td>something</td>
+                                                    <td>something</td>
+                                                    <td>something</td>
+                                                    <td>something</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-success">Approved</button>
+                                                        <button type="button" class="btn btn-danger">Reject</button>
+                                                    </td>
+                                                    <td>something</td>
+                                                    <td><span class="text-info">Deed</span></td>
+                                                    <td><span class="text-info">Estimate</span></td>
+
+                                                </tr>
+                                            
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- ============================================================== -->
+                <!-- END HERE -->
+                <!-- ============================================================== -->
+            </div>
                 
             </div>
             <!-- ============================================================== -->

@@ -12,23 +12,22 @@
     session_start();
     $set_cond = False;
     // If form submitted, insert values into the database.
-if (isset($_POST['username'])){
+if (isset($_POST['phone'])){
         // removes backslashes
-    $username = stripslashes($_REQUEST['username']);
+    $phone = stripslashes($_REQUEST['phone']);
         //escapes special characters in a string
-    $username = mysqli_real_escape_string($con,$username);
-    $password = stripslashes($_REQUEST['password']);
-    $password = mysqli_real_escape_string($con,$password);
+    $phone = mysqli_real_escape_string($con,$phone);
+    
     //Checking is user existing in the database or not
-    $query = "SELECT * FROM `users` WHERE email='$username'
-    and password='".md5($password)."'";
+    $query = "SELECT * FROM `users` WHERE phone_number='$phone'";
     $result = mysqli_query($con,$query) or die(mysql_error());
     $rows = mysqli_num_rows($result);
     
     if($rows==1){
         $row = $result->fetch_assoc();
-        $_SESSION['username'] =  $row['full_name'];
-        $_SESSION['email'] =  $row['email'];
+        $_SESSION['username'] = $row['full_name'];
+        $_SESSION['occupation'] = $row['occupation'];
+        
         
         // Redirect user to index.php
         header("Location: index.php");
@@ -80,7 +79,7 @@ if (isset($_POST['username'])){
             </div>
         </div>
     </div>
-    <form id="msform" action="" method="post">
+    <form id="msform" action="login.php" method="post">
                             <?php 
                                     if($msg == "Registered Successfully!" || $msg == "Successfully Updated"){
                                         print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
@@ -88,18 +87,21 @@ if (isset($_POST['username'])){
                                         print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
                                     }
                             ?> 
+                            <?php if($set_cond){
+                                echo '<p class="text-danger h3 py-2">Wrong Credentials, Try Again!</p>';}
+                            ?>
                          
                     <fieldset>
                         <h2 class="fs-title">Mobile Number login</h2>
                         <h3 class="fs-subtitle">Verify Mobile Number</h3>
                         <input type="tel" placeholder="Mobile Number" name="phone" id="mob">
-                        <input type="tel" placeholder="Enter OTP..." id="verificationCode">
+                        <input type="tel" placeholder="Enter OTP..." id="verificationCode" style="display: none;">
                         
                         <div id="recaptcha-container"></div>
                         
                         
                         <button type="button" onclick="send_otp();" class="action-button" id="get-otp" class="btn btn-success">Get OTP</button>
-                        <input type="button" name="next" onclick="codeVerify()" id="mobile_next" class="next action-button"  style="background:#2f523e;" value="Next" disabled/>    
+                        <input type="submit" name="next" onclick="codeVerify()" id="mobile_next" class="next action-button"  style="background:#2f523e;" value="Verify & Login" disabled/>    
                     </fieldset>
                                 </form>
 
