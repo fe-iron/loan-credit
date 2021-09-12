@@ -147,7 +147,7 @@
                         <h2 class="fs-title">Profession</h2>
                         <h3 class="fs-subtitle">Choose your occupation type</h3>
                         <select name="occupation">
-                            <option value="salried">Salaried</option>
+                            <option value="salaried">Salaried</option>
                             <option value="self employed">Self Employed</option>
                         </select>
 

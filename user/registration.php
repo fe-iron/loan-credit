@@ -11,27 +11,28 @@
         $loan = $_POST['loan'];
         $dob = $_POST['dob'];
         $gender = $_POST['gender'];
-        $gender = $_POST['address'];
-        $gender = $_POST['pin'];
+        $address = $_POST['address'];
+        $pin = $_POST['pin'];
         $state = $_POST['state'];
         $occupation = $_POST['occupation'];
 
         $sql = "SELECT * FROM `users` WHERE phone='$phone'";
         $result = $con->query($sql);
-
+        
         if ($result->num_rows > 0) {
             header("Location: signup.php?result=Mobile Number Exists!");
         }else{
-                $query = "INSERT into `users` (phone_number, email, password, full_name) 
-                        VALUES ('$phone', '$email', '".md5($password)."', '$name')";       
+            $query = "INSERT into `users` (full_name, phone_number, loan, dob, gender, address, pin, state, occupation) 
+                        VALUES ('$name', '$phone', '$loan', '$dob', '$gender', '$address', '$pin', '$state', '$occupation')";
         }
         // echo $query;
-        $result = mysqli_query($con,$query);
+        // $result = mysqli_query($con,$query);
 
-        if($result){
-            header("Location: index.php?result=Registered Successfully!");
+        if($con->query($query) === TRUE){
+            header("Location: login.php?result=Registered Successfully!");
         }else{
-            header("Location: signup.php?result=Something Went Wrong! Try Again");
+            // echo "Error: " . $query . "<br>" . $con->error;
+            header("Location: signup.php?result=Something Went ! Try Again");
         }
             
     }

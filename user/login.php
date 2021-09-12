@@ -3,6 +3,11 @@
     include '../admin/connection.php';
 
     $con = OpenCon();
+    if(empty($_GET)) {
+        $msg = " ";
+    }else{
+        $msg = $_GET['result'];
+    }
 
     session_start();
     $set_cond = False;
@@ -50,6 +55,7 @@ if (isset($_POST['username'])){
     <!-- Custom CSS -->
     <link href="../admin/css/style.min.css" rel="stylesheet">
     <link rel="icon"  type="image/png" href="../images/fav.png">
+    <link href="../css/multi-step-form.css" rel="stylesheet">
 
 </head>
 
@@ -66,7 +72,38 @@ if (isset($_POST['username'])){
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <div id="main-wrapper"
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md d-flex justify-content-center">
+                <img src="../images/loan_logo.png" alt="logo" width="200px">
+            </div>
+        </div>
+    </div>
+    <form id="msform" action="" method="post">
+                            <?php 
+                                    if($msg == "Registered Successfully!" || $msg == "Successfully Updated"){
+                                        print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
+                                    }else{
+                                        print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
+                                    }
+                            ?> 
+                         
+                    <fieldset>
+                        <h2 class="fs-title">Mobile Number login</h2>
+                        <h3 class="fs-subtitle">Verify Mobile Number</h3>
+                        <input type="tel" placeholder="Mobile Number" name="phone" id="mob">
+                        <input type="tel" placeholder="Enter OTP..." id="verificationCode">
+                        
+                        <div id="recaptcha-container"></div>
+                        
+                        
+                        <button type="button" onclick="send_otp();" class="action-button" id="get-otp" class="btn btn-success">Get OTP</button>
+                        <input type="button" name="next" onclick="codeVerify()" id="mobile_next" class="next action-button"  style="background:#2f523e;" value="Next" disabled/>    
+                    </fieldset>
+                                </form>
+
+    <!-- <div id="main-wrapper"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
@@ -84,7 +121,7 @@ if (isset($_POST['username'])){
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
-        <div class="page-wrapper">
+        <!-- <div class="page-wrapper"> -->
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
@@ -95,17 +132,17 @@ if (isset($_POST['username'])){
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid">
+            <!-- <div class="container-fluid"> -->
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 <!-- Row -->
-                <div class="row">
+                <!-- <div class="row"> -->
                     <!-- Column -->
 
                     <!-- Column -->
                     <!-- Column -->
-                    <div class="col-lg-8 col-xlg-9 col-md-12" style="margin-left: auto; margin-right: auto;">
+                    <!-- <div class="col-lg-8 col-xlg-9 col-md-12" style="margin-left: auto; margin-right: auto;">
                         <div class="card">
                             <div class="card-body">
                             <p class="text-info h2 py-2 text-center">Login Here</p>
@@ -140,9 +177,9 @@ if (isset($_POST['username'])){
                                 <h4 class="text-info">Create an Account! <a href="signup.php"> Click Here</a> </h4>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Column -->
-                </div>
+                <!-- </div> -->
                 <!-- Row -->
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
@@ -154,15 +191,15 @@ if (isset($_POST['username'])){
                 <!-- ============================================================== -->
                 <!-- End Right sidebar -->
                 <!-- ============================================================== -->
-            </div>
+            <!-- </div> -->
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer text-center"> 2021 © Eazy Credit Solution Admin <a
-                    href="http://eazycreditsolution.com/">EazyCreditSolution</a>
+            <footer class="footer text-center text-white" style="background: transparent;"> 2021 © Eazy Credit Solution Admin <a
+                    href="http://eazycreditsolution.com/"  class="text-white">EazyCreditSolution</a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
@@ -171,7 +208,7 @@ if (isset($_POST['username'])){
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
-    </div>
+    </div> -->
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
@@ -188,6 +225,7 @@ if (isset($_POST['username'])){
     <script src="../admin/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="../admin/js/custom.js"></script>
+    <script src="../js/phone_auth.js"></script>
 </body>
 
 </html>

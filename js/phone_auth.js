@@ -13,7 +13,7 @@ firebase.initializeApp(config)
 
 window.onload = function () {
   render()
-  document.getElementById('verificationCode').style.display = 'none'
+  document.getElementById('verificationCode').style.display = 'none';
   
 }
 function render() {
