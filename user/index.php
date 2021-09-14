@@ -10,12 +10,42 @@
     $total_loans = 0;
     $loans_approved = 0;
     $loans_rejected = 0;
-    if($assistants){
-        $users = mysqli_num_rows($assistants);
+    
+
+    
+    if(empty($_GET)) {
+        $msg = " ";
     }else{
-        $users = 0;
+        $msg = $_GET['result'];
     }
 
+
+    if (isset($_POST['phone'])){
+        // removes backslashes
+        $phone = stripslashes($_REQUEST['phone']);
+            //escapes special characters in a string
+        $phone = mysqli_real_escape_string($conn,$phone);
+        $full_name = $_POST['fullname'];
+        $dob = $_POST['dob'];
+        $address = $_POST['address'];
+        $pin = $_POST['pin'];
+        $state = $_POST['state'];
+        $occupation = $_POST['occupation'];
+
+        //Checking is user existing in the database or not
+        $query = "UPDATE `users` SET full_name='$full_name', dob='$dob', address='$address', pin='$pin', state='$state', occupation='$occupation'
+            WHERE phone_number='$phone'";
+        // echo $query;
+        if (mysqli_query($conn, $query)) {
+            $msg = "Profile Updated Successfully!";
+        } else {
+            echo "Error updating record: "  . mysqli_error($conn);
+            $msg = "Something went wrong" . mysqli_error($conn);
+            // header("Location: password_change.php?result=Something Went Wrong try again!");
+        }
+
+    }   
+ 
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -269,6 +299,141 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <!-- Column -->
+
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-8 col-xlg-9 col-md-12" style="margin-left: auto; margin-right: auto; margin-top: 10px;">
+                        <div class="card">
+                            <div class="card-body">
+                                <?php 
+                                    if($msg == "Mobile Number Changed Successfully!" || $msg == "Profile Updated Successfully!"){
+                                        print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
+                                    }else{
+                                        print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
+                                    }
+                                ?>
+
+                                <h2 class="text-success" style="text-align: center">Profile Edit Form</h2>
+                                <form class="form-horizontal form-material" action="" method="post">
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Full Name</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="text" placeholder="Full Name" class="form-control p-0 border-0"
+                                                name="fullname" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Phone No.</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="tel" placeholder="Mobile Number"
+                                                class="form-control p-0 border-0" name="phone" value="<?php echo $_SESSION["phone"]; ?>" readonly>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Date of Birth</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="date" placeholder="Date of Birth"
+                                                class="form-control p-0 border-0" name="dob" required>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Address</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="text" placeholder="Address"
+                                                class="form-control p-0 border-0" name="address" required>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Pin Code</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="text" class="form-control p-0 border-0" name="pin" placeholder="Pin Code" required>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">State</label>
+                                        <div class="col-md-12  p-0">
+                                            <select name="state" required class="border-bottom" style="border:none;">
+                                                <option value="" selected>State</option>
+                                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands
+                                                </option>
+                                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                                <option value="Assam">Assam</option>
+                                                <option value="Bihar">Bihar</option>
+                                                <option value="Chandigarh">Chandigarh</option>
+                                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                                <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                                                <option value="Daman and Diu">Daman and Diu</option>
+                                                <option value="Delhi">Delhi</option>
+                                                <option value="Lakshadweep">Lakshadweep</option>
+                                                <option value="Puducherry">Puducherry</option>
+                                                <option value="Goa">Goa</option>
+                                                <option value="Gujarat">Gujarat</option>
+                                                <option value="Haryana">Haryana</option>
+                                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                                <option value="Jharkhand">Jharkhand</option>
+                                                <option value="Karnataka">Karnataka</option>
+                                                <option value="Kerala">Kerala</option>
+
+                                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                <option value="Maharashtra">Maharashtra</option>
+                                                <option value="Manipur">Manipur</option>
+                                                <option value="Meghalaya">Meghalaya</option>
+                                                <option value="Mizoram">Mizoram</option>
+                                                <option value="Nagaland">Nagaland</option>
+                                                <option value="Odisha">Odisha</option>
+                                                <option value="Punjab">Punjab</option>
+                                                <option value="Rajasthan">Rajasthan</option>
+                                                <option value="Sikkim">Sikkim</option>
+                                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                                <option value="Telangana">Telangana</option>
+                                                <option value="Tripura">Tripura</option>
+                                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                <option value="Uttarakhand">Uttarakhand</option>
+                                                <option value="West Bengal">West Bengal</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Occupation</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="text" placeholder="Occupation"
+                                                class="form-control p-0 border-0" name="occupation" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-success" type="submit">Update Profile</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+                <!-- Row -->
+
+                <div class="row">
+                    <div class="col-md">
+                        
+                        <a href="password_change.php"><button class="btn common_btn"> Change Mobile Number</button></a>
+                    </div>
+                </div>
                 
             </div>
             <!-- ============================================================== -->
@@ -277,8 +442,8 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer text-center"> 2021 © Eazy Credit Solution Admin <a
-                    href="http://eazycreditsolution.com/">EazyCreditSolution</a>
+            <footer class="footer text-center"> 2021 © Eazy Credit Solution <a
+            href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

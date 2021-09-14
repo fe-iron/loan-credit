@@ -11,35 +11,9 @@
     }
     
     
+    $sql = "SELECT * FROM loans WHERE phone_number=".$_SESSION["phone"]." AND loan_type='personal'";
     
-    $occupation = '';
-    if(isset($_POST['s'])){
-        $name = $_FILES['img_file']['name'];
-        $page = $_POST['page'];
-        $target_dir = "upload/";
-        $target_file = $target_dir . basename($_FILES["img_file"]["name"]);
-      
-        // Select file type
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-      
-        // Valid file extensions
-        $extensions_arr = array("jpg","jpeg","png","gif");
-      
-        // Check extension
-        if( in_array($imageFileType,$extensions_arr) ){
-           // Upload file
-           if(move_uploaded_file($_FILES['img_file']['tmp_name'],$target_dir.$name)){
-              // Insert record
-              $query = "INSERT INTO images (image_url, page) values('".$name."', '$page')";
-              $result = mysqli_query($conn,$query);
-              if($result){
-                    $msg = "Uploaded Successfully!";
-               }else{
-                    $msg = "Image Saving Failed!";
-               }
-           }
-        }
-    }
+    $result = $conn->query($sql);
 
 ?>
 <!DOCTYPE html>
@@ -254,7 +228,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <?php 
-                                    if($msg == "Uploaded Successfully!" || $msg == "Successfully Deleted!"){
+                                    if($msg == "Updated Successfully!" || $msg == "Successfully Deleted!"){
                                         print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
                                     }else{
                                         print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
@@ -262,8 +236,8 @@
                                 ?>
 
                             
-                                <form class="form-horizontal form-material" action="" method="post"
-                                    enctype="multipart/form-data" onSubmit="return validateImage();">
+                                <form class="form-horizontal form-material" action="save_data_personal.php" method="post"
+                                    enctype="multipart/form-data">
                                     <h3 class="text-center">Application form</h3> <br>
 
                                     <p class="form-group mb-4 text-danger">All documents should be Uploaded in PDF format.</p>
@@ -273,14 +247,14 @@
                                         <label for="example-email" class="col-md-12 p-0">KYC Applicant</label>
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="file" class="form-control p-0 border-0" name="kyc"
-                                                id="img_kyc" required>
+                                                id="img_kyc" required onchange="validateImage('img_kyc');">
                                         </div>
                                     </div>
                                     <div class="form-group mb-4">
                                         <label for="example-email" class="col-md-12 p-0">Bank statement of last 1 year</label>
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="file" class="form-control p-0 border-0" name="bank_statement"
-                                                id="img_bank" required>
+                                                id="img_bank" required onchange="validateImage('img_bank');">
                                         </div>
                                     </div>
 
@@ -288,8 +262,8 @@
                                     <div class="form-group mb-4">
                                         <label for="example-email" class="col-md-12 p-0">Your Photo</label>
                                         <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="bank_statement"
-                                                id="img_gst" required>
+                                            <input type="file" class="form-control p-0 border-0" name="photo"
+                                                id="img_photo" required onchange="validateImage('img_photo');"> 
                                         </div>
                                     </div>
                                     
@@ -297,7 +271,7 @@
                                         <label for="example-email" class="col-md-12 p-0">Last 3 Months salary slip</label>
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="file" class="form-control p-0 border-0" name="salary_slip"
-                                                id="img_salary_slip" required>
+                                                id="img_salary_slip" required onchange="validateImage('img_salary_slip');">
                                         </div>
                                     </div>
                                     
@@ -305,7 +279,7 @@
                                         <label for="example-email" class="col-md-12 p-0">Form 16 last 2 years</label>
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="file" class="form-control p-0 border-0" name="form16"
-                                                id="img_form_16" required>
+                                                id="img_form_16" required onchange="validateImage('img_form_16');">
                                         </div>
                                     </div>
 
@@ -313,7 +287,7 @@
                                         <label for="example-email" class="col-md-12 p-0"> Joining letter and ID card(in one PDF)</label>
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="file" class="form-control p-0 border-0" name="joining_letter"
-                                                id="img_joining_letter" required>
+                                                id="img_joining_letter" required onchange="validateImage('img_joining_letter');">
                                         </div>
                                     </div>
                                     
@@ -323,17 +297,18 @@
                                         <label for="example-email" class="col-md-12 p-0">Previous Loan Sanction letter</label>
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="file" class="form-control p-0 border-0" name="previous_loan_sanction"
-                                                id="img_previous_loan_sanction" required>
+                                                id="img_previous_loan_sanction" onchange="validateImage('img_previous_loan_sanction');">
                                         </div>
                                     </div>
                                     <div class="form-group mb-4">
                                         <label for="example-email" class="col-md-12 p-0">Current Statement with Foreclosures Amount</label>
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="file" class="form-control p-0 border-0" name="current_statement"
-                                                id="img_current_statement" required>
+                                                id="img_current_statement" onchange="validateImage('img_current_statement');">
                                         </div>
                                     </div>
-
+                                    <input type="hidden" value="<?php echo $_SESSION['phone']; ?>" name="phone">
+                                    <input type="hidden" value="<?php echo $_SESSION['occupation']; ?>" name="occupation">
                                     
                                     <div class="form-group mb-4">
                                         <div class="col-sm-12">
@@ -362,31 +337,38 @@
                                         <tr>
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">Bank statement</th>
-                                            <th class="border-top-0">photo</th>
-                                            <th class="border-top-0">ITR</th>
-                                            <th class="border-top-0">Trade</th>
+                                            <th class="border-top-0">Photo</th>
+                                            <th class="border-top-0">Phone</th>
+                                            <th class="border-top-0">KYC</th>
                                             <th class="border-top-0">Status</th>
-                                            <th class="border-top-0">Deed</th>
-                                            <th class="border-top-0">Update Parcha</th>
-                                            <th class="border-top-0">Estimate</th>
+                                            <th class="border-top-0">Loan Type</th>
+                                            <th class="border-top-0">Joining Letter</th>
+                                            <th class="border-top-0">Salary Slip</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                                    <td>1</td>
-                                                    <td>something</td>
-                                                    <td>something</td>
-                                                    <td>something</td>
-                                                    <td>something</td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-success">Approved</button>
-                                                        <button type="button" class="btn btn-danger">Reject</button>
-                                                    </td>
-                                                    <td>something</td>
-                                                    <td><span class="text-info">Deed</span></td>
-                                                    <td><span class="text-info">Estimate</span></td>
-
-                                                </tr>
+                                    <?php
+                                        if ($result->num_rows > 0) {
+                                            // output data of each row
+                                            $text = '';
+                                            $i = 0;
+                                            while($row = $result->fetch_assoc()) {
+                                                $i += 1;
+                                                $text= $text. '<tr>
+                                                    <td>'.$i.'</td>
+                                                    <td class="txt-oflo"><a href="upload/'.$row["bank_statement"].'">'.$row["bank_statement"].'</a></td>
+                                                    <td> <a href="upload/'.$row["photo"].'">'.$row["photo"].'</a></td>
+                                                    <td>'.$row["phone_number"].'</td>
+                                                    <td><span class="text-info"><a href="upload/'.$row["kyc"].'">'.$row["kyc"].'</a></span></td>
+                                                    <td class="text-dark">'.$row["status"].'</td>
+                                                    <td><span class="text-info"><a href="upload/'.$row["loan"].'">'.$row["loan"].'</a></span></td>
+                                                    <td><span class="text-info"><a href="upload/'.$row["joining_letter"].'">'.$row["joining_letter"].'</a></span></td>
+                                                    <td><span class="text-info"><a href="upload/'.$row["salary_slip"].'">'.$row["salary_slip"].'</a></span></td>
+                                                </tr>';
+                                            }
+                                            echo $text;
+                                        }
+                                        ?>
                                             
                                     </tbody>
                                 </table>
@@ -406,8 +388,8 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer text-center"> 2021 © Eazy Credit Solution Admin <a
-                    href="http://eazycreditsolution.com/">EazyCreditSolution</a>
+            <footer class="footer text-center"> 2021 © Eazy Credit Solution <a
+            href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
@@ -439,6 +421,7 @@
     <script src="../admin/plugins/bower_components/chartist/dist/chartist.min.js"></script>
     <script src="../admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="../admin/js/pages/dashboards/dashboard1.js"></script>
+    <script src="../admin/js/upload.js"></script>
 </body>
 
 </html>

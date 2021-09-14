@@ -1,6 +1,6 @@
-function validateImage() {
-    var img = $("#img_file").val();
-    var exts = ['jpg','jpeg','png','gif', 'bmp'];
+function validateImage(dynamic_id) {
+    var img = $("#"+dynamic_id).val();
+    var exts = ['jpg','jpeg','png','pdf'];
     // split file name at dot
     var get_ext = img.split('.');
     // reverse name to check extension
@@ -10,33 +10,11 @@ function validateImage() {
         if ( $.inArray ( get_ext[0].toLowerCase(), exts ) > -1 ){
           return true;
         } else {
-             alert("Upload only jpg, jpeg, png, gif, bmp images");
+             alert("Upload only jpg, jpeg, png, pdf files");
             return false;
         }            
     } else {
-        alert("please upload an image");
-        return false;
-    }
-    return false;
-}
-
-function validateImage1() {
-    var img = $("#img_file1").val();
-    var exts = ['jpg','jpeg','png','gif', 'bmp'];
-    // split file name at dot
-    var get_ext = img.split('.');
-    // reverse name to check extension
-
-    get_ext = get_ext.reverse();
-    if (img.length > 0 ) {
-        if ( $.inArray ( get_ext[0].toLowerCase(), exts ) > -1 ){
-          return true;
-        } else {
-             alert("Upload only jpg, jpeg, png, gif, bmp images");
-            return false;
-        }            
-    } else {
-        alert("please upload an image");
+        alert("please upload a file");
         return false;
     }
     return false;

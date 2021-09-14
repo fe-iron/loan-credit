@@ -27,6 +27,7 @@ if (isset($_POST['phone'])){
         $row = $result->fetch_assoc();
         $_SESSION['username'] = $row['full_name'];
         $_SESSION['occupation'] = $row['occupation'];
+        $_SESSION['phone'] = $row['phone_number'];
         
         
         // Redirect user to index.php
@@ -101,13 +102,13 @@ if (isset($_POST['phone'])){
                         
                         
                         <button type="button" onclick="send_otp();" class="action-button" id="get-otp" class="btn btn-success">Get OTP</button>
-                        <input type="submit" name="next" onclick="codeVerify()" id="mobile_next" class="next action-button"  style="background:#2f523e;" value="Verify & Login" disabled/>    
+                        <input type="submit" name="next"  id="mobile_next" class="next action-button"  style="background:#2f523e;" value="Login" disabled/>    
                     </fieldset>
                                 </form>
 
     <!-- <div id="main-wrapper"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-        <!-- ============================================================== -->
+        < ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
        
         <!-- ============================================================== -->
@@ -200,8 +201,8 @@ if (isset($_POST['phone'])){
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer text-center text-white" style="background: transparent;"> 2021 © Eazy Credit Solution Admin <a
-                    href="http://eazycreditsolution.com/"  class="text-white">EazyCreditSolution</a>
+            <footer class="footer text-center text-white" style="background: transparent;"> 2021 © Eazy Credit Solution <a
+                href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
@@ -225,6 +226,7 @@ if (isset($_POST['phone'])){
     <!-- <script src="js/waves.js"></script> -->
     <!--Menu sidebar -->
     <script src="../admin/js/sidebarmenu.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
     <!--Custom JavaScript -->
     <script src="../admin/js/custom.js"></script>
     <script src="../js/phone_auth.js"></script>
