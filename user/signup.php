@@ -231,7 +231,7 @@
                     
                 </div> -->
                 <!-- Row -->
-                <footer class="footer text-center text-white" style="background: transparent;"> 2021 © Eazy Credit Solution 
+                <footer class="footer text-center text-white" style="background: transparent;"> 2021 © Eazy Credit Solution <a
                 href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
                 </footer>
     

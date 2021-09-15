@@ -11,27 +11,45 @@
 
     session_start();
     $set_cond = False;
+    $not_found = False;
     // If form submitted, insert values into the database.
 if (isset($_POST['phone'])){
         // removes backslashes
     $phone = stripslashes($_REQUEST['phone']);
         //escapes special characters in a string
     $phone = mysqli_real_escape_string($con,$phone);
+
+    $new_phone = stripslashes($_REQUEST['new_phone']);
+        //escapes special characters in a string
+    $new_phone = mysqli_real_escape_string($con,$new_phone);
     
     //Checking is user existing in the database or not
     $query = "SELECT * FROM `users` WHERE phone_number='$phone'";
     $result = mysqli_query($con,$query) or die(mysql_error());
     $rows = mysqli_num_rows($result);
+
+    $new_query = "SELECT * FROM `users` WHERE phone_number='$new_phone'";
+    $new_result = mysqli_query($con,$new_query) or die(mysql_error());
+    $new_rows = mysqli_num_rows($new_result);
     
-    if($rows==1){
-        $row = $result->fetch_assoc();
-        $_SESSION['username'] = $row['full_name'];
-        $_SESSION['occupation'] = $row['occupation'];
-        $_SESSION['phone'] = $row['phone_number'];
-        
-        
-        // Redirect user to index.php
-        header("Location: index.php");
+    if($rows==1 && $new_rows == 0){
+        $sql = "UPDATE users SET phone_number='$new_phone' WHERE phone_number='$phone'";
+        if ($con->query($sql) === TRUE) {
+            header("Location: index.php?result=Mobile Number Changed Successfully!");
+        } else {
+            echo "Error updating record: " . $conn->error;
+            // header("Location: password_change.php?result=Something Went Wrong try again!");
+        }
+
+        $sql = "UPDATE loans SET phone_number='$new_phone' WHERE phone_number='$phone'";
+        if ($con->query($sql) === TRUE) {
+            header("Location: index.php?result=Mobile Number Changed Successfully!");
+        } else {
+            // echo "Error updating record: " . $conn->error;
+            header("Location: password_change.php?result=Something Went Wrong try again!");
+        }
+    }elseif($rows==0){
+        $not_found = True;
     }else{
         $set_cond = True;
     }
@@ -48,12 +66,12 @@ if (isset($_POST['phone'])){
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Ezay Credit Solution | Login</title>
+    <title>Ezay Credit Solution | Mobile Number Change</title>
 
     <!-- Favicon icon -->
     <link href='images/16.ico' rel="shortcut icon" type=image/x-icon>
     <!-- Custom CSS -->
-    <link href="css/style.min.css" rel="stylesheet">
+    <link href="../admin/css/style.min.css" rel="stylesheet">
     <link rel="icon"  type="image/png" href="../images/fav.png">
     <link href="../css/multi-step-form.css" rel="stylesheet">
 
@@ -80,7 +98,7 @@ if (isset($_POST['phone'])){
             </div>
         </div>
     </div>
-    <form id="msform" action="login.php" method="post">
+    <form id="msform" action="" method="post">
                             <?php 
                                     if($msg == "Registered Successfully!" || $msg == "Successfully Updated"){
                                         print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
@@ -89,28 +107,33 @@ if (isset($_POST['phone'])){
                                     }
                             ?> 
                             <?php if($set_cond){
-                                echo '<p class="text-danger h3 py-2">Wrong Credentials, Try Again!</p>';}
+                                echo '<p class="text-danger h3 py-2">Mobile Number already exists! Try Again!</p>';}
+                                elseif($not_found){
+                                    echo '<p class="text-danger h3 py-2">Mobile number not found! Try Again!</p>';
+                                }
                             ?>
                          
                     <fieldset>
-                        <h2 class="fs-title">Mobile Number login</h2>
-                        <h3 class="fs-subtitle">Verify Mobile Number</h3>
-                        <input type="tel" placeholder="Mobile Number" name="phone" id="mob">
+                        <h2 class="fs-title">Change Mobile Number</h2>
+                        <h3 class="fs-subtitle">Verify Your Mobile Number</h3>
+                        <input type="tel" placeholder="Mobile Number" name="phone" >
+                        <input type="tel" placeholder=" NEW Mobile Number" name="new_phone" id="mob" id="mob">
                         <input type="tel" placeholder="Enter OTP..." id="verificationCode" style="display: none;">
                         
                         <div id="recaptcha-container"></div>
                         
                         
-                        <button type="button" onclick="send_otp();" class="action-button" id="get-otp" class="btn btn-success">Get OTP</button>
-                        <input type="submit" name="next"  id="mobile_next" class="next action-button"  style="background:#2f523e;" value="Login" disabled/>    
-
-                        
+                        <button type="button" onclick="send_otp1();" class="action-button" id="get-otp" class="btn btn-success">Get OTP</button>
+                        <input type="submit" name="next"  id="mobile_next" class="next action-button"  style="background:#2f523e;" value="change" disabled/>    
                     </fieldset>
                                 </form>
 
-                                
+
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
             <footer class="footer text-center text-white" style="background: transparent;"> 2021 © Eazy Credit Solution <a
-                href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
+                    href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
@@ -126,15 +149,17 @@ if (isset($_POST['phone'])){
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../admin/plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="../admin/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="js/app-style-switcher.js"></script> -->
+    <!--Wave Effects -->
+    <!-- <script src="js/waves.js"></script> -->
     <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
+    <script src="../admin/js/sidebarmenu.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
     <!--Custom JavaScript -->
-    <script src="js/custom.js"></script>
+    <script src="../admin/js/custom.js"></script>
     <script src="../js/phone_auth.js"></script>
 </body>
 

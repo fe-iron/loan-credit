@@ -1,3 +1,40 @@
+<?php
+
+    include 'admin/connection.php';
+    
+    $conn = OpenCon();
+
+    $sql = "SELECT * FROM carousal ORDER BY date limit 3";
+    $carousal = $conn->query($sql);
+
+    if ($carousal->num_rows > 0) {
+        // output data of each row
+        $text = '';
+        $i = 1;
+        while($row = $carousal->fetch_assoc()) {
+            if($i == 1){
+                $text = $text . '<div class="carousel-item active">
+                    <img class="d-block w-100" src="admin/upload/'.$row['image_url'].'" style="max-width: fit-content;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 class="carousal-h5">'.$row['heading'].'</h5>
+                        <p class="carousal-p">'.$row['sub_heading'].'</p>
+                    </div>
+                </div>';
+            }else{
+                $text = $text . '<div class="carousel-item">
+                    <img class="d-block w-100" src="admin/upload/'.$row['image_url'].'" style="max-width: fit-content;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 class="carousal-h5">'.$row['heading'].'</h5>
+                        <p class="carousal-p">'.$row['sub_heading'].'</p>
+                    </div>
+                </div>';
+            }
+            $i += 1;
+        }
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -38,7 +75,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-3 col-md-3">
                         <div class="logo">
-                            <a href="index.html"><img src="images/loan_logo.png" alt=""></a>
+                            <a href="index.php"><img src="images/loan_logo.png" alt=""></a>
                         </div>
                     </div>
                     <div class="col-lg-7 col-md-7">
@@ -50,7 +87,7 @@
                             </a>
                             <ul>
                                 <li class="menu-item-has-children">
-                                    <a href="index.html">home</a>
+                                    <a href="index.php">home</a>
                                     
                                 </li>
                                 
@@ -85,13 +122,16 @@
                               <li data-target="#carouselExampleIndicators" data-slide-to="2" ></li>
                             </ol>
                             <div class="carousel-inner">
-                              <div class="carousel-item active">
+                            <?php echo $text; ?>
+                              <div class="carousel-item">
                                 <img class="d-block w-100" src="images/slider/11.jpg" alt="First slide" style="max-width: fit-content;">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5 class="carousal-h5 text-bold">Personal Loans</h5>
                                     <p class="carousal-p">At Eazy Credit Solution, we want to help you achieve your personal dreams.</p>
                                   </div>
                               </div>
+
+                              
                               <div class="carousel-item">
                                 <img class="d-block w-100" src="images/slider/12.jpg" alt="Second slide" style="max-width: fit-content;">
                                 <div class="carousel-caption d-none d-md-block">
@@ -108,14 +148,6 @@
                                   </div>
                               </div>
                             </div>
-                            <!-- <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                              <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                              <span class="sr-only">Next</span>
-                            </a> -->
                           </div>
                    
         </section>
@@ -474,7 +506,7 @@
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <div class="singleTeam text-center">
-                            <img src="images/team/cm.jpg" alt="">
+                            <img src="images/team/2.png" alt="">
                             <h4>Aparajita Tah</h4>
                             <p>Commercial Manager <br/>Branch: Seharabajar-Burdwan</p>
                         </div>
@@ -574,7 +606,6 @@
                         <aside class="widget about_widgets">
                             <img src="images/loan_logo.png" alt=""/>
                             <h4>Contact Us</h4>
-                            <p><span style="color: black;">Mob:</span>+91 83 920 06296</p>
                             <p><span style="color: black;">Mob:</span>+91 89 440 14303</p>
                             <p></p><a href="mailto:support.eazycreditsolution.com">support.eazycreditsolution.com</a></p>
                         </aside>

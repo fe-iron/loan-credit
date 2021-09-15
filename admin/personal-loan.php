@@ -1,8 +1,19 @@
 <?php
 
-    include 'connection.php';
-//    include 'auth.php';
+    include '../admin/connection.php';
+    include '../admin/auth.php';    
     $conn = OpenCon();
+
+    if(empty($_GET)) {
+        $msg = " ";
+    }else{
+        $msg = $_GET['result'];
+    }
+    
+    
+    $sql = "SELECT * FROM loans WHERE phone_number=".$_SESSION["phone"]." AND loan_type='personal'";
+    
+    $result = $conn->query($sql);
 
 ?>
 <!DOCTYPE html>
@@ -14,7 +25,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Admin | Eazy Credit Solution </title>
+    <title>Eazy Credit Solution | Users | Home</title>
     
     <!-- Favicon icon -->
     <link href='images/16.ico' rel="shortcut icon" type=image/x-icon>
@@ -22,7 +33,8 @@
     
     <!-- <link rel="stylesheet" href="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"> -->
     <!-- Custom CSS -->
-    <link href="css/style.min.css" rel="stylesheet">
+    <link href="../admin/css/style.min.css" rel="stylesheet">
+    <link rel="icon"  type="image/png" href="../images/fav.png">
 </head>
 
 <body>
@@ -49,7 +61,7 @@
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <a class="navbar-brand" href="super_admin.php">
+                    <a class="navbar-brand" href="index.php">
                         <!-- Logo icon -->
                         <b class="logo-icon">
                             <!-- Dark Logo icon -->
@@ -96,7 +108,7 @@
                             <a class="profile-pic" href="#">
                                 <!-- <img src="plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"> -->
                                 <span class="text-white font-medium">
-                                    Admin
+                                <?php echo $_SESSION["username"]; ?>
                                 </span>
                             </a>
                         </li>
@@ -123,40 +135,53 @@
                         <li class="sidebar-item pt-2 common_btn">
                             <a class="sidebar-link" href="index.php"
                                 aria-expanded="false">
-                                <i class="far fa-clock" aria-hidden="true"></i>
+                                
+                                <i class="fa fa-tachometer-alt" aria-hidden="true"></i>
                                 <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
                         <li class="sidebar-item common_btn">
-                            <a class="sidebar-link " href="bt-plus-loan.php"
+                            
+                            <a class="sidebar-link" style="padding-left: 52px;" onclick="myfun()"
                                 aria-expanded="false">
-                                <i class=" fas fa-edit" aria-hidden="true"></i>
-                                <span class="hide-menu">BT + Home Loan</span>
+                                
+                                <span class="hide-menu">Loan</span>
+                                <i class="fas fa-caret-down" aria-hidden="true"></i>
                             </a>
                         </li>
-                        <li class="sidebar-item common_btn">
-                            <a class="sidebar-link" href="personal-loan.php"
-                                aria-expanded="false">
-                                <i class=" fas fa-edit" aria-hidden="true"></i>
-                                <span class="hide-menu">Personal Loan</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item common_btn">
-                            <a class="sidebar-link" href="mortgage.php"
-                                aria-expanded="false">
-                                <i class=" fas fa-upload" aria-hidden="true"></i>
-                                <span class="hide-menu">Mortgage Loan</span>
-                            </a>
-                        </li>
+                        <div id="sub-menu" style="display: none;">
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="personal-loan.php"
+                                    aria-expanded="false">
+                                    <i class="far fa-clock" aria-hidden="true"></i>
+                                    <span class="hide-menu">Personal Loan</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="mortgage.php"
+                                    aria-expanded="false">
+                                    <i class="far fa-clock" aria-hidden="true"></i>
+                                    <span class="hide-menu">Mortgage Loan</span>
+                                </a>
+                            </li>
 
+                            
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="cc-and-od.php"
+                                    aria-expanded="false">
+                                    <i class="far fa-clock" aria-hidden="true"></i>
+                                    <span class="hide-menu">CC and OD Loan</span>
+                                </a>
+                            </li> 
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="bt-plus-loan.php"
+                                    aria-expanded="false">
+                                    <i class="far fa-clock" aria-hidden="true"></i>
+                                    <span class="hide-menu">BT + Home Loan</span>
+                                </a>
+                            </li> 
+                        </div> 
                         
-                        <li class="sidebar-item common_btn">
-                            <a class="sidebar-link" href="cc-and-od.php"
-                                aria-expanded="false">
-                                <i class=" fas fa-map-marker" aria-hidden="true"></i>
-                                <span class="hide-menu">CC and OD Loan</span>
-                            </a>
-                        </li>  
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -173,10 +198,10 @@
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-            <div class="page-breadcrumb bg-white">
+            <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title"></h4>
+                        <h4 class="page-title text-center">Personal Loan</h4>
                     </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <div class="d-md-flex">
@@ -195,68 +220,176 @@
             <!-- End Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
             <!-- ============================================================== -->
-            <!-- Start Applied Loans -->
+            <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                <div class="row">
-                        <div class="col-md-12 col-lg-12 col-sm-12">
-                            <div class="white-box">
-                                <div class="d-md-flex mb-3">
-                                    <h3 class="box-title mb-0">Personal Loan Stats</h3>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table no-wrap">
-                                        <thead>
-                                            <tr>
-                                                <th class="border-top-0">#</th>
-                                                <th class="border-top-0">Organize</th>
-                                                <th class="border-top-0">Date</th>
-                                                <th class="border-top-0">F/R</th>
-                                                <th class="border-top-0">S/R</th>
-                                                <th class="border-top-0">Verified</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php
-                                            if ($result->num_rows > 0) {
-                                                // output data of each row
-                                                $text = '';
-                                                $i = 0;
-                                                while($row = $result->fetch_assoc()) {
-                                                    $i += 1;
-                                                    $dat = strval($row["date"]);
-                                                    $dat = substr($dat, 0, 10);
-                                                    $text= $text. '<tr>
-                                                        <td>'.$i.'</td>
-                                                        <td class="txt-oflo">'.$row["city"].'</td>
-                                                        <td>'.$dat.'</td>
-                                                        <td><span class="text-info">'.$row["F/R"].'</span></td>
-                                                        <td><span class="text-info">'.$row["S/R"].'</span></td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-info" value="'.$row['id'].'" onclick="edit(this.value)">Edit</button>
-                                                            <button type="button" class="btn btn-danger" value="'.$row['id'].'" onclick="remove(this.value)">Remove</button>
-                                                        </td>
+            <div class="row">
+                    <div class="col-lg-8 col-xlg-9 col-md-12" style="margin-left: auto; margin-right: auto;">
+                        <div class="card">
+                            <div class="card-body">
+                                <?php 
+                                    if($msg == "Updated Successfully!" || $msg == "Successfully Deleted!"){
+                                        print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
+                                    }else{
+                                        print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
+                                    }
+                                ?>
 
-                                                    </tr>';
-                                                }
-                                                echo $text;
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            
+                                <form class="form-horizontal form-material" action="save_data_personal.php" method="post"
+                                    enctype="multipart/form-data">
+                                    <h3 class="text-center">Application form</h3> <br>
+
+                                    <p class="form-group mb-4 text-danger">All documents should be Uploaded in PDF format.</p>
+                                    <p class="form-group mb-4 text-info text-center">Personal Details</p>
+                            
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">KYC Applicant</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="kyc"
+                                                id="img_kyc" required onchange="validateImage('img_kyc');">
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">Bank statement of last 1 year</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="bank_statement"
+                                                id="img_bank" required onchange="validateImage('img_bank');">
+                                        </div>
+                                    </div>
+
+                                
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">Your Photo</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="photo"
+                                                id="img_photo" required onchange="validateImage('img_photo');"> 
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">Last 3 Months salary slip</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="salary_slip"
+                                                id="img_salary_slip" required onchange="validateImage('img_salary_slip');">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">Form 16 last 2 years</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="form16"
+                                                id="img_form_16" required onchange="validateImage('img_form_16');">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0"> Joining letter and ID card(in one PDF)</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="joining_letter"
+                                                id="img_joining_letter" required onchange="validateImage('img_joining_letter');">
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="form-group mb-4 text-info text-center">Other Documents</p>
+                                    
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">Previous Loan Sanction letter</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="previous_loan_sanction"
+                                                id="img_previous_loan_sanction" onchange="validateImage('img_previous_loan_sanction');">
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">Current Statement with Foreclosures Amount</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="current_statement"
+                                                id="img_current_statement" onchange="validateImage('img_current_statement');">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" value="<?php echo $_SESSION['phone']; ?>" name="phone">
+                                    <input type="hidden" value="<?php echo $_SESSION['occupation']; ?>" name="occupation">
+                                    
+                                    <div class="form-group mb-4">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-success" value="Submit" name="s">Submit Form</button>
+                                        </div>
+                                    </div>
+                                    <p class="form-group mb-4 text-danger">DO NOT UPLOAD PDFs OF SIZE MORE THAN 10MB</p>
+                                </form>
                             </div>
                         </div>
                     </div>
+                    <!-- Column -->
+                </div>
+                <!-- Row -->
+            
+            
+            <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3">
+                                <h3 class="box-title mb-0">Loans Applied</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-top-0">#</th>
+                                            <th class="border-top-0">Bank statement</th>
+                                            <th class="border-top-0">Photo</th>
+                                            <th class="border-top-0">Phone</th>
+                                            <th class="border-top-0">KYC</th>
+                                            <th class="border-top-0">Status</th>
+                                            <th class="border-top-0">Loan Type</th>
+                                            <th class="border-top-0">Joining Letter</th>
+                                            <th class="border-top-0">Salary Slip</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                        if ($result->num_rows > 0) {
+                                            // output data of each row
+                                            $text = '';
+                                            $i = 0;
+                                            while($row = $result->fetch_assoc()) {
+                                                $i += 1;
+                                                $text= $text. '<tr>
+                                                    <td>'.$i.'</td>
+                                                    <td class="txt-oflo"><a href="upload/'.$row["bank_statement"].'">'.$row["bank_statement"].'</a></td>
+                                                    <td> <a href="upload/'.$row["photo"].'">'.$row["photo"].'</a></td>
+                                                    <td>'.$row["phone_number"].'</td>
+                                                    <td><span class="text-info"><a href="upload/'.$row["kyc"].'">'.$row["kyc"].'</a></span></td>
+                                                    <td class="text-dark">'.$row["status"].'</td>
+                                                    <td><span class="text-info"><a href="upload/'.$row["loan"].'">'.$row["loan"].'</a></span></td>
+                                                    <td><span class="text-info"><a href="upload/'.$row["joining_letter"].'">'.$row["joining_letter"].'</a></span></td>
+                                                    <td><span class="text-info"><a href="upload/'.$row["salary_slip"].'">'.$row["salary_slip"].'</a></span></td>
+                                                </tr>';
+                                            }
+                                            echo $text;
+                                        }
+                                        ?>
+                                            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- END HERE -->
+                <!-- ============================================================== -->
+            </div>
+                
             </div>
             <!-- ============================================================== -->
-            <!-- End Applied Loans -->
+            <!-- End Container fluid  -->
             <!-- ============================================================== -->
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer text-center"> 2021 © Eazy Credit Solution Admin <a
-                    href="#">EazyCreditSolution</a>
+            <footer class="footer text-center"> 2021 © Eazy Credit Solution <a
+            href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
@@ -272,22 +405,23 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../admin/plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <!-- <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
     <!-- <script src="js/app-style-switcher.js"></script> -->
-    <script src="plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="../admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
     <!--Wave Effects -->
-    <script src="js/waves.js"></script>
+    <script src="../admin/js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
+    <script src="../admin/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-    <script src="js/custom.js"></script>
+    <script src="../admin/js/custom.js"></script>
     <!--This page JavaScript -->
     <!--chartis chart-->
-    <script src="plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="js/pages/dashboards/dashboard1.js"></script>
+    <script src="../admin/plugins/bower_components/chartist/dist/chartist.min.js"></script>
+    <script src="../admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="../admin/js/pages/dashboards/dashboard1.js"></script>
+    <script src="../admin/js/upload.js"></script>
 </body>
 
 </html>

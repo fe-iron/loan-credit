@@ -50,7 +50,7 @@ function send_otp() {
         window.confirmationResult = confirmationResult
         codeResult = confirmationResult
         // console.log(codeResult);
-        alert('message sent check your phone!')
+        alert('message sent, check your phone!')
       })
       .catch((error) => {
         // Error; SMS not sent
