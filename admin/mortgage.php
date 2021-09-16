@@ -17,31 +17,20 @@
     
     
     $occupation = '';
-    if(isset($_POST['s'])){
-        $name = $_FILES['img_file']['name'];
-        $page = $_POST['page'];
-        $target_dir = "upload/";
-        $target_file = $target_dir . basename($_FILES["img_file"]["name"]);
-      
-        // Select file type
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-      
-        // Valid file extensions
-        $extensions_arr = array("jpg","jpeg","png","gif");
-      
-        // Check extension
-        if( in_array($imageFileType,$extensions_arr) ){
-           // Upload file
-           if(move_uploaded_file($_FILES['img_file']['tmp_name'],$target_dir.$name)){
-              // Insert record
-              $query = "INSERT INTO images (image_url, page) values('".$name."', '$page')";
-              $result = mysqli_query($conn,$query);
-              if($result){
-                    $msg = "Uploaded Successfully!";
-               }else{
-                    $msg = "Image Saving Failed!";
-               }
-           }
+    
+    // If form submitted, insert values into the database.
+    if (isset($_POST['status'])){
+        
+        $status = $_POST['status'];
+        $my_id = $_POST['this_id'];
+        $sql = "UPDATE loans SET status='$status' WHERE id=$my_id";
+            
+        if ($conn->query($sql) === TRUE) {
+            $msg = "Successfully Updated";
+            header("Location: mortgage.php?result=".$msg);
+        }else {
+            // echo "Error updating record: " . $con->error;
+            $msg="Failed!";
         }
     }
 
@@ -55,7 +44,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Eazy Credit Solution | Users | Home</title>
+    <title>Eazy Credit Solution | Admin</title>
     
     <!-- Favicon icon -->
     <link href='images/16.ico' rel="shortcut icon" type=image/x-icon>
@@ -63,7 +52,7 @@
     
     <!-- <link rel="stylesheet" href="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"> -->
     <!-- Custom CSS -->
-    <link href="../admin/css/style.min.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
     <link rel="icon"  type="image/png" href="../images/fav.png">
 </head>
 
@@ -120,17 +109,6 @@
                     <!-- ============================================================== -->
                     <ul class="navbar-nav ms-auto d-flex align-items-center">
 
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <!-- <li class=" in">
-                            <form role="search" class="app-search d-none d-md-block me-3">
-                                <input type="text" placeholder="Search..." class="form-control mt-0">
-                                <a href="" class="active">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                            </form>
-                        </li> -->
                         <!-- ============================================================== -->
                         <!-- User profile and search -->
                         <!-- ============================================================== -->
@@ -207,11 +185,59 @@
                                 <a class="sidebar-link" href="bt-plus-loan.php"
                                     aria-expanded="false">
                                     <i class="far fa-clock" aria-hidden="true"></i>
-                                    <span class="hide-menu">BT + Home Loan</span>
+                                    <span class="hide-menu">BT+ Loan</span>
                                 </a>
                             </li> 
                         </div> 
-                        
+                        <li class="sidebar-item common_btn">
+                            
+                            <a class="sidebar-link" style="padding-left: 52px;" onclick="myfun2()"
+                                aria-expanded="false">
+                                
+                                <span class="hide-menu">Website Settings</span>
+                                <i class="fas fa-caret-down" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <div id="sub-menu2" style="display: none;">
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="carousal.php"
+                                    aria-expanded="false">
+                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                    <span class="hide-menu">Carousal</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="loan-type.php"
+                                    aria-expanded="false">
+                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                    <span class="hide-menu">Loan Types</span>
+                                </a>
+                            </li>
+                            
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="call.php"
+                                    aria-expanded="false">
+                                    <i class="fas fa-mobile-alt" aria-hidden="true"></i>
+                                    <span class="hide-menu">Call To Action</span>
+                                </a>
+                            </li> 
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="team_member.php"
+                                    aria-expanded="false">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                    <span class="hide-menu">Team Member</span>
+                                </a>
+                            </li> 
+                        </div> 
+
+
+                        <li class="sidebar-item common_btn">
+                            <a class="sidebar-link" href="password_change.php"
+                                aria-expanded="false">
+                                <i class="fas fa-edit" aria-hidden="true"></i>
+                                <span class="hide-menu">Mobile Number Change</span>
+                            </a>
+                        </li> 
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -254,185 +280,15 @@
             <!-- ============================================================== -->
             <div class="container-fluid">
             <div class="row">
-                    <div class="col-lg-8 col-xlg-9 col-md-12" style="margin-left: auto; margin-right: auto;">
-                        <div class="card">
-                            <div class="card-body">
-                                <?php 
-                                    if($msg == "Updated Successfully!" || $msg == "Successfully Deleted!"){
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <div class="white-box">
+                                 <?php 
+                                    if($msg == "Successfully Updated"){
                                         print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
                                     }else{
                                         print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
                                     }
                                 ?>
-
-                            
-                                <form class="form-horizontal form-material" action="save_data_mortgage.php" method="post"
-                                    enctype="multipart/form-data" onSubmit="return validateImage();">
-                                    <h3 class="text-center">Application form</h3> <br>
-
-                                    <p class="form-group mb-4 text-danger">All documents should be Uploaded in PDF format.</p>
-                                    <p class="form-group mb-4 text-info text-center">Personal Document</p>
-
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Your Photo</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="photo"
-                                                id="img_photo" required onchange="validateImage('img_photo');">
-                                        </div>
-                                    </div>
-                            <?php 
-                                if($_SESSION['occupation'] === 'self employed'){
-                            ?>
-                                    
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">PAN, Aadhar Card, Voter ID Applicant / Co Applicant</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="identity"
-                                                id="img_identity" required onchange="validateImage('img_identity');">
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Bank statement of last 1 year</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="bank_statement"
-                                                id="img_bank" required onchange="validateImage('img_bank');">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Trade licence of last 3 years</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="trade"
-                                                id="img_trade" required onchange="validateImage('img_trade');">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">ITR of last 3 years with P/L, Balance sheet & computation of income</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="itr"
-                                                id="img_itr" required onchange="validateImage('img_itr');">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">GST return</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="gst"
-                                                id="img_gst" required onchange="validateImage('img_gst');">
-                                        </div>
-                                    </div>
-                                <?php
-                                    }else{
-                                ?>
-
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Last 3 Months salary slip</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="salary_slip"
-                                                id="img_salary_slip" required onchange="validateImage('img_salary_slip');">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Form 16 last 2 years</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="form16"
-                                                id="img_form_16" required onchange="validateImage('img_form_16');">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0"> Joining letter and ID card(in one PDF)</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="joining_letter"
-                                                id="img_joining_letter" required onchange="validateImage('img_joining_letter');"> 
-                                        </div>
-                                    </div>
-                                <?php
-                                    }
-                                ?>  
-                                    <p class="form-group mb-4 text-info text-center">Legal Documents</p>
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Deed</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="deed"
-                                                id="img_deed" required onchange="validateImage('img_deed');">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Chain Deed</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="chain_deed"
-                                                id="img_chain_deed" required onchange="validateImage('img_chain_deed');">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Update Parcha</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="update_parcha"
-                                                id="img_update_parcha" required onchange="validateImage('img_update_parcha');">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Upload khajna</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="update_khajna"
-                                                id="img_update_khajna" required onchange="validateImage('img_update_khajna');">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Sanctioned Plan</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="sanctioned_plan"
-                                                id="img_sanctioned_plan" required onchange="validateImage('img_sanctioned_plan');">
-                                        </div>
-                                    </div>
-                                    
-                                    <p class="form-group mb-4 text-info text-center">Other Documents</p>
-                                    
-                                    
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Previous Loan Sanction letter</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="previous_loan_sanction"
-                                                id="img_previous_loan_sanction" onchange="validateImage('img_previous_loan_sanction');">
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Current Statement with Foreclosures Amount</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="current_statement"
-                                                id="img_current_statement" onchange="validateImage('img_current_statement');">
-                                        </div>
-                                    </div>
-                                    <input type="hidden" value="<?php echo $_SESSION['phone']; ?>" name="phone">
-                                    <input type="hidden" value="<?php echo $_SESSION['occupation']; ?>" name="occupation">
-
-
-                                    <div class="form-group mb-4">
-                                        <div class="col-sm-12">
-                                            <button class="btn btn-success" value="Submit" name="s">Submit Form</button>
-                                        </div>
-                                    </div>
-                                    <p class="form-group mb-4 text-danger">DO NOT UPLOAD PDFs OF SIZE MORE THAN 10MB</p>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                </div>
-                <!-- Row -->
-            
-            
-            <div class="row">
-                    <div class="col-md-12 col-lg-12 col-sm-12">
-                        <div class="white-box">
                             <div class="d-md-flex mb-3">
                                 <h3 class="box-title mb-0">Loans Applied</h3>
                             </div>
@@ -441,6 +297,7 @@
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">#</th>
+                                            <th class="border-top-0">Action</th>
                                             <th class="border-top-0">Deed</th>
                                             <th class="border-top-0">photo</th>
                                             <th class="border-top-0">Phone Number</th>
@@ -461,13 +318,16 @@
                                                 $i += 1;
                                                 $text= $text. '<tr>
                                                     <td>'.$i.'</td>
-                                                    <td class="txt-oflo"><a href="upload/'.$row["deed"].'">'.$row["deed"].'</a></td>
-                                                    <td> <a href="upload/'.$row["photo"].'">'.$row["photo"].'</a></td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-success" value="'.$row['id'].'" onclick="edit(this.value)">Approve</button>
+                                                    </td>
+                                                    <td class="txt-oflo"><a href="../user/upload/'.$row["deed"].'">'.$row["deed"].'</a></td>
+                                                    <td> <a href="../user/upload/'.$row["photo"].'">'.$row["photo"].'</a></td>
                                                     <td>'.$row["phone_number"].'</td>
-                                                    <td><span class="text-info"><a href="upload/'.$row["update_parcha"].'">'.$row["update_parcha"].'</a></span></td>
+                                                    <td><span class="text-info"><a href="../user/upload/'.$row["update_parcha"].'">'.$row["update_parcha"].'</a></span></td>
                                                     <td class="text-dark">'.$row["status"].'</td>
-                                                    <td><span class="text-info"><a href="upload/'.$row["sanctioned_plan"].'">'.$row["loan"].'</a></span></td>
-                                                    <td><span class="text-info"><a href="upload/'.$row["update_parcha"].'">'.$row["joining_letter"].'</a></span></td>
+                                                    <td><span class="text-info"><a href="../user/upload/'.$row["sanctioned_plan"].'">'.$row["loan"].'</a></span></td>
+                                                    <td><span class="text-info"><a href="../user/upload/'.$row["update_parcha"].'">'.$row["joining_letter"].'</a></span></td>
                                                 </tr>';
                                             }
                                             echo $text;
@@ -502,29 +362,110 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
+
+
+
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
+    <!-- Modal -->
+    <div class="modal fade" id="edit_data" tabindex="-1" role="dialog" aria-labelledby="edit_dataLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update </h5>
+                
+            </div>
+            <div class="modal-body">
+            <form class="form-horizontal form-material" action="" method="post">
+            <div class="form-group mb-4">
+                <label class="col-md-12 p-0">Status</label>
+                <div class="col-md-12 border-bottom p-0">
+                    <input type="text" placeholder="Enter Amount" class="form-control p-0 border-0"
+                                                name="status" id="status">
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label class="col-md-12 p-0">Full Name</label>
+                <div class="col-md-12 border-bottom p-0">
+                    <input type="text" class="form-control p-0 border-0" id="full_name" readonly>
+                </div>
+            </div>
+            
+            <div class="form-group mb-4">
+                <label class="col-md-12 p-0">Date Of Birth</label>
+                <div class="col-md-12 border-bottom p-0">
+                    <input type="text" class="form-control p-0 border-0" id="dob" readonly>
+                </div>
+            </div>
+            
+            <div class="form-group mb-4">
+                <label class="col-md-12 p-0">Address</label>
+                <div class="col-md-12 border-bottom p-0">
+                    <input type="text" class="form-control p-0 border-0" id="address" readonly>
+                </div>
+            </div>
+            
+            <div class="form-group mb-4">
+                <label class="col-md-12 p-0">State</label>
+                <div class="col-md-12 border-bottom p-0">
+                    <input type="text" class="form-control p-0 border-0" id="state" readonly>
+                </div>
+            </div>
+            
+            <div class="form-group mb-4">
+                <label class="col-md-12 p-0">Pin Code</label>
+                <div class="col-md-12 border-bottom p-0">
+                    <input type="text" class="form-control p-0 border-0" id="pin" readonly>
+                </div>
+            </div>
+            
+            <div class="form-group mb-4">
+                <label class="col-md-12 p-0">Occupation</label>
+                <div class="col-md-12 border-bottom p-0">
+                    <input type="text" class="form-control p-0 border-0" id="occupation" readonly>
+                </div>
+            </div>
+
+            <input type="hidden" id="this_id" name="this_id">
+            <div class="form-group mb-4">
+            <div class="col-sm-12">
+                <button class="btn btn-success" type="submit">Update Profile</button>
+            </div>
+            </div>
+            <p></p>
+            </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close_modal('edit_data')">Close</button>
+                
+            </div>
+            </div>
+        </div>
+        </div>
+
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../admin/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <!-- <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
-    <!-- <script src="js/app-style-switcher.js"></script> -->
-    <script src="../admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
     <!--Wave Effects -->
-    <script src="../admin/js/waves.js"></script>
+    <script src="js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="../admin/js/sidebarmenu.js"></script>
+    <script src="js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-    <script src="../admin/js/custom.js"></script>
+    <script src="js/custom.js"></script>
     <!--This page JavaScript -->
     <!--chartis chart-->
-    <script src="../admin/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="../admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../admin/js/pages/dashboards/dashboard1.js"></script>
-    <script src="../admin/js/upload.js"></script>
+    <script src="plugins/bower_components/chartist/dist/chartist.min.js"></script>
+    <script src="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="js/pages/dashboards/dashboard1.js"></script>
+    <script src="js/upload.js"></script>
 </body>
 
 </html>
