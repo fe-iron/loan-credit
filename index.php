@@ -4,9 +4,149 @@
     
     $conn = OpenCon();
 
-    $sql = "SELECT * FROM carousal ORDER BY date limit 3";
+    if(empty($_GET)) {
+        $msg = " ";
+    }else{
+        $msg = $_GET['result'];
+    }
+
+    $sql = "SELECT * FROM carousal ORDER BY id DESC limit 3";
     $carousal = $conn->query($sql);
 
+    $sql = "SELECT * FROM loan_type ORDER BY id DESC limit 6";
+    $loan_type = $conn->query($sql);
+
+    $sql = "SELECT * FROM team ORDER BY id DESC limit 8";
+    $teams = $conn->query($sql);
+
+    
+    //for phone call
+    $sql = "SELECT * FROM phone_call ORDER BY id DESC limit 1";
+    $phone_number = $conn->query($sql);
+
+    if ($phone_number->num_rows > 0) {
+        // output data of each row
+        while($row = $phone_number->fetch_assoc()){
+            $phone_number1 = $row['phone'];
+        }
+    }
+
+    //for loan type
+    if ($loan_type->num_rows > 0) {
+        // output data of each row
+        $loan_text = '';
+        $i = 1;
+        while($row = $loan_type->fetch_assoc()) {
+            if($i == 1){
+                $loan_text = $loan_text . '
+                <div class="col-xl-3 col-lg-4 col-md-6 mt176">
+                    <div class="singleService_2">
+                    <div class="flipper">
+                        <div class="front">
+                            <i class="flaticon-mortgage-loan"></i>';
+                            if($row['end_rate'] == null){
+                                $loan_text = $loan_text . '<h1>10.50%</h1>';
+                            }else{
+                                $loan_text = $loan_text . '<h1>10.50% - 14%</h1>';
+                            }
+                            
+                            $loan_text = $loan_text . '<div class="clearfix"></div>
+                            <h4>Business Loan</h4>
+                            <p>Stay turned into the world of finance & business.</p>
+                            <h5>20 months installment</h5>
+                        </div>
+                        <div class="back">
+                            <i class="flaticon-mortgage-loan"></i>';
+                            if($row['end_rate'] == null){
+                                $loan_text = $loan_text . '<h1>10.50%</h1>';
+                            }else{
+                                $loan_text = $loan_text . '<h1>10.50% - 14%</h1>';
+                            }
+                            
+                            $loan_text = $loan_text. '<div class="clearfix"></div>
+                            <h4>Business Loan</h4>
+                            <p>Stay turned into the world of finance & business.</p>
+                            <h5>20 months installment</h5>
+                        </div>
+                    </div>
+                </div>
+                </div>';
+                $i = 2;
+                $completed = True;
+            }else{
+                if($i == 2){
+                    $loan_text = $loan_text . '<div class="col-xl-3 col-lg-4 col-md-6">
+                        <div class="singleService_2">
+                            <div class="flipper">
+                                <div class="front">
+                                    <i class="flaticon-money"></i>';
+                                    if($row['end_rate'] == null){
+                                        $loan_text = $loan_text . '<h1>10.50%</h1>';
+                                    }else{
+                                        $loan_text = $loan_text . '<h1>10.50% - 14%</h1>';
+                                    }
+                                    
+                                    $loan_text = $loan_text. '<div class="clearfix"></div>
+                                    <h4>Personal Loan</h4>
+                                    <p>Stay turned into the world of finance & business.</p>
+                                    <h5>20 months installment</h5>
+                                </div>
+                                <div class="back">    
+                                    <i class="flaticon-money"></i>';
+                                    if($row['end_rate'] == null){
+                                        $loan_text = $loan_text . '<h1>10.50%</h1>';
+                                    }else{
+                                        $loan_text = $loan_text . '<h1>10.50% - 14%</h1>';
+                                    }
+                                    
+                                    $loan_text = $loan_text. '<div class="clearfix"></div>
+                                    <h4>Personal Loan</h4>
+                                    <p>Stay turned into the world of finance & business.</p>
+                                    <h5>20 months installment</h5>
+                                </div>
+                            </div>
+                        </div>';
+                        $i = 3;
+                }elseif($i == 3){
+                    $loan_text = $loan_text . '<div class="singleService_2">
+                            <div class="flipper">
+                                <div class="front">
+                                    <i class="flaticon-loan-1"></i>';
+                                    if($row['end_rate'] == null){
+                                        $loan_text = $loan_text . '<h1>10.50%</h1>';
+                                    }else{
+                                        $loan_text = $loan_text . '<h1>10.50% - 14%</h1>';
+                                    }
+                                    
+                                    $loan_text = $loan_text.'<div class="clearfix"></div>
+                                    <h4>Education Loan</h4>
+                                    <p>Stay turned into the world of finance & business.</p>
+                                    <h5>20 months installment</h5>
+                                </div>
+                                <div class="back">
+                                    <i class="flaticon-loan-1"></i>';
+                                    if($row['end_rate'] == null){
+                                        $loan_text = $loan_text . '<h1>10.50%</h1>';
+                                    }else{
+                                        $loan_text = $loan_text . '<h1>10.50% - 14%</h1>';
+                                    }
+                                    
+                                    $loan_text = $loan_text. '<div class="clearfix"></div>
+                                    <h4>Education Loan</h4>
+                                    <p>Stay turned into the world of finance & business.</p>
+                                    <h5>20 months installment</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
+                    $i = 1;
+                }
+            }
+        }
+    }
+
+
+    // for carousal
     if ($carousal->num_rows > 0) {
         // output data of each row
         $text = '';
@@ -30,6 +170,22 @@
                 </div>';
             }
             $i += 1;
+        }
+    }
+
+    
+    // for teams
+    if ($teams->num_rows > 0) {
+        // output data of each row
+        $team_text = '';
+        while($row = $teams->fetch_assoc()) {
+                $team_text = $team_text.'<div class="col-lg-3 col-md-6">
+                <div class="singleTeam text-center">
+                    <img src="admin/upload/team/'.$row['image_url'].'">
+                    <h4>'.$row['full_name'].'</h4>
+                    <p>'.$row['post'].' <br/>Branch: '.$row['branch'].'</p>
+                </div>
+            </div>';
         }
     }
 ?>
@@ -123,30 +279,6 @@
                             </ol>
                             <div class="carousel-inner">
                             <?php echo $text; ?>
-                              <div class="carousel-item">
-                                <img class="d-block w-100" src="images/slider/11.jpg" alt="First slide" style="max-width: fit-content;">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5 class="carousal-h5 text-bold">Personal Loans</h5>
-                                    <p class="carousal-p">At Eazy Credit Solution, we want to help you achieve your personal dreams.</p>
-                                  </div>
-                              </div>
-
-                              
-                              <div class="carousel-item">
-                                <img class="d-block w-100" src="images/slider/12.jpg" alt="Second slide" style="max-width: fit-content;">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5 class="carousal-h5">Interest</h5>
-                                    <p class="carousal-p">Enjoy pocket-friendly
-                                        interest rates</p>
-                                  </div>
-                              </div>
-                              <div class="carousel-item">
-                                <img class="d-block w-100" src="images/slider/13.jpg" alt="Third slide" style="max-width: fit-content;">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5 class="carousal-h5">INSTANT APPROVAL</h5>
-                                    <p class="carousal-p">Fill in your details and get instant approval on the loan amount</p>
-                                  </div>
-                              </div>
                             </div>
                           </div>
                    
@@ -157,138 +289,7 @@
                 <h2 class="text-center text-bold" style="font-weight: 700">The Different Types of Loans Available in India - Eazy Credit Solution</h2>
                 <h5 class="text-center"></h5>
                 <div class="row">
-                    <div class="col-xl-3 col-lg-4 col-md-6 mt176">
-                        <div class="singleService_2">
-                            <div class="flipper">
-                                <div class="front">
-                                    <i class="flaticon-mortgage-loan"></i>
-                                    <h1>10.50% - 14%</h1>
-                                    <div class="clearfix"></div>
-                                    <h4>Business Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
-                                </div>
-                                <div class="back">
-                                    <i class="flaticon-mortgage-loan"></i>
-                                    <h1>10.50% - 14%</h1>
-                                    <div class="clearfix"></div>
-                                    <h4>Business Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-                    <div class="col-xl-3 col-lg-4 col-md-6">
-                        <div class="singleService_2">
-                            <div class="flipper">
-                                <div class="front">
-                                    <i class="flaticon-money"></i>
-                                    <h1>10.50% - 14%</h1>
-                                    <div class="clearfix"></div>
-                                    <h4>Personal Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
-                                </div>
-                                <div class="back">    
-                                    <i class="flaticon-money"></i>
-                                    <h1>10.50% - 14%</h1>
-                                
-                                    <div class="clearfix"></div>
-                                    <h4>Personal Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="singleService_2">
-                            <div class="flipper">
-                                <div class="front">
-                                    <i class="flaticon-loan-1"></i>
-                                    <h1>28.6%</h1>
-                                    <div class="clearfix"></div>
-                                    <h4>Education Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
-                                </div>
-                                <div class="back">
-                                    <i class="flaticon-loan-1"></i>
-                                    <h1>28.6%</h1>
-                                    <div class="clearfix"></div>
-                                    <h4>Education Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-xl-3 col-lg-4 col-md-6 mt176">
-                        <div class="singleService_2">
-                            <div class="flipper">
-                                <div class="front">
-                                    <i class="flaticon-mortgage-loan"></i>
-                                    <h1>6.95% - 13%</h1>
-                                    <div class="clearfix"></div>
-                                    <h4>Cash Credit & Over Draft Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
-                                </div>
-                                <div class="back">
-                                    <i class="flaticon-mortgage-loan"></i>
-                                    <h1>6.95% - 13%</h1>
-                                    <div class="clearfix"></div>
-                                    <h4>Cash Credit & Over Draft Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-                    <div class="col-xl-3 col-lg-4 col-md-6">
-                        <div class="singleService_2">
-                            <div class="flipper">
-                                <div class="front">
-                                    <i class="flaticon-money"></i>
-                                    <h1>11% - 24%</h1>
-                                    <div class="clearfix"></div>
-                                    <h4>Mortgage Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
-                                </div>
-                                <div class="back">
-                                    <i class="flaticon-money"></i>
-                                    <h1>11% - 24%</h1>
-                                    <div class="clearfix"></div>
-                                    <h4>Mortgage Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="singleService_2">
-                            <div class="flipper">
-                                <div class="front">
-                                    <i class="flaticon-loan-1"></i>
-                                    <h1>6.50% - 11%</h1>
-                                    <div class="clearfix"></div>
-                                    <h4>Home Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
-                                </div>
-                                <div class="back">
-                                    <i class="flaticon-loan-1"></i>
-                                    <h1>6.95% - 13%</h1>
-                                    <div class="clearfix"></div>
-                                    <h4>Home Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
+                    <?php echo $loan_text; ?>
                 </div>
             </div>
         </section>
@@ -303,7 +304,7 @@
                             <h3>Our manager will contact you to clear the details.</h3>
                             <p>We are here to help you when you need your financial support, then we are help you.</p>
                             <p>Call / WhatsApp us from below button for any query you have.</p>
-                            <a href="tel:894-401-4303" class="common_btn">Call Us Now</a>
+                            <a href="tel:<?php echo $phone_number1; ?>" class="common_btn">Call Us Now</a>
                         </div>
                     </div>
                     <div class="col-lg-7 col-md-7">
@@ -469,13 +470,13 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="applyamountFrom">
-                            <form action="#" method="post">
-                                <input type="number" step="any" style="margin: 10px 0;" name="fname" placeholder="Full Name">
-                                <input type="number" step="any" tyle="margin: 10px 0;" name="phone" placeholder="Mobile Number">
-                                <input type="number" step="any" name="phone" tyle="margin: 10px 0;" placeholder="Email">
-                                <input type="number" step="any" name="amount" tyle="margin: 10px 0;" placeholder="Amount">
-                                <input type="number" step="any" name="amount" tyle="margin: 10px 0;" placeholder="Long of months?">
-                                <input type="number" step="any" name="amount" tyle="margin: 10px 0;" placeholder="Installment amount.">
+                            <form action="subscribe.php" method="post">
+                                <input type="text" step="any" style="margin: 10px 0;" required name="fname" placeholder="Full Name">
+                                <input type="text" step="any" tyle="margin: 10px 0;" name="email" placeholder="Email">
+                                <input type="number" step="any" name="phone" required tyle="margin: 10px 0;" placeholder="phone">
+                                <input type="number" step="any" name="amount" required tyle="margin: 10px 0;" placeholder="Amount">
+                                <input type="number" step="any" name="month" required tyle="margin: 10px 0;" placeholder="Long of months?">
+                                <input type="number" step="any" name="installment" required tyle="margin: 10px 0;" placeholder="Installment amount.">
                                 <button class="common_btn" type="submit">Subscribe Now</button>
                             </form>
                         </div>
@@ -497,6 +498,7 @@
                     </div>
                 </div>
                 <div class="row">
+                    <?php echo $team_text; ?>
                     <div class="col-lg-3 col-md-6">
                         <div class="singleTeam text-center">
                             <img src="images/team/1.png" alt="">
@@ -685,6 +687,11 @@
         <script src="https://maps.google.com/maps/api/js?key=AIzaSyCysDHE3s4Qw3nTh9o58-2mJcqvR6HV8Kk"></script>
         <script src="js/owl.carousel.js"></script>
         <script src="js/theme.js"></script>
+        <?php
+            if($msg != " "){?>
+                <script> alert('<?php echo $msg; ?>'); </script>
+            <?php }
+        ?>
     </body>
 
 </html>

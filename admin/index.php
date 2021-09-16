@@ -6,7 +6,11 @@
 
     $sql = "SELECT * FROM users";
     $assistants = $conn->query($sql);
-    
+
+    $sql = "SELECT * FROM subscriber";
+    $subscribers = $conn->query($sql);
+
+
     if($assistants){
         $users = mysqli_num_rows($assistants);
     }else{
@@ -123,20 +127,7 @@
                     <!-- ============================================================== -->
                     <ul class="navbar-nav ms-auto d-flex align-items-center">
 
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <!-- <li class=" in">
-                            <form role="search" class="app-search d-none d-md-block me-3">
-                                <input type="text" placeholder="Search..." class="form-control mt-0">
-                                <a href="" class="active">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                            </form>
-                        </li> -->
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
+                        
                         <li>
                             <a class="profile-pic" href="#">
                                 <!-- <img src="plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"> -->
@@ -232,26 +223,25 @@
                                 </a>
                             </li>
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
-                                <a class="sidebar-link" href="mortgage.php"
+                                <a class="sidebar-link" href="loan-type.php"
                                     aria-expanded="false">
-                                    <i class="far fa-clock" aria-hidden="true"></i>
-                                    <span class="hide-menu">Mortgage Loan</span>
+                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                    <span class="hide-menu">Loan Types</span>
                                 </a>
                             </li>
-
                             
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
-                                <a class="sidebar-link" href="cc-and-od.php"
+                                <a class="sidebar-link" href="call.php"
                                     aria-expanded="false">
-                                    <i class="far fa-clock" aria-hidden="true"></i>
-                                    <span class="hide-menu">CC and OD Loan</span>
+                                    <i class="fas fa-mobile-alt" aria-hidden="true"></i>
+                                    <span class="hide-menu">Call To Action</span>
                                 </a>
                             </li> 
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
-                                <a class="sidebar-link" href="bt-plus-loan.php"
+                                <a class="sidebar-link" href="team_member.php"
                                     aria-expanded="false">
-                                    <i class="far fa-clock" aria-hidden="true"></i>
-                                    <span class="hide-menu">BT+ Loan</span>
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                    <span class="hide-menu">Team Member</span>
                                 </a>
                             </li> 
                         </div> 
@@ -351,6 +341,54 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3">
+                                <h3 class="box-title mb-0">Subscribers</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-top-0">#</th>
+                                            <th class="border-top-0">Date</th>
+                                            <th class="border-top-0">Full Name</th>
+                                            <th class="border-top-0">Phone Number</th>
+                                            <th class="border-top-0">Amount</th>
+                                            <th class="border-top-0">Duration</th>
+                                            <th class="border-top-0">Installment</th>
+                                            <th class="border-top-0">Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                        if ($subscribers->num_rows > 0) {
+                                            // output data of each row
+                                            $text = '';
+                                            $i = 0;
+                                            while($row = $subscribers->fetch_assoc()) {
+                                                $i += 1;
+                                                $text= $text. '<tr>
+                                                    <td>'.$i.'</td>
+                                                    <td class="txt-oflo">'.$row['date'].'</td>
+                                                    <td>'.$row["full_name"].'</td>
+                                                    <td>'.$row["phone"].'</td>
+                                                    <td>'.$row["amount"].'</td>
+                                                    <td>'.$row["duration"].'</td>
+                                                    <td>'.$row["installment"].'</td>
+                                                    <td>'.$row["email"].'</td>
+                                                </tr>';
+                                            }
+                                            echo $text;
+                                        }
+                                        ?>        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <!-- Column -->
@@ -478,7 +516,7 @@
                     </div>
                     <!-- Column -->
                 </div>
-                <!-- Row -->s
+                <!-- Row -->
                 
             </div>
             <!-- ============================================================== -->

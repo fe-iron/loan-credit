@@ -5,7 +5,7 @@
     $conn = OpenCon();
 
     
-    $sql = "SELECT * FROM carousal";
+    $sql = "SELECT * FROM loan_type ORDER BY ID DESC";
     
     $result1 = $conn->query($sql);
 
@@ -17,40 +17,35 @@
     }
     
     if (isset($_POST['s'])){
-        $target_dir = "upload/";        
-
-        $heading = $_POST["heading"];
-        $sub_heading = $_POST["sub-heading"];
-    
-        $photo = $_FILES['photo']['name'];
-        $target_file1 = $target_dir . basename($_FILES["photo"]["name"]);
-            // Select file type
-        $imageFileType1 = strtolower(pathinfo($target_file1,PATHINFO_EXTENSION));
-            // Valid file extensions
-        $extensions_arr = array("jpg","jpeg","png","pdf");
-          
-            if( in_array($imageFileType1,$extensions_arr) ){
-                // Upload file
-                if(move_uploaded_file($_FILES['photo']['tmp_name'],$target_dir.$photo)){
-                   // Insert record
-                   $query = "INSERT INTO carousal(image_url,heading,sub_heading)
-                    values('$photo', '$heading', '$sub_heading')";
-                    // echo $query;
-                    $result = mysqli_query($conn,$query);
-                    if($result){
-                        $msg = "Updated Successfully!";
-                        // echo $msg;
-                    }else{
-                        echo mysqli_error($conn);
-                        $msg = "Update Failed!";
-                    }
-                    // echo $msg;
-                    header("Location: carousal.php?result=".$msg);
-                }
-             }else{
-                //  echo "error saving file";
-                 header("Location: carousal.php?result=Something went wrong! at ".$photo);
-             }    
+        $name = $_POST['name'];
+        $desc = $_POST['desc'];
+        $start_rate = $_POST['start_rate'];
+        if(empty($_POST['end_rate'])){
+            $end_rate = ' ';
+        }else{
+            $end_rate = $_POST['end_rate'];
+        }
+        $installment = $_POST['installment'];
+        // Insert record
+        if($end_rate == ' '){
+            $query = "INSERT INTO loan_type(name, description, start_rate, installment)
+            values('$name', '$desc', $start_rate, $installment)";
+        }else{
+            $query = "INSERT INTO loan_type(name, description, start_rate, installment, end_rate)
+            values('$name', '$desc', $start_rate, $installment, $end_rate)";
+        }
+        
+        // echo $query;
+        $result = mysqli_query($conn,$query);
+        if($result){
+            $msg = "Updated Successfully!";
+            header("Location: loan-type.php?result=".$msg);
+            // echo $msg;
+        }else{
+            echo mysqli_error($conn);
+            $msg = "Update Failed!";
+        }
+        
     }   
 
 ?>
@@ -63,7 +58,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Eazy Credit Solution | Admin | Website Change</title>
+    <title>Eazy Credit Solution | Admin | Loan Type</title>
     
     <!-- Favicon icon -->
     <link href='images/16.ico' rel="shortcut icon" type=image/x-icon>
@@ -198,10 +193,10 @@
                                 </a>
                             </li> 
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
-                                <a class="sidebar-link" href="bt-plus-loan.php"
+                                <a class="sidebar-link" href="team_member.php"
                                     aria-expanded="false">
-                                    <i class="far fa-clock" aria-hidden="true"></i>
-                                    <span class="hide-menu">BT+ Loan</span>
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                    <span class="hide-menu">Team Member</span>
                                 </a>
                             </li> 
                         </div> 
@@ -235,15 +230,15 @@
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
                                 <a class="sidebar-link" href="call.php"
                                     aria-expanded="false">
-                                    <i class="fas fa-mobile-alt" aria-hidden="true"></i>
+                                    <i class="far fa-clock" aria-hidden="true"></i>
                                     <span class="hide-menu">Call To Action</span>
                                 </a>
                             </li> 
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
-                                <a class="sidebar-link" href="team_member.php"
+                                <a class="sidebar-link" href="bt-plus-loan.php"
                                     aria-expanded="false">
-                                    <i class="fas fa-user" aria-hidden="true"></i>
-                                    <span class="hide-menu">Team Member</span>
+                                    <i class="far fa-clock" aria-hidden="true"></i>
+                                    <span class="hide-menu">BT+ Loan</span>
                                 </a>
                             </li> 
                         </div> 
@@ -275,7 +270,7 @@
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title text-center">Carousal Settings</h4>
+                        <h4 class="page-title text-center">Loan Type Settings</h4>
                     </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <div class="d-md-flex">
@@ -312,40 +307,58 @@
                             
                                 <form class="form-horizontal form-material" action="" method="post"
                                     enctype="multipart/form-data">
-                                    <h3 class="text-center">Change Carousal Form</h3> <br>
+                                    <h3 class="text-center">Loan Type Update Form</h3> <br>
 
                                     
-                                    <p class="form-group mb-4 text-info text-center">Change Carousal Photo, Heading, and Sub-Heading</p>
-
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Photo</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file" class="form-control p-0 border-0" name="photo"
-                                                id="img_photo" required onchange="validateImage('img_photo');">
-                                        </div>
-                                    </div>
+                                    <p class="form-group mb-4 text-info text-center">Change Loan name, installment month and add description also.</p>
                             
                                     <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Heading</label>
+                                        <label class="col-md-12 p-0">Loan Name</label>
                                         <div class="col-md-12 border-bottom p-0">
-                                            <input type="text" placeholder="Enter Heading..." class="form-control p-0 border-0"
-                                                name="heading" required>
+                                            <input type="text" placeholder="Enter Name..." class="form-control p-0 border-0"
+                                                name="name" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Sub Heading</label>
+                                        <label class="col-md-12 p-0">Description</label>
                                         <div class="col-md-12 border-bottom p-0">
-                                            <input type="text" placeholder="Enter Sub-Heading..." class="form-control p-0 border-0"
-                                                name="sub-heading" required>
+                                            <input type="text" placeholder="Enter description..." class="form-control p-0 border-0"
+                                                name="desc" required>
                                         </div>
                                     </div>
+
+                                    
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Interest start from</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="number" placeholder="1.00" step="0.01" min="0"  placeholder="Enter starting Interest rate..." class="form-control p-0 border-0"
+                                                name="start_rate" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Interest end on</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="number" placeholder="Enter ending Interest rate..." class="form-control p-0 border-0"
+                                                name="end_rate">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Installment</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="number" placeholder="Enter installment in months..." class="form-control p-0 border-0"
+                                                name="installment" required>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group mb-4">
                                         <div class="col-sm-12">
                                             <button class="btn btn-success" value="Submit" name="s">Submit Form</button>
                                         </div>
                                     </div>
-                                    <p class="form-group mb-4 text-danger">DO NOT UPLOAD IMAGE OF SIZE MORE THAN 10MB</p>
+                                    <p class="form-group mb-4 text-danger">ALL FIELDS ARE COMPULSORY TO FILL.</p>
                                 </form>
                             </div>
                         </div>
@@ -367,9 +380,10 @@
                                         <tr>
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">Date</th>
-                                            <th class="border-top-0">Image</th>
-                                            <th class="border-top-0">Heading</th>
-                                            <th class="border-top-0">Sub heading</th>
+                                            <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">Description</th>
+                                            <th class="border-top-0">Rate</th>
+                                            <th class="border-top-0">Installment</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -383,9 +397,15 @@
                                                 $text= $text. '<tr>
                                                     <td>'.$i.'</td>
                                                     <td class="txt-oflo">'.$row['date'].'</td>
-                                                    <td> <a href="upload/'.$row["image_url"].'">'.$row["image_url"].'</a></td>
-                                                    <td>'.$row["heading"].'</td>
-                                                    <td>'.$row["sub_heading"].'</td>
+                                                    <td>'.$row["name"].'</td>
+                                                    <td>'.$row["description"].'</td>';
+                                                    if($row['end_rate'] == null){
+                                                        $text = $text. '<td>'.$row["start_rate"].'%</td>';
+                                                    }else{
+                                                        $text = $text. '<td>'.$row["start_rate"].'% - '.$row['end_rate'].'%</td>';
+                                                    }
+                                                    
+                                                    $text = $text .'<td>'.$row["installment"].'</td>
                                                 </tr>';
                                             }
                                             echo $text;

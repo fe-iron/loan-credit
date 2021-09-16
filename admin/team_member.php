@@ -5,9 +5,9 @@
     $conn = OpenCon();
 
     
-    $sql = "SELECT * FROM carousal";
+    $sql = "SELECT * FROM team";
     
-    $result1 = $conn->query($sql);
+    $teams = $conn->query($sql);
 
     
     if(empty($_GET)) {
@@ -17,24 +17,25 @@
     }
     
     if (isset($_POST['s'])){
-        $target_dir = "upload/";        
+        $target_dir = "upload/team/";        
 
-        $heading = $_POST["heading"];
-        $sub_heading = $_POST["sub-heading"];
+        $name = $_POST["name"];
+        $post = $_POST["post"];
+        $branch = $_POST["branch"];
     
         $photo = $_FILES['photo']['name'];
         $target_file1 = $target_dir . basename($_FILES["photo"]["name"]);
             // Select file type
         $imageFileType1 = strtolower(pathinfo($target_file1,PATHINFO_EXTENSION));
             // Valid file extensions
-        $extensions_arr = array("jpg","jpeg","png","pdf");
+        $extensions_arr = array("jpg","jpeg","png");
           
             if( in_array($imageFileType1,$extensions_arr) ){
                 // Upload file
                 if(move_uploaded_file($_FILES['photo']['tmp_name'],$target_dir.$photo)){
                    // Insert record
-                   $query = "INSERT INTO carousal(image_url,heading,sub_heading)
-                    values('$photo', '$heading', '$sub_heading')";
+                   $query = "INSERT INTO team(image_url, full_name, post, branch)
+                    values('$photo', '$name', '$post', '$branch')";
                     // echo $query;
                     $result = mysqli_query($conn,$query);
                     if($result){
@@ -45,11 +46,11 @@
                         $msg = "Update Failed!";
                     }
                     // echo $msg;
-                    header("Location: carousal.php?result=".$msg);
+                    header("Location: team_member.php?result=".$msg);
                 }
              }else{
                 //  echo "error saving file";
-                 header("Location: carousal.php?result=Something went wrong! at ".$photo);
+                 header("Location: team_member.php?result=Something went wrong! at ".$photo);
              }    
     }   
 
@@ -242,7 +243,7 @@
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
                                 <a class="sidebar-link" href="team_member.php"
                                     aria-expanded="false">
-                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                    <i class="far fa-clock" aria-hidden="true"></i>
                                     <span class="hide-menu">Team Member</span>
                                 </a>
                             </li> 
@@ -275,7 +276,7 @@
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title text-center">Carousal Settings</h4>
+                        <h4 class="page-title text-center">Team Member Settings</h4>
                     </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <div class="d-md-flex">
@@ -315,37 +316,46 @@
                                     <h3 class="text-center">Change Carousal Form</h3> <br>
 
                                     
-                                    <p class="form-group mb-4 text-info text-center">Change Carousal Photo, Heading, and Sub-Heading</p>
+                                    <p class="form-group mb-4 text-info text-center">Add Team Members</p>
 
                                     <div class="form-group mb-4">
                                         <label for="example-email" class="col-md-12 p-0">Photo</label>
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="file" class="form-control p-0 border-0" name="photo"
-                                                id="img_photo" required onchange="validateImage('img_photo');">
+                                                id="img_photo" required onchange="validateImage('img_photo');" title="Photo should be small in size and be in format 240x240">
                                         </div>
                                     </div>
                             
                                     <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Heading</label>
+                                        <label class="col-md-12 p-0">Name</label>
                                         <div class="col-md-12 border-bottom p-0">
-                                            <input type="text" placeholder="Enter Heading..." class="form-control p-0 border-0"
-                                                name="heading" required>
+                                            <input type="text" placeholder="Enter Name..." class="form-control p-0 border-0"
+                                                name="name" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Sub Heading</label>
+                                        <label class="col-md-12 p-0">Post</label>
                                         <div class="col-md-12 border-bottom p-0">
-                                            <input type="text" placeholder="Enter Sub-Heading..." class="form-control p-0 border-0"
-                                                name="sub-heading" required>
+                                            <input type="text" placeholder="Enter Post of the member..." class="form-control p-0 border-0"
+                                                name="post" required>
                                         </div>
                                     </div>
+
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Branch</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="text" placeholder="Enter Branch of the member..." class="form-control p-0 border-0"
+                                                name="branch" required>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group mb-4">
                                         <div class="col-sm-12">
                                             <button class="btn btn-success" value="Submit" name="s">Submit Form</button>
                                         </div>
                                     </div>
-                                    <p class="form-group mb-4 text-danger">DO NOT UPLOAD IMAGE OF SIZE MORE THAN 10MB</p>
+                                    <p class="form-group mb-4 text-danger">Photo should be small in size and be in format 240x240</p>
                                 </form>
                             </div>
                         </div>
@@ -367,25 +377,27 @@
                                         <tr>
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">Date</th>
-                                            <th class="border-top-0">Image</th>
-                                            <th class="border-top-0">Heading</th>
-                                            <th class="border-top-0">Sub heading</th>
+                                            <th class="border-top-0">Photo</th>
+                                            <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">Post</th>
+                                            <th class="border-top-0">Branch</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     <?php
-                                        if ($result1->num_rows > 0) {
+                                        if ($teams->num_rows > 0) {
                                             // output data of each row
                                             $text = '';
                                             $i = 0;
-                                            while($row = $result1->fetch_assoc()) {
+                                            while($row = $teams->fetch_assoc()) {
                                                 $i += 1;
                                                 $text= $text. '<tr>
                                                     <td>'.$i.'</td>
                                                     <td class="txt-oflo">'.$row['date'].'</td>
-                                                    <td> <a href="upload/'.$row["image_url"].'">'.$row["image_url"].'</a></td>
-                                                    <td>'.$row["heading"].'</td>
-                                                    <td>'.$row["sub_heading"].'</td>
+                                                    <td> <a href="upload/team/'.$row["image_url"].'">'.$row["image_url"].'</a></td>
+                                                    <td>'.$row["full_name"].'</td>
+                                                    <td>'.$row["post"].'</td>
+                                                    <td>'.$row["branch"].'</td>
                                                 </tr>';
                                             }
                                             echo $text;
