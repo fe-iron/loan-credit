@@ -7,11 +7,8 @@
 html {
 	height: 100%;
 	/*Image only BG fallback*/
-	
-	/*background = gradient + image pattern combo*/
-	background: 
-		linear-gradient(
-            #8180e0, #f0c27b);
+	background-image: url("../Login-Page.png");
+	background-size: cover;
 }
 
 body {
@@ -24,6 +21,13 @@ body {
 	margin: 50px auto;
 	text-align: center;
 	position: relative;
+	top: 130px;
+	left: 350px;
+}
+.footer{
+	position: relative;
+	top: 100px;
+	left: 360px;
 }
 #msform fieldset {
 	background: white;
@@ -37,6 +41,22 @@ body {
 	
 	/*stacking fieldsets above each other*/
 	position: relative;
+}
+
+@media (max-width: 1050px) {
+	#msform, .footer {
+		/* position: static; */
+		left: 0px;
+		top: 65px;
+		
+	}
+	html{
+		background-image: url("../Login-Page1.png");
+		background-position-y: 20px;
+		background-color: #e9eaea;
+		/* background-size: contain; */
+		background-repeat: no-repeat;
+	}
 }
 /*Hide all except first fieldset*/
 #msform fieldset:not(:first-of-type) {

@@ -10,7 +10,7 @@
         $msg = $_GET['result'];
     }
 
-    $sql = "SELECT * FROM loans WHERE phone_number=".$_SESSION["phone"]." AND loan_type='mortgage'";
+    $sql = "SELECT * FROM loans WHERE phone_number=".$_SESSION["phone"]." AND loan_type='Mortgage'";
     
     $result = $conn->query($sql);
 

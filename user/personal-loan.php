@@ -11,7 +11,7 @@
     }
     
     
-    $sql = "SELECT * FROM loans WHERE phone_number=".$_SESSION["phone"]." AND loan_type='personal'";
+    $sql = "SELECT * FROM loans WHERE phone_number=".$_SESSION["phone"]." AND loan_type='Personal'";
     
     $result = $conn->query($sql);
 
@@ -359,15 +359,16 @@
                                                     <td class="txt-oflo"><a href="upload/'.$row["bank_statement"].'">'.$row["bank_statement"].'</a></td>
                                                     <td> <a href="upload/'.$row["photo"].'">'.$row["photo"].'</a></td>
                                                     <td>'.$row["phone_number"].'</td>
+                                                }
                                                     <td><span class="text-info"><a href="upload/'.$row["kyc"].'">'.$row["kyc"].'</a></span></td>
                                                     <td class="text-dark">'.$row["status"].'</td>
                                                     <td><span class="text-info"><a href="upload/'.$row["loan"].'">'.$row["loan"].'</a></span></td>
                                                     <td><span class="text-info"><a href="upload/'.$row["joining_letter"].'">'.$row["joining_letter"].'</a></span></td>
+                                                }
                                                     <td><span class="text-info"><a href="upload/'.$row["salary_slip"].'">'.$row["salary_slip"].'</a></span></td>
                                                 </tr>';
-                                            }
+                                            </div>
                                             echo $text;
-                                        }
                                         ?>
                                             
                                     </tbody>
@@ -375,11 +376,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
                 <!-- ============================================================== -->
-                <!-- END HERE -->
                 <!-- ============================================================== -->
             </div>
+                <!-- END HERE -->
                 
             </div>
             <!-- ============================================================== -->

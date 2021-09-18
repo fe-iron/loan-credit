@@ -5,7 +5,7 @@
     $conn = OpenCon();
 
     
-    $sql = "SELECT * FROM loans WHERE phone_number=".$_SESSION["phone"]." AND loan_type='bt+home'";
+    $sql = "SELECT * FROM loans WHERE loan_type='Business Loan'";
     
     $result = $conn->query($sql);
 
@@ -370,13 +370,18 @@
             </div>
             <div class="modal-body">
             <form class="form-horizontal form-material" action="" method="post">
+            
             <div class="form-group mb-4">
-                <label class="col-md-12 p-0">Status</label>
-                <div class="col-md-12 border-bottom p-0">
-                    <input type="text" placeholder="Enter Amount" class="form-control p-0 border-0"
-                                                name="status" id="status">
-                </div>
-            </div>
+            <label class="col-md-12 p-0">Select an Action</label>
+                                        <div class="col-md-12  p-0">
+                                            <select name="status" required class="border-bottom" style="border:none;">
+                                                <option value="" selected>Select</option>
+                                                <option value="accept">Accept</option>
+                                                <option value="reject">Reject</option>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
 
             <div class="form-group mb-4">
                 <label class="col-md-12 p-0">Full Name</label>
@@ -441,22 +446,22 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../admin/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="js/app-style-switcher.js"></script> -->
-    <script src="../admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
     <!--Wave Effects -->
-    <script src="../admin/js/waves.js"></script>
+    <script src="js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="../admin/js/sidebarmenu.js"></script>
+    <script src="js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-    <script src="../admin/js/custom.js"></script>
+    <script src="js/custom.js"></script>
     <!--This page JavaScript -->
     <!--chartis chart-->
-    <script src="../admin/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="../admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../admin/js/pages/dashboards/dashboard1.js"></script>
+    <script src="plugins/bower_components/chartist/dist/chartist.min.js"></script>
+    <script src="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="js/pages/dashboards/dashboard1.js"></script>
 </body>
 
 </html>

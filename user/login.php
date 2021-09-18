@@ -28,6 +28,7 @@ if (isset($_POST['phone'])){
         $_SESSION['username'] = $row['full_name'];
         $_SESSION['occupation'] = $row['occupation'];
         $_SESSION['phone'] = $row['phone_number'];
+        $_SESSION['loan'] = $row['loan'];
         
         
         // Redirect user to index.php
@@ -56,7 +57,15 @@ if (isset($_POST['phone'])){
     <link href="../admin/css/style.min.css" rel="stylesheet">
     <link rel="icon"  type="image/png" href="../images/fav.png">
     <link href="../css/multi-step-form.css" rel="stylesheet">
-
+    <style>
+        @media (max-width: 1050px) {
+            #msform, .footer {
+                /* position: static; */
+                left: 0px;
+                top: 75px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -73,13 +82,13 @@ if (isset($_POST['phone'])){
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
 
-    <div class="container">
+    <!-- <div class="container">
         <div class="row">
             <div class="col-md d-flex justify-content-center">
                 <img src="../images/loan_logo.png" alt="logo" width="200px">
             </div>
         </div>
-    </div>
+    </div> -->
     <form id="msform" action="login.php" method="post">
                             <?php 
                                     if($msg == "Registered Successfully!" || $msg == "Successfully Updated"){
@@ -201,13 +210,14 @@ if (isset($_POST['phone'])){
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer text-center text-white" style="background: transparent;"> 2021 © Eazy Credit Solution <a
-                href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
-            </footer>
+            
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
         </div>
+        <footer class="footer text-center text-black" style="background: transparent;"> 2021 © Eazy Credit Solution <a
+                href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
+            </footer>
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->

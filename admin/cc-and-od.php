@@ -11,7 +11,7 @@
     }
     
     
-    $sql = "SELECT * FROM loans WHERE phone_number=".$_SESSION["phone"]." AND loan_type='oc-od'";
+    $sql = "SELECT * FROM loans WHERE loan_type='Cash credit & Overdraft'";
     
     $result = $conn->query($sql);
 

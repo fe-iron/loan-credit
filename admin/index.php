@@ -17,7 +17,28 @@
         $users = 0;
     }
 
+    $sql = "SELECT * FROM loans WHERE status='accepted'";
+    $accepted = $conn->query($sql);
+
+
+    if($accepted){
+        $accepted = mysqli_num_rows($accepted);
+    }else{
+        $accepted = 0;
+    }
+
     
+    $sql = "SELECT * FROM loans WHERE status='reject'";
+    $rejected = $conn->query($sql);
+
+
+    if($rejected){
+        $rejected = mysqli_num_rows($rejected);
+    }else{
+        $rejected = 0;
+    }
+
+
     if(empty($_GET)) {
         $msg = " ";
     }else{
@@ -53,6 +74,7 @@
     }   
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -276,14 +298,15 @@
                         <h4 class="page-title">Dashboard</h4>
                     </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                        <div class="d-md-flex">
-                            <ol class="breadcrumb ms-auto">
-                                <li><a href="#" class="fw-normal"></a></li>
-                            </ol>
+                    <div class="d-md-flex" style="float:right;">
+                            <a href="profile-edit.php" 
+                                class="btn btn-info  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">My Profile
+                            </a>
                             <a href="logout.php" 
                                 class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">Logout
                             </a>
                         </div>
+                        
                     </div>
                 </div>
                 <!-- /.col-lg-12 -->
@@ -321,7 +344,7 @@
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-purple">99</span></li>
+                                <li class="ms-auto"><span class="counter text-purple"><?php echo $accepted; ?></span></li>
                             </ul>
                         </div>
                     </div>
@@ -334,7 +357,7 @@
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-info">9</span>
+                                <li class="ms-auto"><span class="counter text-info"><?php echo $rejected; ?></span>
                                 </li>
                             </ul>
                         </div>
@@ -389,134 +412,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <!-- Column -->
-
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-8 col-xlg-9 col-md-12" style="margin-left: auto; margin-right: auto; margin-top: 10px;">
-                        <div class="card">
-                            <div class="card-body">
-                                <?php 
-                                    if($msg == "Mobile Number Changed Successfully!" || $msg == "Profile Updated Successfully!"){
-                                        print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
-                                    }else{
-                                        print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
-                                    }
-                                ?>
-
-                                <h2 class="text-success" style="text-align: center">Profile Edit Form</h2>
-                                <form class="form-horizontal form-material" action="" method="post">
-                                    <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Full Name</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="text" placeholder="Full Name" class="form-control p-0 border-0"
-                                                name="fullname" required>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Phone No.</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="tel" placeholder="Mobile Number"
-                                                class="form-control p-0 border-0" name="phone" value="<?php echo $_SESSION["phone"]; ?>" readonly>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Date of Birth</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="date" placeholder="Date of Birth"
-                                                class="form-control p-0 border-0" name="dob" required>
-                                        </div>
-                                    </div>
-                                    
-                                    
-                                    <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Address</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="text" placeholder="Address"
-                                                class="form-control p-0 border-0" name="address" required>
-                                        </div>
-                                    </div>
-
-                                    
-                                    <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Pin Code</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="text" class="form-control p-0 border-0" name="pin" placeholder="Pin Code" required>
-                                        </div>
-                                    </div>
-
-                                    
-                                    <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">State</label>
-                                        <div class="col-md-12  p-0">
-                                            <select name="state" required class="border-bottom" style="border:none;">
-                                                <option value="" selected>State</option>
-                                                <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands
-                                                </option>
-                                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                                <option value="Assam">Assam</option>
-                                                <option value="Bihar">Bihar</option>
-                                                <option value="Chandigarh">Chandigarh</option>
-                                                <option value="Chhattisgarh">Chhattisgarh</option>
-                                                <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
-                                                <option value="Daman and Diu">Daman and Diu</option>
-                                                <option value="Delhi">Delhi</option>
-                                                <option value="Lakshadweep">Lakshadweep</option>
-                                                <option value="Puducherry">Puducherry</option>
-                                                <option value="Goa">Goa</option>
-                                                <option value="Gujarat">Gujarat</option>
-                                                <option value="Haryana">Haryana</option>
-                                                <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                                                <option value="Jharkhand">Jharkhand</option>
-                                                <option value="Karnataka">Karnataka</option>
-                                                <option value="Kerala">Kerala</option>
-
-                                                <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                                <option value="Maharashtra">Maharashtra</option>
-                                                <option value="Manipur">Manipur</option>
-                                                <option value="Meghalaya">Meghalaya</option>
-                                                <option value="Mizoram">Mizoram</option>
-                                                <option value="Nagaland">Nagaland</option>
-                                                <option value="Odisha">Odisha</option>
-                                                <option value="Punjab">Punjab</option>
-                                                <option value="Rajasthan">Rajasthan</option>
-                                                <option value="Sikkim">Sikkim</option>
-                                                <option value="Tamil Nadu">Tamil Nadu</option>
-                                                <option value="Telangana">Telangana</option>
-                                                <option value="Tripura">Tripura</option>
-                                                <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                                <option value="Uttarakhand">Uttarakhand</option>
-                                                <option value="West Bengal">West Bengal</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Occupation</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="text" placeholder="Occupation"
-                                                class="form-control p-0 border-0" name="occupation" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group mb-4">
-                                        <div class="col-sm-12">
-                                            <button class="btn btn-success" type="submit">Update Profile</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                </div>
-                <!-- Row -->
                 
             </div>
             <!-- ============================================================== -->

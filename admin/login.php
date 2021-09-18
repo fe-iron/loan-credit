@@ -1,6 +1,6 @@
 <?php
 
-    include '../admin/connection.php';
+    include 'connection.php';
 
     $con = OpenCon();
     if(empty($_GET)) {
@@ -12,31 +12,30 @@
     session_start();
     $set_cond = False;
     // If form submitted, insert values into the database.
-if (isset($_POST['phone'])){
-        // removes backslashes
-    $phone = stripslashes($_REQUEST['phone']);
-        //escapes special characters in a string
-    $phone = mysqli_real_escape_string($con,$phone);
-    
-    //Checking is user existing in the database or not
-    $query = "SELECT * FROM `users` WHERE phone_number='$phone'";
-    $result = mysqli_query($con,$query) or die(mysql_error());
-    $rows = mysqli_num_rows($result);
-    
-    if($rows==1){
-        $row = $result->fetch_assoc();
-        $_SESSION['username'] = $row['full_name'];
-        $_SESSION['occupation'] = $row['occupation'];
-        $_SESSION['phone'] = $row['phone_number'];
+    if (isset($_POST['username'])){
+            // removes backslashes
+        $username = stripslashes($_REQUEST['username']);
+            //escapes special characters in a string
+        $username = mysqli_real_escape_string($con,$username);
+        $password = stripslashes($_REQUEST['password']);
+        $password = mysqli_real_escape_string($con,$password);
+        //Checking is user existing in the database or not
+        $query = "SELECT * FROM `users` WHERE email='$username'
+        and password='".md5($password)."'";
+        $result = mysqli_query($con,$query) or die(mysql_error());
+        $rows = mysqli_num_rows($result);
         
-        
-        // Redirect user to index.php
-        header("Location: index.php");
-    }else{
-        $set_cond = True;
+        if($rows==1){
+            $row = $result->fetch_assoc();
+            $_SESSION['username'] =  $row['full_name'];
+            $_SESSION['phone'] = $row['phone_number'];
+            $_SESSION['loan'] = $row['loan'];
+            header("Location: index.php");
+        }else{
+            $set_cond = True;
+        }
     }
-    
-}
+
 
 ?>
 <!DOCTYPE html>
@@ -72,14 +71,7 @@ if (isset($_POST['phone'])){
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md d-flex justify-content-center">
-                <img src="../images/loan_logo.png" alt="logo" width="200px">
-            </div>
-        </div>
-    </div>
+    
     <form id="msform" action="login.php" method="post">
                             <?php 
                                     if($msg == "Registered Successfully!" || $msg == "Successfully Updated"){
@@ -87,36 +79,32 @@ if (isset($_POST['phone'])){
                                     }else{
                                         print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
                                     }
-                            ?> 
+                            ?>  
                             <?php if($set_cond){
                                 echo '<p class="text-danger h3 py-2">Wrong Credentials, Try Again!</p>';}
                             ?>
                          
                     <fieldset>
-                        <h2 class="fs-title">Mobile Number login</h2>
-                        <h3 class="fs-subtitle">Verify Mobile Number</h3>
-                        <input type="tel" placeholder="Mobile Number" name="phone" id="mob">
-                        <input type="tel" placeholder="Enter OTP..." id="verificationCode" style="display: none;">
+                        <h2 class="fs-title">Login to access Admin Panel</h2>
+                        <h3 class="fs-subtitle">Email</h3>
+                        <input type="email" placeholder="Enter Email..." name="username">
+                        <input type="password" placeholder="Enter password..." name="password">
                         
-                        <div id="recaptcha-container"></div>
-                        
-                        
-                        <button type="button" onclick="send_otp();" class="action-button" id="get-otp" class="btn btn-success">Get OTP</button>
-                        <input type="submit" name="next"  id="mobile_next" class="next action-button"  style="background:#2f523e;" value="Login" disabled/>    
+                        <input type="submit" name="next" class="next action-button"  value="Login"/>    
 
                         
                     </fieldset>
                                 </form>
-
-                                
-            <footer class="footer text-center text-white" style="background: transparent;"> 2021 © Eazy Credit Solution <a
-                href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
-            </footer>
+                     
+          
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
         </div>
-        <!-- ============================================================== -->
+                   
+        <footer class="footer text-center text-black" style="background: transparent;"> 2021 © Eazy Credit Solution <a
+                href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
+            </footer>  <!-- ============================================================== -->
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div> -->

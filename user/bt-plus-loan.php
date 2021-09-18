@@ -5,9 +5,17 @@
     $conn = OpenCon();
 
     
-    $sql = "SELECT * FROM loans WHERE phone_number=".$_SESSION["phone"]." AND loan_type='bt+home'";
+    $sql = "SELECT * FROM loans WHERE phone_number=".$_SESSION["phone"]." AND loan_type='Business Loan'";
     
     $result = $conn->query($sql);
+
+    if(empty($_GET)) {
+        $msg = " ";
+    }else{
+        $msg = $_GET['result'];
+    }
+
+
 
 ?>
 <!DOCTYPE html>

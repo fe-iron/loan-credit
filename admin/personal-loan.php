@@ -11,7 +11,7 @@
     }
     
     
-    $sql = "SELECT * FROM loans WHERE phone_number=".$_SESSION["phone"]." AND loan_type='personal'";
+    $sql = "SELECT * FROM loans WHERE loan_type='Personal'";
     
     $result = $conn->query($sql);
 
@@ -352,7 +352,7 @@
     
 
                     <!-- Modal -->
-        <div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="removeTitle" aria-hidden="true">
+        <!-- <div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="removeTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -376,7 +376,7 @@
                     <input type="hidden" id="remove_id" name="remove_id">
                 </form>
             </div>
-    
+     -->
     <!-- Modal -->
     <div class="modal fade" id="edit_data" tabindex="-1" role="dialog" aria-labelledby="edit_dataLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

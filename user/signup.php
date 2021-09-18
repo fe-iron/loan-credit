@@ -66,10 +66,11 @@
                         <h2 class="fs-title">Kind of Loan you're looking for?</h2>
                         <h3 class="fs-subtitle"></h3>
                         <select name="loan">
-                            <option value="personal">personal Loan</option>
-                            <option value="mortgage">Mortgage Loan</option>
-                            <option value="btplus">BT+ Loan</option>
-                            <option value="female">CC & OD Loan</option>
+                            <option value="Personal">Personal Loan</option>
+                            <option value="Mortgage">Mortgage Loan</option>
+                            <option value="Business Loan">Business Loan</option>
+                            <option value="Home Loan">Home loan</option>
+                            <option value="Cash credit & Overdraft">Cash credit & Overdraft</option>
                         </select>
                         
                         <input type="button" name="next" class="next action-button" value="Next" />
@@ -231,7 +232,7 @@
                     
                 </div> -->
                 <!-- Row -->
-                <footer class="footer text-center text-white" style="background: transparent;"> 2021 © Eazy Credit Solution <a
+                <footer class="footer text-center text-black" style="background: transparent;"> 2021 © Eazy Credit Solution <a
                 href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
                 </footer>
     

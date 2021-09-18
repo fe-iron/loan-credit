@@ -324,7 +324,7 @@
                                                 id="img_photo" required onchange="validateImage('img_photo');">
                                         </div>
                                     </div>
-                            
+                                    <p class="form-group mb-4 text-danger">Upload images of exactly 1920 X 1080 size</p>
                                     <div class="form-group mb-4">
                                         <label class="col-md-12 p-0">Heading</label>
                                         <div class="col-md-12 border-bottom p-0">
