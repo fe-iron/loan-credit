@@ -241,6 +241,13 @@
                                     <span class="hide-menu">BT+ Loan</span>
                                 </a>
                             </li> 
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="payment-options.php"
+                                    aria-expanded="false">
+                                    <i class="fas fa-university" aria-hidden="true"></i>
+                                    <span class="hide-menu">Payment Options </span>
+                                </a>
+                            </li> 
                         </div> 
 
 

@@ -82,13 +82,6 @@ if (isset($_POST['phone'])){
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
 
-    <!-- <div class="container">
-        <div class="row">
-            <div class="col-md d-flex justify-content-center">
-                <img src="../images/loan_logo.png" alt="logo" width="200px">
-            </div>
-        </div>
-    </div> -->
     <form id="msform" action="login.php" method="post">
                             <?php 
                                     if($msg == "Registered Successfully!" || $msg == "Successfully Updated"){
@@ -115,105 +108,6 @@ if (isset($_POST['phone'])){
                     </fieldset>
                                 </form>
 
-    <!-- <div id="main-wrapper"
-        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-        < ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-       
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-     
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
-        <!-- <div class="page-wrapper"> -->
-            <!-- ============================================================== -->
-            <!-- Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- <div class="container-fluid"> -->
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
-                <!-- Row -->
-                <!-- <div class="row"> -->
-                    <!-- Column -->
-
-                    <!-- Column -->
-                    <!-- Column -->
-                    <!-- <div class="col-lg-8 col-xlg-9 col-md-12" style="margin-left: auto; margin-right: auto;">
-                        <div class="card">
-                            <div class="card-body">
-                            <p class="text-info h2 py-2 text-center">Login Here</p>
-                            <?php if($set_cond){
-                                echo '<p class="text-danger h3 py-2">Wrong Credentials, Try Again!</p>';}
-                            ?>
-
-                            <form class="form-horizontal form-material" action="" method="post">
-                                    
-                                    <div class="form-group mb-4">
-                                        <label for="example-email" class="col-md-12 p-0">Email</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="email" placeholder="Email"
-                                                class="form-control p-0 border-0" name="username"
-                                                id="example-email"  required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Password</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="password" placeholder="Enter password" class="form-control p-0 border-0"
-                                            name="password" required>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group mb-4">
-                                        <div class="col-sm-12">
-                                            <button class="btn btn-success" type="submit">Login</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <h4 class="text-info">Create an Account! <a href="signup.php"> Click Here</a> </h4>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- Column -->
-                <!-- </div> -->
-                <!-- Row -->
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Right sidebar -->
-                <!-- ============================================================== -->
-                <!-- .right-sidebar -->
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
-            <!-- </div> -->
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
         </div>
         <footer class="footer text-center text-black" style="background: transparent;"> 2021 © Eazy Credit Solution <a
                 href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>

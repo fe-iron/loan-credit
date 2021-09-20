@@ -448,6 +448,7 @@
                                             <th class="border-top-0">Status</th>
                                             <th class="border-top-0">Sanctioned Plan</th>
                                             <th class="border-top-0">Update Parcha</th>
+                                            <th class="border-top-0">Payment Slip</th>
                                             
                                         </tr>
                                     </thead>
@@ -468,6 +469,7 @@
                                                     <td class="text-dark">'.$row["status"].'</td>
                                                     <td><span class="text-info"><a href="upload/'.$row["sanctioned_plan"].'">'.$row["loan"].'</a></span></td>
                                                     <td><span class="text-info"><a href="upload/'.$row["update_parcha"].'">'.$row["joining_letter"].'</a></span></td>
+                                                    <td><span class="text-info"><a href="../admin/upload/payment/'.$row["payment_slip"].'">'.$row["payment_slip"].'</a></span></td>
                                                 </tr>';
                                             }
                                             echo $text;

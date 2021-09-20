@@ -228,6 +228,13 @@
                                     <span class="hide-menu">Team Member</span>
                                 </a>
                             </li> 
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="payment-options.php"
+                                    aria-expanded="false">
+                                    <i class="fas fa-university" aria-hidden="true"></i>
+                                    <span class="hide-menu">Payment Options </span>
+                                </a>
+                            </li> 
                         </div> 
 
 
@@ -305,6 +312,7 @@
                                             <th class="border-top-0">Status</th>
                                             <th class="border-top-0">Sanctioned Plan</th>
                                             <th class="border-top-0">Update Parcha</th>
+                                            <th class="border-top-0">Payment Slip</th>
                                             
                                         </tr>
                                     </thead>
@@ -328,6 +336,7 @@
                                                     <td class="text-dark">'.$row["status"].'</td>
                                                     <td><span class="text-info"><a href="../user/upload/'.$row["sanctioned_plan"].'">'.$row["loan"].'</a></span></td>
                                                     <td><span class="text-info"><a href="../user/upload/'.$row["update_parcha"].'">'.$row["joining_letter"].'</a></span></td>
+                                                    <td><span class="text-info"><a href="upload/payment/'.$row["payment_slip"].'">'.$row["payment_slip"].'</a></span></td>
                                                 </tr>';
                                             }
                                             echo $text;

@@ -89,21 +89,6 @@
                     <!-- Right side toggle and nav items -->
                     <!-- ============================================================== -->
                     <ul class="navbar-nav ms-auto d-flex align-items-center">
-
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <!-- <li class=" in">
-                            <form role="search" class="app-search d-none d-md-block me-3">
-                                <input type="text" placeholder="Search..." class="form-control mt-0">
-                                <a href="" class="active">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                            </form>
-                        </li> -->
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
                         <li>
                             <a class="profile-pic" href="#">
                                 <!-- <img src="plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"> -->
@@ -344,6 +329,7 @@
                                             <th class="border-top-0">Loan Type</th>
                                             <th class="border-top-0">Joining Letter</th>
                                             <th class="border-top-0">Salary Slip</th>
+                                            <th class="border-top-0">Payment Slip</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -359,16 +345,19 @@
                                                     <td class="txt-oflo"><a href="upload/'.$row["bank_statement"].'">'.$row["bank_statement"].'</a></td>
                                                     <td> <a href="upload/'.$row["photo"].'">'.$row["photo"].'</a></td>
                                                     <td>'.$row["phone_number"].'</td>
-                                                }
+                                                
                                                     <td><span class="text-info"><a href="upload/'.$row["kyc"].'">'.$row["kyc"].'</a></span></td>
                                                     <td class="text-dark">'.$row["status"].'</td>
                                                     <td><span class="text-info"><a href="upload/'.$row["loan"].'">'.$row["loan"].'</a></span></td>
                                                     <td><span class="text-info"><a href="upload/'.$row["joining_letter"].'">'.$row["joining_letter"].'</a></span></td>
-                                                }
+                                                
                                                     <td><span class="text-info"><a href="upload/'.$row["salary_slip"].'">'.$row["salary_slip"].'</a></span></td>
+                                                    <td><span class="text-info"><a href="../admin/upload/payment/'.$row["payment_slip"].'">'.$row["payment_slip"].'</a></span></td>
                                                 </tr>';
-                                            </div>
+                                            }
+
                                             echo $text;
+                                        }
                                         ?>
                                             
                                     </tbody>

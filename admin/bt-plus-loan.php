@@ -221,6 +221,13 @@
                                     <span class="hide-menu">Team Member</span>
                                 </a>
                             </li> 
+                            <li class="sidebar-item common_btn" style="padding-left: 26px;">
+                                <a class="sidebar-link" href="payment-options.php"
+                                    aria-expanded="false">
+                                    <i class="fas fa-university" aria-hidden="true"></i>
+                                    <span class="hide-menu">Payment Options </span>
+                                </a>
+                            </li> 
                         </div> 
 
 
@@ -300,6 +307,7 @@
                                             <th class="border-top-0">Deed</th>
                                             <th class="border-top-0">Update Parcha</th>
                                             <th class="border-top-0">Estimate</th>
+                                            <th class="border-top-0">Payment Slip</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -323,6 +331,7 @@
                                                     <td><span class="text-info"><a href="upload/'.$row["deed"].'">'.$row["deed"].'</a></span></td>
                                                     <td><span class="text-info"><a href="upload/'.$row["update_parcha"].'">'.$row["update_parcha"].'</a></span></td>
                                                     <td>'.$row["estimate"].'</td>
+                                                    <td><span class="text-info"><a href="upload/payment/'.$row["payment_slip"].'">'.$row["payment_slip"].'</a></span></td>
                                                 </tr>';
                                             }
                                             echo $text;

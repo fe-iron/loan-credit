@@ -7,7 +7,16 @@
     $sql = "SELECT * FROM users";
     $assistants = $conn->query($sql);
     
-    $total_loans = 0;
+    $sql = "SELECT * FROM users WHERE phone_number=".$_SESSION['phone']." AND form_completed=0";
+    $action_needed = $conn->query($sql);
+
+
+    if($action_needed){
+        $action_needed_count = mysqli_num_rows($action_needed);
+    }else{
+        $action_needed_count = 0;
+    }
+    
 
 
     $sql = "SELECT * FROM loans WHERE status='accept' AND phone_number=".$_SESSION['phone'];
@@ -38,32 +47,6 @@
         $msg = $_GET['result'];
     }
 
-
-    if (isset($_POST['phone'])){
-        // removes backslashes
-        $phone = stripslashes($_REQUEST['phone']);
-            //escapes special characters in a string
-        $phone = mysqli_real_escape_string($conn,$phone);
-        $full_name = $_POST['fullname'];
-        $dob = $_POST['dob'];
-        $address = $_POST['address'];
-        $pin = $_POST['pin'];
-        $state = $_POST['state'];
-        $occupation = $_POST['occupation'];
-
-        //Checking is user existing in the database or not
-        $query = "UPDATE `users` SET full_name='$full_name', dob='$dob', address='$address', pin='$pin', state='$state', occupation='$occupation'
-            WHERE phone_number='$phone'";
-        // echo $query;
-        if (mysqli_query($conn, $query)) {
-            $msg = "Profile Updated Successfully!";
-        } else {
-            echo "Error updating record: "  . mysqli_error($conn);
-            $msg = "Something went wrong" . mysqli_error($conn);
-            // header("Location: password_change.php?result=Something Went Wrong try again!");
-        }
-
-    }   
  
 ?>
 <!DOCTYPE html>
@@ -81,7 +64,7 @@
     <link href='images/16.ico' rel="shortcut icon" type=image/x-icon>
     <!-- Custom CSS -->
     
-    <!-- <link rel="stylesheet" href="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"> -->
+
     <!-- Custom CSS -->
     <link href="../admin/css/style.min.css" rel="stylesheet">
     <link rel="icon"  type="image/png" href="../images/fav.png">
@@ -140,20 +123,6 @@
                     <!-- ============================================================== -->
                     <ul class="navbar-nav ms-auto d-flex align-items-center">
 
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <!-- <li class=" in">
-                            <form role="search" class="app-search d-none d-md-block me-3">
-                                <input type="text" placeholder="Search..." class="form-control mt-0">
-                                <a href="" class="active">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                            </form>
-                        </li> -->
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
                         <li>
                             <a class="profile-pic" href="#">
                                 <!-- <img src="plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"> -->
@@ -281,14 +250,14 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-12">
                         <div class="white-box analytics-info">
-                            <h3 class="box-title">Total Loans Applied</h3>
+                            <h3 class="box-title">Action Needed</h3>
                             <ul class="list-inline two-part d-flex align-items-center mb-0">
                                 <li>
                                     <div id="sparklinedash"><canvas width="67" height="30"
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-success"><?php echo $total_loans; ?></span></li>
+                                <li class="ms-auto"><span class="counter text-success"><?php  echo $action_needed_count; ?></span></li>
                             </ul>
                         </div>
                     </div>
@@ -325,24 +294,49 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-12 col-md-12">
                         <div class="white-box analytics-info">
+                                <?php 
+                                    if($msg == "Application Submitted Successfully!"){
+                                        print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
+                                    }else{
+                                        print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
+                                    }
+                                ?>
                             <h2 class="box-title text-center" style="font-size: 25px;">Your Loan Status</h2>
                             <?php if($loans_approved){ ?>
                                 <p class="box-title text-success">Dear <?php echo $_SESSION['username']; ?> <br>
                                 Congratulations... <br> Your <?php echo $_SESSION['loan']; ?> Application is Accepted. <br> For Disbursement our Support Team Call You Soon..
-                                
-
                                 </p>
 
-                            <?php }else{ ?>
+                            <?php }elseif($loans_rejected){ ?>
                                 <p class="box-title text-danger">
                                 Dear <?php echo $_SESSION['username']; ?> <br>
                                 We are Unable to Process Your <?php echo $_SESSION['loan']; ?> Application 
-                                . <br>Sorry, your Loan Application is Rejected. <br> Re- Apply after six month...
-                                 
-                                </p>
-                                <p class="text-center box-title text-danger">For any Queries Please Contact : +91-8944014303</p>
+                                . <br>Sorry, your Loan Application is Rejected. <br> Re- Apply after six month...</p>
                             <?php }
+                            
+                            if ($action_needed->num_rows > 0) {
+                                // output data of each row
+                                $text = '';
+                                $i = 0;
+                                while($row = $action_needed->fetch_assoc()) {
+                                    $i += 1;
+                                    if($row['loan'] == "Personal"){
+                                        $text= $text."<p class='text-dark fw-bold fs-6'> ".$i.". Please complete your ".$row['loan']." form by clicking <a class='text-primary' href='personal-loan.php' >Here</a></p>";
+                                    }elseif($row['loan'] == "Mortgage"){
+                                        $text= $text."<p class='text-dark fw-bold fs-6'> ".$i.". Please complete your ".$row['loan']." form by clicking <a class='text-primary' href='mortgage.php' >Here</a></p>";
+                                    }elseif($row['loan'] == "Business Loan"){
+                                        $text= $text."<p class='text-dark fw-bold fs-6'> ".$i.". Please complete your ".$row['loan']." form by clicking <a class='text-primary' href='bt-plus-loan.php' >Here</a></p>";
+                                    }elseif($row['loan'] == "Home Loan"){
+                                        $text= $text."<p class='text-dark fw-bold fs-6'> ".$i.". Please complete your ".$row['loan']." form by clicking <a class='text-primary' href='bt-plus-loan.php' >Here</a></p>";
+                                    }elseif($row['loan'] == "Cash credit & Overdraft"){
+                                        $text= $text."<p class='text-dark fw-bold fs-6'> ".$i.". Please complete your ".$row['loan']." form by clicking <a class='text-primary' href='cc-and-od.php' >Here</a></p>";
+                                    }
+                                }
+                                echo $text;
+                            }
                             ?>
+
+                            <p class="text-center box-title text-danger">For any Queries Please Contact : +91-8944014303</p>
                             
                         </div>
                     </div>

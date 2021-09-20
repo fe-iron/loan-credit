@@ -4,33 +4,56 @@
     include '../admin/auth.php';    
     $conn = OpenCon();
 
+    
+    $sql = "SELECT * FROM payment";
+    $teams = $conn->query($sql);
+
+    
     if(empty($_GET)) {
         $msg = " ";
     }else{
         $msg = $_GET['result'];
     }
     
-    
-    $sql = "SELECT * FROM loans WHERE loan_type='Personal'";
-    
-    $result = $conn->query($sql);
+    if (isset($_POST['s'])){
+        $target_dir = "upload/payment/";
 
-    // If form submitted, insert values into the database.
-    if (isset($_POST['status'])){
-        
-        $status = $_POST['status'];
-        $my_id = $_POST['this_id'];
-        $sql = "UPDATE loans SET status='$status' WHERE id=$my_id";
-            
-        if ($conn->query($sql) === TRUE) {
-            $msg = "Successfully Updated";
-            header("Location: personal-loan.php?result=".$msg);
-        }else {
-            // echo "Error updating record: " . $con->error;
-            $msg="Failed!";
-        }
-    }
-
+        $upi = $_POST["upi"];
+        $bank_name = $_POST["bank_name"];
+        $bank_holder_name = $_POST["bank_holder_name"];
+        $bank_account_number = $_POST["bank_account_number"];
+        $bank_ifsc = $_POST["bank_ifsc"];
+    
+        $photo = $_FILES['qr']['name'];
+        $target_file1 = $target_dir . basename($_FILES["qr"]["name"]);
+            // Select file type
+        $imageFileType1 = strtolower(pathinfo($target_file1,PATHINFO_EXTENSION));
+            // Valid file extensions
+        $extensions_arr = array("jpg","jpeg","png");
+          
+            if( in_array($imageFileType1,$extensions_arr) ){
+                // Upload file
+                if(move_uploaded_file($_FILES['qr']['tmp_name'],$target_dir.$photo)){
+                   // Insert record
+                   $query = "INSERT INTO payment(holder_name, ifsc, acc_number, upi_id, bank_name, qr_code)
+                    values('$bank_holder_name', '$bank_ifsc', $bank_account_number, '$upi', '$bank_name', '$photo')";
+                    // echo $query;
+                    $result = mysqli_query($conn,$query);
+                    if($result){
+                        $msg = "Updated Successfully!";
+                        // echo $msg;
+                    }else{
+                        // echo mysqli_error($conn);
+                        $msg = "Update Failed!";
+                    }
+                    // echo $msg;
+                    header("Location: payment-options.php?result=".$msg);
+                }
+             }else{
+                //  echo "error saving file";
+                 header("Location: payment-options.php?result=Something went wrong! at ".$photo);
+             }    
+    }   
 
 ?>
 <!DOCTYPE html>
@@ -42,15 +65,15 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Eazy Credit Solution | Users | Home</title>
+    <title>Eazy Credit Solution | Admin | Website Change</title>
     
     <!-- Favicon icon -->
     <link href='images/16.ico' rel="shortcut icon" type=image/x-icon>
     <!-- Custom CSS -->
     
+    <!-- <link rel="stylesheet" href="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"> -->
     <!-- Custom CSS -->
-    
-    <link href="../admin/css/style.min.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
     <link rel="icon"  type="image/png" href="../images/fav.png">
 </head>
 
@@ -85,6 +108,15 @@
                             <!-- <img src="plugins/images/logo-icon.png" alt="homepage" /> -->
                             <img src="../images/loan_logo.png"  style="width: 200px; height: 50px;" alt="homepage" />
                         </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                    </a>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
                     <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
                         href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
                 </div>
@@ -175,6 +207,7 @@
                                 </a>
                             </li> 
                         </div> 
+
                         <li class="sidebar-item common_btn">
                             
                             <a class="sidebar-link" style="padding-left: 52px;" onclick="myfun2()"
@@ -193,12 +226,13 @@
                                 </a>
                             </li>
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
-                                <a class="sidebar-link" href="loan-type.php"
+                                <a class="sidebar-link" href="mortgage.php"
                                     aria-expanded="false">
-                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                    <i class="far fa-clock" aria-hidden="true"></i>
                                     <span class="hide-menu">Loan Types</span>
                                 </a>
                             </li>
+
                             
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
                                 <a class="sidebar-link" href="call.php"
@@ -210,7 +244,7 @@
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
                                 <a class="sidebar-link" href="team_member.php"
                                     aria-expanded="false">
-                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                    <i class="far fa-clock" aria-hidden="true"></i>
                                     <span class="hide-menu">Team Member</span>
                                 </a>
                             </li> 
@@ -237,21 +271,20 @@
             </div>
             <!-- End Sidebar scroll-->
         </aside>
-         <!-- ============================================================== -->
+        <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
-        
         <!-- ============================================================== -->
-        <div class="page-wrapper">::
+        <div class="page-wrapper">
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title text-center">Personal Loan</h4>
+                        <h4 class="page-title text-center">Payment Option Settings</h4>
                     </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <div class="d-md-flex">
@@ -273,67 +306,131 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                <!-- Row -->
-            
             <div class="row">
-                    <div class="col-md-12 col-lg-12 col-sm-12">
-                        <div class="white-box">
+                    <div class="col-lg-8 col-xlg-9 col-md-12" style="margin-left: auto; margin-right: auto;">
+                        <div class="card">
+                            <div class="card-body">
                                 <?php 
-                                    if($msg == "Successfully Updated"){
+                                    if($msg == "Updated Successfully!" || $msg == "Successfully Deleted!"){
                                         print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
                                     }else{
                                         print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';
                                     }
                                 ?>
+
+                            
+                                <form class="form-horizontal form-material" action="" method="post"
+                                    enctype="multipart/form-data">
+                                    <h3 class="text-center">Update Payment Form</h3> <br>
+
+                                    
+                                    <p class="form-group mb-4 text-info text-center">Add QR CODE & UPI </p>
+
+                                    <div class="form-group mb-4">
+                                        <label for="example-email" class="col-md-12 p-0">QR Code</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="file" class="form-control p-0 border-0" name="qr"
+                                                id="img_photo" required onchange="validateImage('img_photo');" title="Photo should be small in size and be in format 240x240">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">UPI ID</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="text" placeholder="Enter UPI ID..." class="form-control p-0 border-0"
+                                                name="upi" required>
+                                        </div>
+                                    </div>
+                                    <p class="form-group mb-4 text-info text-center">Add Bank Detail</p>
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Bank Name</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="text" placeholder="Enter Bank Name..." class="form-control p-0 border-0"
+                                                name="bank_name" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Bank Holder Name</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="text" placeholder="Enter Bank Holder Name..." class="form-control p-0 border-0"
+                                                name="bank_holder_name" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Bank Account Nunber</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="text" placeholder="Enter Bank Account Number..." class="form-control p-0 border-0"
+                                                name="bank_account_number" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label class="col-md-12 p-0">Bank IFSC Code</label>
+                                        <div class="col-md-12 border-bottom p-0">
+                                            <input type="text" placeholder="Enter Bank IFSC Code..." class="form-control p-0 border-0"
+                                                name="bank_ifsc" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-success" value="Submit" name="s">Submit Form</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+                <!-- Row -->
+            
+            
+            <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <div class="white-box">
                             <div class="d-md-flex mb-3">
-                                <h3 class="box-title mb-0">All Loans</h3>
+                                <h3 class="box-title mb-0">Update History</h3>
                             </div>
                             <div class="table-responsive">
                                 <table class="table no-wrap">
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">#</th>
-                                            <th class="border-top-0">Action</th>
-                                            <th class="border-top-0">Bank statement</th>
-                                            <th class="border-top-0">Photo</th>
-                                            <th class="border-top-0">Phone</th>
-                                            <th class="border-top-0">KYC</th>
-                                            <th class="border-top-0">Status</th>
-                                            <th class="border-top-0">Loan Type</th>
-                                            <th class="border-top-0">Joining Letter</th>
-                                            <th class="border-top-0">Salary Slip</th>
-                                            <th class="border-top-0">Payment Slip</th>
+                                            <th class="border-top-0">Date</th>
+                                            <th class="border-top-0">QR Code</th>
+                                            <th class="border-top-0">UPI Id</th>
+                                            <th class="border-top-0">Bank Name</th>
+                                            <th class="border-top-0">Bank Holder's Name</th>
+                                            <th class="border-top-0">Account Number</th>
+                                            <th class="border-top-0">IFSC Code</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     <?php
-                                        if ($result->num_rows > 0) {
+                                        if ($teams->num_rows > 0) {
                                             // output data of each row
                                             $text = '';
                                             $i = 0;
-                                            while($row = $result->fetch_assoc()) {
+                                            while($row = $teams->fetch_assoc()) {
                                                 $i += 1;
                                                 $text= $text. '<tr>
                                                     <td>'.$i.'</td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-success" value="'.$row['id'].'" onclick="edit(this.value)">Approve</button>
-                                                        
-                                                    </td>
-                                                    <td class="txt-oflo"><a href="../user/upload/'.$row["bank_statement"].'">'.$row["bank_statement"].'</a></td>
-                                                    <td> <a href="../user/upload/'.$row["photo"].'">'.$row["photo"].'</a></td>
-                                                    <td>'.$row["phone_number"].'</td>
-                                                    <td><span class="text-info"><a href="../user/upload/'.$row["kyc"].'">'.$row["kyc"].'</a></span></td>
-                                                    <td class="text-dark">'.$row["status"].'</td>
-                                                    <td><span class="text-info"><a href="../user/upload/'.$row["loan"].'">'.$row["loan"].'</a></span></td>
-                                                    <td><span class="text-info"><a href="../user/upload/'.$row["joining_letter"].'">'.$row["joining_letter"].'</a></span></td>
-                                                    <td><span class="text-info"><a href="../user/upload/'.$row["salary_slip"].'">'.$row["salary_slip"].'</a></span></td>
-                                                    <td><span class="text-info"><a href="upload/payment/'.$row["payment_slip"].'">'.$row["payment_slip"].'</a></span></td>
+                                                    <td class="txt-oflo">'.$row['date'].'</td>
+                                                    <td> <a href="upload/payment/'.$row["qr_code"].'">'.$row["qr_code"].'</a></td>
+                                                    <td>'.$row["upi_id"].'</td>
+                                                    <td>'.$row["bank_name"].'</td>
+                                                    <td>'.$row["holder_name"].'</td>
+                                                    <td>'.$row["acc_number"].'</td>
+                                                    <td>'.$row["ifsc"].'</td>
                                                 </tr>';
                                             }
                                             echo $text;
                                         }
-                                        ?>
-                                            
+                                        ?>        
                                     </tbody>
                                 </table>
                             </div>
@@ -344,9 +441,15 @@
                 <!-- END HERE -->
                 <!-- ============================================================== -->
             </div>
-
                 
-            <footer class="footer text-center"> 2021 © Eazy Credit Solution <a
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Eazy Credit Solution  <a
             href="http://eazycreditsolution.com/"  class="text-primary">EazyCreditSolution</a>
             </footer>
             <!-- ============================================================== -->
@@ -357,123 +460,18 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
-
-    
-
-                    <!-- Modal -->
-        <!-- <div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="removeTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Confirmation</h5>
-                    
-                </div>
-                <div class="modal-body">
-                    <h1 class="text-danger" style="text-align: center;">Are you sure?</h1>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close_modal('remove')">No</button>
-                    <button type="button" class="btn btn-primary" onclick="submit();">Yes</button>
-                </div>
-                </div>
-            </div>
-            </div>
-
-            
-            <div style="display: hidden">
-                <form action="remove_house_entry.php" method="post" name="remove_form">
-                    <input type="hidden" id="remove_id" name="remove_id">
-                </form>
-            </div>
-     -->
-    <!-- Modal -->
-    <div class="modal fade" id="edit_data" tabindex="-1" role="dialog" aria-labelledby="edit_dataLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Update </h5>
-                
-            </div>
-            <div class="modal-body">
-            <form class="form-horizontal form-material" action="" method="post">
-            <div class="form-group mb-4">
-                <label class="col-md-12 p-0">Status</label>
-                <div class="col-md-12 border-bottom p-0">
-                    <input type="text" placeholder="Enter Amount" class="form-control p-0 border-0"
-                                                name="status" id="status">
-                </div>
-            </div>
-
-            <div class="form-group mb-4">
-                <label class="col-md-12 p-0">Full Name</label>
-                <div class="col-md-12 border-bottom p-0">
-                    <input type="text" class="form-control p-0 border-0" id="full_name" readonly>
-                </div>
-            </div>
-            
-            <div class="form-group mb-4">
-                <label class="col-md-12 p-0">Date Of Birth</label>
-                <div class="col-md-12 border-bottom p-0">
-                    <input type="text" class="form-control p-0 border-0" id="dob" readonly>
-                </div>
-            </div>
-            
-            <div class="form-group mb-4">
-                <label class="col-md-12 p-0">Address</label>
-                <div class="col-md-12 border-bottom p-0">
-                    <input type="text" class="form-control p-0 border-0" id="address" readonly>
-                </div>
-            </div>
-            
-            <div class="form-group mb-4">
-                <label class="col-md-12 p-0">State</label>
-                <div class="col-md-12 border-bottom p-0">
-                    <input type="text" class="form-control p-0 border-0" id="state" readonly>
-                </div>
-            </div>
-            
-            <div class="form-group mb-4">
-                <label class="col-md-12 p-0">Pin Code</label>
-                <div class="col-md-12 border-bottom p-0">
-                    <input type="text" class="form-control p-0 border-0" id="pin" readonly>
-                </div>
-            </div>
-            
-            <div class="form-group mb-4">
-                <label class="col-md-12 p-0">Occupation</label>
-                <div class="col-md-12 border-bottom p-0">
-                    <input type="text" class="form-control p-0 border-0" id="occupation" readonly>
-                </div>
-            </div>
-
-            <input type="hidden" id="this_id" name="this_id">
-            <div class="form-group mb-4">
-            <div class="col-sm-12">
-                <button class="btn btn-success" type="submit">Update Profile</button>
-            </div>
-            </div>
-            <p></p>
-            </form>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close_modal('edit_data')">Close</button>
-                
-            </div>
-            </div>
-        </div>
-        </div>
-
-
-
-
-
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
     <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
+    
     <script src="plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
     <!--Wave Effects -->
     <script src="js/waves.js"></script>
-    <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!--Menu sidebar -->
     <script src="js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
@@ -483,7 +481,6 @@
     <script src="plugins/bower_components/chartist/dist/chartist.min.js"></script>
     <script src="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="js/pages/dashboards/dashboard1.js"></script>
-    <script src="js/upload.js"></script>
 </body>
 
 </html>

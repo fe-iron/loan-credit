@@ -317,12 +317,13 @@ if(isset($_POST['s'])){
             if($flag1 && $flag4 && $flag5 && $flag6 && $flag7 && $flag8
                 && $flag12 && $flag13 && $flag14 && $flag15 && $flag16){
                 $query = "INSERT INTO loans (phone_number,loan,photo,salary_slip,form_16,joining_letter,deed,chain_deed,update_parcha,update_khajna,sanctioned_plan,previous_loan,current_statement,loan_type, estimate)
-                    values('$phone', '$occupation', '$photo', '$salary_slip', '$form16', '$joining_letter', '$deed', '$chain_deed', '$update_parcha', '$update_Khajna', '$sanctioned_plan', '$previous_loan_sanction', '$current_statement', 'bt+home', '$estimate')";
+                    values('$phone', '$occupation', '$photo', '$salary_slip', '$form16', '$joining_letter', '$deed', '$chain_deed', '$update_parcha', '$update_Khajna', '$sanctioned_plan', '$previous_loan_sanction', '$current_statement', 'Business Loan', '$estimate')";
                 // echo $query;
                     $result = mysqli_query($conn,$query);
                     if($result){
-                        $msg = "Updated Successfully!";
-                        // echo $msg;
+                        $_SESSION['loan_id'] = mysqli_insert_id($conn);
+                        $msg = "Your application is updated Successfully! Now please make payment";
+                        header("Location: payment.php?result=".$msg);      
                     }else{
                         // echo mysqli_error($conn);
                         $msg = "Update Failed!";
@@ -334,12 +335,12 @@ if(isset($_POST['s'])){
             if($flag1 && $flag2 && $flag3 && $flag7 && $flag8 && $flag9 && $flag10 
                 && $flag11 && $flag12 && $flag13 && $flag14 && $flag15 && $flag16){
                 $query = "INSERT INTO loans (phone_number,loan,identity,bank_statement,trade_licence,itr,gst,photo,deed,chain_deed,update_parcha,update_khajna,sanctioned_plan,previous_loan,current_statement,loan_type,estimate)
-                    values('$phone', '$occupation', '$identity', '$bank_statement', '$trade', '$itr', '$gst', '$photo', '$deed', '$chain_deed', '$update_parcha', '$update_Khajna', '$sanctioned_plan', '$previous_loan_sanction', '$current_statement', 'bt+home', '$estimate')";
+                    values('$phone', '$occupation', '$identity', '$bank_statement', '$trade', '$itr', '$gst', '$photo', '$deed', '$chain_deed', '$update_parcha', '$update_Khajna', '$sanctioned_plan', '$previous_loan_sanction', '$current_statement', 'Business Loan', '$estimate')";
              
                 $result = mysqli_query($conn,$query);
                 if($result){
+                    $_SESSION['loan_id'] = mysqli_insert_id($conn);
                    $msg = "Updated Successfully!";
-                //    echo $msg;
                 }else{
                 //    echo mysqli_error($conn);
                    $msg = "Update Failed!";

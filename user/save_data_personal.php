@@ -148,11 +148,14 @@ if(isset($_POST['s'])){
 
         if($flag1 && $flag2 && $flag3 && $flag4 && $flag5 && $flag6 && $flag7 && $flag8){
             $query = "INSERT INTO loans (phone_number,loan,kyc,bank_statement,photo,salary_slip,form_16,joining_letter,previous_loan,current_statement,loan_type)
-             values('$phone', '$occupation', '$kyc', '$bank_statement', '$photo', '$salary_slip', '$form16', '$joining_letter', '$previous_loan_sanction', '$current_statement', 'personal')";
+             values('$phone', '$occupation', '$kyc', '$bank_statement', '$photo', '$salary_slip', '$form16', '$joining_letter', '$previous_loan_sanction', '$current_statement', 'Personal')";
              
               $result = mysqli_query($conn,$query);
               if($result){
-                    $msg = "Updated Successfully!";
+                     $_SESSION['loan_id'] = mysqli_insert_id($con);
+                     // echo $_SESSION['loan_id'];
+                     $msg = "Your application is updated Successfully! Now please make payment";
+                     header("Location: payment.php?result=".$msg);      
                }else{
                   //   echo mysqli_error($conn);
                     $msg = "Update Failed!";

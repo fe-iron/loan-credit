@@ -310,35 +310,18 @@ if(isset($_POST['s'])){
             header("Location: mortgage.php?result=Something went wrong! at ".$sanctioned_plan);
         }
 
-        
-        // $estimate = $_FILES['estimate']['name'];
-        // $target_file17 = $target_dir . basename($_FILES["estimate"]["name"]);
-        // // Select file type
-        // $imageFileType17 = strtolower(pathinfo($target_file17,PATHINFO_EXTENSION));
-
-        // // Check extension
-        // if(in_array($imageFileType17,$extensions_arr)){
-        //    // Upload file
-        //    if(move_uploaded_file($_FILES['estimate']['tmp_name'],$target_dir.$estimate)){
-        //       // Insert record
-        //       $flag17 = true;
-        //    }
-        // }else{
-        //     header("Location: mortgage.php?result=Something went wrong! at 17 ".$estimate);
-        // }
-
-
 
         if($occupation == "salaried"){
             if($flag1 && $flag4 && $flag5 && $flag6 && $flag7 && $flag8
                 && $flag12 && $flag13 && $flag14 && $flag15 && $flag16){
                 $query = "INSERT INTO loans (phone_number,loan,photo,salary_slip,form_16,joining_letter,deed,chain_deed,update_parcha,update_khajna,sanctioned_plan,previous_loan,current_statement,loan_type)
-                    values('$phone', '$occupation', '$photo', '$salary_slip', '$form16', '$joining_letter', '$deed', '$chain_deed', '$update_parcha', '$update_Khajna', '$sanctioned_plan', '$previous_loan_sanction', '$current_statement', 'mortgage')";
+                    values('$phone', '$occupation', '$photo', '$salary_slip', '$form16', '$joining_letter', '$deed', '$chain_deed', '$update_parcha', '$update_Khajna', '$sanctioned_plan', '$previous_loan_sanction', '$current_statement', 'Mortgage')";
                 // echo $query;
                     $result = mysqli_query($conn,$query);
                     if($result){
-                        $msg = "Updated Successfully!";
-                        // echo $msg;
+                        $_SESSION['loan_id'] = mysqli_insert_id($conn);
+                        $msg = "Your application is updated Successfully! Now please make payment";
+                     header("Location: payment.php?result=".$msg);      
                     }else{
                         // echo mysqli_error($conn);
                         $msg = "Update Failed!";
@@ -350,12 +333,13 @@ if(isset($_POST['s'])){
             if($flag1 && $flag2 && $flag3 && $flag7 && $flag8 && $flag9 && $flag10 
                 && $flag11 && $flag12 && $flag13 && $flag14 && $flag15 && $flag16){
                 $query = "INSERT INTO loans (phone_number,loan,identity,bank_statement,trade_licence,itr,gst,photo,deed,chain_deed,update_parcha,update_khajna,sanctioned_plan,previous_loan,current_statement,loan_type)
-                    values('$phone', '$occupation', '$identity', '$bank_statement', '$trade', '$itr', '$gst', '$photo', '$deed', '$chain_deed', '$update_parcha', '$update_Khajna', '$sanctioned_plan', '$previous_loan_sanction', '$current_statement', 'mortgage')";
+                    values('$phone', '$occupation', '$identity', '$bank_statement', '$trade', '$itr', '$gst', '$photo', '$deed', '$chain_deed', '$update_parcha', '$update_Khajna', '$sanctioned_plan', '$previous_loan_sanction', '$current_statement', 'Mortgage')";
              
                 $result = mysqli_query($conn,$query);
                 if($result){
-                   $msg = "Updated Successfully!";
-                //    echo $msg;
+                    $_SESSION['loan_id'] = mysqli_insert_id($conn);
+                    $msg = "Your application is updated Successfully! Now please make payment";
+                    header("Location: payment.php?result=".$msg);      
                 }else{
                 //    echo mysqli_error($conn);
                    $msg = "Update Failed!";
