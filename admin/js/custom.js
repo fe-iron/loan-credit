@@ -51,7 +51,7 @@ function edit(id){
         var pin = arr[6];
         var state = arr[7];
         var occupation = arr[8];
-        $('#status').val(status);
+        $('#status select').val(status).change();
         $('#full_name').val(full_name);
         $('#dob').val(dob);
         $('#address').val(address);

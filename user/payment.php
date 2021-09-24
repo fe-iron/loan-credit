@@ -33,12 +33,12 @@
         // Check extension
         if( in_array($imageFileType,$extensions_arr) ){
            // Upload file
-           if(move_uploaded_file($_FILES['img_file']['tmp_name'],$target_dir.$name)){
+           if(move_uploaded_file($_FILES['photo']['tmp_name'],$target_dir.$name)){
               // Insert record
-              $query = "INSERT INTO loans (payment_slip) values('".$name."') WHERE id=".$loan_id;
+              $query = "UPDATE loans SET payment_slip='".$name."' WHERE id=".$loan_id;
               $result = mysqli_query($conn,$query);
               if($result){
-                    $query = "INSERT INTO users (form_completed) values(1) WHERE phone_number=".$_SESSION['phone'];
+                    $query = "UPDATE users SET form_completed=1 WHERE phone_number=".$_SESSION['phone'];
                     $result = mysqli_query($conn,$query);  
                     if($result){
                         $msg = "Application Submitted Successfully!";
@@ -47,7 +47,7 @@
                     }
                     
                }else{
-                    $msg = "Image Saving Failed!";
+                    $msg = "Record saving Failed!";
                }
            }
         }else{

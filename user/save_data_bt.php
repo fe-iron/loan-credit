@@ -327,8 +327,9 @@ if(isset($_POST['s'])){
                     }else{
                         // echo mysqli_error($conn);
                         $msg = "Update Failed!";
+                        header("Location: bt-plus-loan.php?result=".$msg);
                     }
-                    header("Location: bt-plus-loan.php?result=".$msg);
+                    
              }
 
         }else{
@@ -344,8 +345,9 @@ if(isset($_POST['s'])){
                 }else{
                 //    echo mysqli_error($conn);
                    $msg = "Update Failed!";
+                   header("Location: bt-plus-loan.php?result=".$msg);
                 }
-                header("Location: bt-plus-loan.php?result=".$msg);
+                
         }
 
         }

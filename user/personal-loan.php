@@ -282,14 +282,14 @@
                                         <label for="example-email" class="col-md-12 p-0">Previous Loan Sanction letter</label>
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="file" class="form-control p-0 border-0" name="previous_loan_sanction"
-                                                id="img_previous_loan_sanction" onchange="validateImage('img_previous_loan_sanction');">
+                                                id="img_previous_loan_sanction" onchange="validateImage('img_previous_loan_sanction');" required>
                                         </div>
                                     </div>
                                     <div class="form-group mb-4">
                                         <label for="example-email" class="col-md-12 p-0">Current Statement with Foreclosures Amount</label>
                                         <div class="col-md-12 border-bottom p-0">
                                             <input type="file" class="form-control p-0 border-0" name="current_statement"
-                                                id="img_current_statement" onchange="validateImage('img_current_statement');">
+                                                id="img_current_statement" onchange="validateImage('img_current_statement');" required>
                                         </div>
                                     </div>
                                     <input type="hidden" value="<?php echo $_SESSION['phone']; ?>" name="phone">
@@ -351,9 +351,15 @@
                                                     <td><span class="text-info"><a href="upload/'.$row["loan"].'">'.$row["loan"].'</a></span></td>
                                                     <td><span class="text-info"><a href="upload/'.$row["joining_letter"].'">'.$row["joining_letter"].'</a></span></td>
                                                 
-                                                    <td><span class="text-info"><a href="upload/'.$row["salary_slip"].'">'.$row["salary_slip"].'</a></span></td>
-                                                    <td><span class="text-info"><a href="../admin/upload/payment/'.$row["payment_slip"].'">'.$row["payment_slip"].'</a></span></td>
-                                                </tr>';
+                                                    <td><span class="text-info"><a href="upload/'.$row["salary_slip"].'">'.$row["salary_slip"].'</a></span></td>';
+                                                    if($row['payment_slip'] == null){
+                                                        $_SESSION['loan_id'] = $row['id'];
+                                                        $text = $text. '<td><a href="payment.php">Make Payment</a></td>';
+                                                    }else{
+                                                        $text = $text .'<td><span class="text-info"><a href="../admin/upload/payment/'.$row["payment_slip"].'">'.$row["payment_slip"].'</a></span></td>';
+                                                    }
+                                                    
+                                                $text = $text.'</tr>';
                                             }
 
                                             echo $text;

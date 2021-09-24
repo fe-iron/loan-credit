@@ -263,7 +263,7 @@ if(isset($_POST['s'])){
         if($flag1 && $flag2 && $flag3 && $flag4 && $flag7 && $flag8 && $flag11 && $flag11 &&
             $flag12 && $flag13 && $flag14 && $flag15 && $flag16){
             $query = "INSERT INTO loans (phone_number,loan,identity,bank_statement,trade_licence,itr,gst,photo,deed,chain_deed,update_parcha,update_khajna,sanctioned_plan,previous_loan,current_statement,loan_type)
-                    values('$phone', '$occupation', '$identity', '$bank_statement', '$trade', '$itr', '$gst', '$photo', '$deed', '$chain_deed', '$update_parcha', '$update_Khajna', '$sanctioned_plan', '$previous_loan_sanction', '$current_statement', 'Cash credit & Overdraft')";
+                    values('$phone', '$occupation', '$identity', '$bank_statement', '$trade', '$itr', '$gst', '$photo', '$deed', '$chain_deed', '$update_parcha', '$update_Khajna', '$sanctioned_plan', '$previous_loan_sanction', '$current_statement', 'Cash credit & Overdraft Loan')";
              
               $result = mysqli_query($conn,$query);
               if($result){
@@ -273,8 +273,9 @@ if(isset($_POST['s'])){
                }else{
                   //   echo mysqli_error($conn);
                     $msg = "Update Failed!";
+                    header("Location: cc-and-od.php?result=".$msg);
                }
-               header("Location: cc-and-od.php?result=".$msg);
+               
             
         }
     }

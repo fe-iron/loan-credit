@@ -38,7 +38,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md d-flex justify-content-center">
-            <img src="../images/loan_logo.png" alt="logo" width="200px">
+            
         </div>
     </div>
 </div>
@@ -67,10 +67,10 @@
                         <h3 class="fs-subtitle"></h3>
                         <select name="loan">
                             <option value="Personal">Personal Loan</option>
-                            <option value="Mortgage">Mortgage Loan</option>
+                            <option value="Mortgage Loan">Mortgage Loan</option>
                             <option value="Business Loan">Business Loan</option>
                             <option value="Home Loan">Home loan</option>
-                            <option value="Cash credit & Overdraft">Cash credit & Overdraft</option>
+                            <option value="Cash credit & Overdraft Loan">Cash credit & Overdraft</option>
                         </select>
                         
                         <input type="button" name="next" class="next action-button" value="Next" />

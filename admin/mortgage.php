@@ -10,7 +10,7 @@
         $msg = $_GET['result'];
     }
 
-    $sql = "SELECT * FROM loans WHERE phone_number=".$_SESSION["phone"]." AND loan_type='mortgage'";
+    $sql = "SELECT * FROM loans WHERE loan_type='Mortgage Loan'";
     
     $result = $conn->query($sql);
 
@@ -185,7 +185,7 @@
                                 <a class="sidebar-link" href="bt-plus-loan.php"
                                     aria-expanded="false">
                                     <i class="far fa-clock" aria-hidden="true"></i>
-                                    <span class="hide-menu">BT+ Loan</span>
+                                    <span class="hide-menu">BT + Home Loan</span>
                                 </a>
                             </li> 
                         </div> 
@@ -387,12 +387,17 @@
             </div>
             <div class="modal-body">
             <form class="form-horizontal form-material" action="" method="post">
+            
             <div class="form-group mb-4">
-                <label class="col-md-12 p-0">Status</label>
-                <div class="col-md-12 border-bottom p-0">
-                    <input type="text" placeholder="Enter Amount" class="form-control p-0 border-0"
-                                                name="status" id="status">
-                </div>
+            <label class="col-md-12 p-0">Select an Action</label>
+            <div class="col-md-12  p-0">
+                <select name="status" required class="border-bottom" style="border:none;" id="status">
+                    <option value="" selected>Select</option>
+                    <option value="accept">Accept</option>
+                    <option value="reject">Reject</option>
+                                                
+                </select>
+            </div>
             </div>
 
             <div class="form-group mb-4">

@@ -203,7 +203,7 @@
                                 <a class="sidebar-link" href="bt-plus-loan.php"
                                     aria-expanded="false">
                                     <i class="far fa-clock" aria-hidden="true"></i>
-                                    <span class="hide-menu">BT+ Loan</span>
+                                    <span class="hide-menu">BT + Home Loan</span>
                                 </a>
                             </li> 
                         </div> 

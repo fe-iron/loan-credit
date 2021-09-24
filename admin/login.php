@@ -74,7 +74,7 @@
     
     <form id="msform" action="login.php" method="post">
                             <?php 
-                                    if($msg == "Registered Successfully!" || $msg == "Successfully Updated"){
+                                    if($msg == "Registered Successfully!" || $msg == "Successfully Updated" || $msg == "Congratulations!! You have successfully changed your password"){
                                         print '<h2 class="text-success" style="text-align: center">'.$msg.'</h2>';
                                     }else{
                                         print '<h2 class="text-danger" style="text-align: center">'.$msg.'</h2>';

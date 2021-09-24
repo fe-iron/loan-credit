@@ -12,49 +12,33 @@
     session_start();
     $set_cond = False;
     $not_found = False;
+    $not_match = False;
+    $set_passw = False;
     // If form submitted, insert values into the database.
 if (isset($_POST['phone'])){
-        // removes backslashes
-    $phone = stripslashes($_REQUEST['phone']);
-        //escapes special characters in a string
-    $phone = mysqli_real_escape_string($con,$phone);
-
-    $new_phone = stripslashes($_REQUEST['new_phone']);
-        //escapes special characters in a string
-    $new_phone = mysqli_real_escape_string($con,$new_phone);
-    
-    //Checking is user existing in the database or not
-    $query = "SELECT * FROM `users` WHERE phone_number='$phone'";
-    $result = mysqli_query($con,$query) or die(mysql_error());
-    $rows = mysqli_num_rows($result);
-
-    $new_query = "SELECT * FROM `users` WHERE phone_number='$new_phone'";
-    $new_result = mysqli_query($con,$new_query) or die(mysql_error());
-    $new_rows = mysqli_num_rows($new_result);
-    
-    if($rows==1 && $new_rows == 0){
-        $sql = "UPDATE users SET phone_number='$new_phone' WHERE phone_number='$phone'";
-        if ($con->query($sql) === TRUE) {
-            header("Location: index.php?result=Mobile Number Changed Successfully!");
-        } else {
-            echo "Error updating record: " . $conn->error;
-            // header("Location: password_change.php?result=Something Went Wrong try again!");
+    $confirm_password = $_POST['confirm_password'];
+    $new_password = $_POST['new_password'];
+    $old_password = $_POST['old_password'];
+    if($confirm_password == $new_password){
+        $result = mysql_query("SELECT password FROM users WHERE email='admin@eazycreditsolution.com' AND password='".md5($old_password)."'");
+        if(!$result)
+        {
+            $set_cond = True;
         }
-
-        $sql = "UPDATE loans SET phone_number='$new_phone' WHERE phone_number='$phone'";
-        if ($con->query($sql) === TRUE) {
-            header("Location: index.php?result=Mobile Number Changed Successfully!");
-        } else {
-            // echo "Error updating record: " . $conn->error;
-            header("Location: password_change.php?result=Something Went Wrong try again!");
+        else
+        {
+            $result=mysql_query("UPDATE users SET password='$new_password' where email='admin@eazycreditsolution.com'");    
+            if($result){
+                header("Location: login.php?result=Congratulations!! You have successfully changed your password");
+            }else{
+                $set_passw = True;
+            }
         }
-    }elseif($rows==0){
-        $not_found = True;
     }else{
-        $set_cond = True;
+        $not_match = True;
     }
-    
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -94,7 +78,7 @@ if (isset($_POST['phone'])){
     <div class="container">
         <div class="row">
             <div class="col-md d-flex justify-content-center">
-                <img src="../images/loan_logo.png" alt="logo" width="200px">
+                
             </div>
         </div>
     </div>
@@ -107,24 +91,27 @@ if (isset($_POST['phone'])){
                                     }
                             ?> 
                             <?php if($set_cond){
-                                echo '<p class="text-danger h3 py-2">Mobile Number already exists! Try Again!</p>';}
-                                elseif($not_found){
-                                    echo '<p class="text-danger h3 py-2">Mobile number not found! Try Again!</p>';
+                                echo '<p class="text-danger h4 py-2">Password Match Not Found! Enter Correct Old Password!</p>';}
+                                elseif($not_match){
+                                    echo '<p class="text-danger h4 py-2">Password Do not matched! Try Again!</p>';
+                                }elseif($set_passw){
+                                    echo '<p class="text-danger h4 py-2">Password Change Filed! Try Again</p>';
                                 }
                             ?>
+                            
                          
                     <fieldset>
-                        <h2 class="fs-title">Change Mobile Number</h2>
-                        <h3 class="fs-subtitle">Verify Your Mobile Number</h3>
-                        <input type="tel" placeholder="Mobile Number" name="phone" >
-                        <input type="tel" placeholder=" NEW Mobile Number" name="new_phone" id="mob" id="mob">
-                        <input type="tel" placeholder="Enter OTP..." id="verificationCode" style="display: none;">
+                        <h2 class="fs-title">Change Your Password</h2>
+                        <h3 class="fs-subtitle">Verify Your Password and Change</h3>
                         
-                        <div id="recaptcha-container"></div>
+                        <input type="text" value="admin@eazycreditsolution.com" readonly>
+                        <input type="text" placeholder="Old Password..." name="old_password" id="mob" id="mob" required>
+                        <input type="password" placeholder="New Password" name="new_password" required>
+                        <input type="password" placeholder="Confirm New Password" name="confirm_password" required>
                         
                         
-                        <button type="button" onclick="send_otp1();" class="action-button" id="get-otp" class="btn btn-success">Get OTP</button>
-                        <input type="submit" name="next"  id="mobile_next" class="next action-button"  style="background:#2f523e;" value="change" disabled/>    
+                        
+                        <input type="submit" name="next" class="next action-button" value="change"/>    
                     </fieldset>
                                 </form>
 

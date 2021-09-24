@@ -304,15 +304,35 @@
                             <h2 class="box-title text-center" style="font-size: 25px;">Your Loan Status</h2>
                             <?php if($loans_approved){ ?>
                                 <p class="box-title text-success">Dear <?php echo $_SESSION['username']; ?> <br>
-                                Congratulations... <br> Your <?php echo $_SESSION['loan']; ?> Application is Accepted. <br> For Disbursement our Support Team Call You Soon..
+                                Congratulations... <br> Your <?php 
+                                if($_SESSION['loan'] == "Personal"){
+                                    echo $_SESSION['loan']. " Loan";
+                                }else{
+                                    echo $_SESSION['loan'];
+                                }
+                                 ?> Application is Accepted. <br> For Disbursement our Support Team Will Call You Soon..
                                 </p>
 
                             <?php }elseif($loans_rejected){ ?>
                                 <p class="box-title text-danger">
                                 Dear <?php echo $_SESSION['username']; ?> <br>
-                                We are Unable to Process Your <?php echo $_SESSION['loan']; ?> Application 
-                                . <br>Sorry, your Loan Application is Rejected. <br> Re- Apply after six month...</p>
-                            <?php }
+                                We are Unable to Process Your 
+                                <?php
+                                if($_SESSION['loan'] == "Personal"){
+                                    echo $_SESSION['loan']. " Loan";
+                                }else{
+                                    echo $_SESSION['loan'];
+                                }
+                                ?> Application. 
+                                <br>Sorry, your Loan Application is Rejected. <br> Re- Apply after six months...</p>
+                            <?php }elseif($action_needed_count == 0){ ?>
+                                <p class="box-title text-info">
+                                Dear <?php echo $_SESSION['username']; ?>,<br>
+                                We are processing Your <?php if($_SESSION['loan'] == "Personal"){ echo $_SESSION['loan']. " Loan "; } else{
+                                    $_SESSION['loan'];
+                                } ?> Application. 
+                                We'll get back to you soon.</p>
+                            <?php } 
                             
                             if ($action_needed->num_rows > 0) {
                                 // output data of each row
@@ -321,7 +341,7 @@
                                 while($row = $action_needed->fetch_assoc()) {
                                     $i += 1;
                                     if($row['loan'] == "Personal"){
-                                        $text= $text."<p class='text-dark fw-bold fs-6'> ".$i.". Please complete your ".$row['loan']." form by clicking <a class='text-primary' href='personal-loan.php' >Here</a></p>";
+                                        $text= $text."<p class='text-dark fw-bold fs-6'> ".$i.". Please complete your ".$row['loan']." Loan form by clicking <a class='text-primary' href='personal-loan.php' >Here</a></p>";
                                     }elseif($row['loan'] == "Mortgage"){
                                         $text= $text."<p class='text-dark fw-bold fs-6'> ".$i.". Please complete your ".$row['loan']." form by clicking <a class='text-primary' href='mortgage.php' >Here</a></p>";
                                     }elseif($row['loan'] == "Business Loan"){

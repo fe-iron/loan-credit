@@ -193,10 +193,10 @@
                                 </a>
                             </li> 
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
-                                <a class="sidebar-link" href="team_member.php"
+                                <a class="sidebar-link" href="bt-plus-loan.php"
                                     aria-expanded="false">
                                     <i class="fas fa-user" aria-hidden="true"></i>
-                                    <span class="hide-menu">Team Member</span>
+                                    <span class="hide-menu">BT + Home Loan</span>
                                 </a>
                             </li> 
                         </div> 
@@ -219,7 +219,7 @@
                                 </a>
                             </li>
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
-                                <a class="sidebar-link" href="mortgage.php"
+                                <a class="sidebar-link" href="loan-type.php"
                                     aria-expanded="false">
                                     <i class="far fa-clock" aria-hidden="true"></i>
                                     <span class="hide-menu">Loan Types</span>
@@ -235,10 +235,10 @@
                                 </a>
                             </li> 
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
-                                <a class="sidebar-link" href="bt-plus-loan.php"
+                                <a class="sidebar-link" href="team_members.php"
                                     aria-expanded="false">
                                     <i class="far fa-clock" aria-hidden="true"></i>
-                                    <span class="hide-menu">BT+ Loan</span>
+                                    <span class="hide-menu">Team Members</span>
                                 </a>
                             </li> 
                             <li class="sidebar-item common_btn" style="padding-left: 26px;">
@@ -391,6 +391,7 @@
                                             <th class="border-top-0">Description</th>
                                             <th class="border-top-0">Rate</th>
                                             <th class="border-top-0">Installment</th>
+                                            <th class="border-top-0">Remove</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -413,6 +414,9 @@
                                                     }
                                                     
                                                     $text = $text .'<td>'.$row["installment"].'</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger" value="'.$row['id'].'" onclick="remove(this.value)">Remove</button>    
+                                                    </td>
                                                 </tr>';
                                             }
                                             echo $text;
@@ -447,6 +451,35 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
+
+
+    
+    <div style="display: hidden">
+        <form action="delete.php" method="post" name="remove_form">
+            <input type="hidden" id="remove_id" name="remove_id">
+            <input type="hidden"  name="page" value="loan-type">
+        </form>
+    </div>
+        <!-- Modal -->
+    <div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="removeTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Confirmation</h5>
+            
+        </div>
+        <div class="modal-body">
+            <h1 class="text-danger fw-bold" style="text-align: center;">Are you sure?</h1>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close_modal('remove')">No</button>
+            <button type="button" class="btn btn-primary" onclick="submit();">Yes</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
@@ -455,7 +488,7 @@
     <!-- ============================================================== -->
     <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <!-- <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
+    <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="js/app-style-switcher.js"></script> -->
     <script src="plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
     <!--Wave Effects -->

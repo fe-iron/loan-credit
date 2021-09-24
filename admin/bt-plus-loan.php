@@ -178,7 +178,7 @@
                                 <a class="sidebar-link" href="bt-plus-loan.php"
                                     aria-expanded="false">
                                     <i class="far fa-clock" aria-hidden="true"></i>
-                                    <span class="hide-menu">BT+ Loan</span>
+                                    <span class="hide-menu">BT + Home Loan</span>
                                 </a>
                             </li> 
                         </div> 
@@ -382,15 +382,15 @@
             
             <div class="form-group mb-4">
             <label class="col-md-12 p-0">Select an Action</label>
-                                        <div class="col-md-12  p-0">
-                                            <select name="status" required class="border-bottom" style="border:none;">
-                                                <option value="" selected>Select</option>
-                                                <option value="accept">Accept</option>
-                                                <option value="reject">Reject</option>
+            <div class="col-md-12  p-0">
+                <select name="status" required class="border-bottom" style="border:none;">
+                    <option value="" selected>Select</option>
+                    <option value="accept">Accept</option>
+                    <option value="reject">Reject</option>
                                                 
-                                            </select>
-                                        </div>
-                                    </div>
+                </select>
+            </div>
+            </div>
 
             <div class="form-group mb-4">
                 <label class="col-md-12 p-0">Full Name</label>

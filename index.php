@@ -45,28 +45,28 @@
                         <div class="front">
                             <i class="flaticon-mortgage-loan"></i>';
                             if($row['end_rate'] == null){
-                                $loan_text = $loan_text . '<h1>10.50%</h1>';
+                                $loan_text = $loan_text . '<h1>'.$row['start_rate'].'%</h1>';
                             }else{
-                                $loan_text = $loan_text . '<h1>10.50% - 14%</h1>';
+                                $loan_text = $loan_text . '<h1>'.$row['start_rate'].'% - '.$row['end_rate'].'%</h1>';
                             }
                             
                             $loan_text = $loan_text . '<div class="clearfix"></div>
-                            <h4>Business Loan</h4>
-                            <p>Stay turned into the world of finance & business.</p>
-                            <h5>20 months installment</h5>
+                            <h4>'.$row['name'].'</h4>
+                            <p>'.$row['description'].'</p>
+                            <h5>'.$row['installment'].' months installment</h5>
                         </div>
                         <div class="back">
                             <i class="flaticon-mortgage-loan"></i>';
                             if($row['end_rate'] == null){
-                                $loan_text = $loan_text . '<h1>10.50%</h1>';
+                                $loan_text = $loan_text . '<h1>'.$row['start_rate'].'%</h1>';
                             }else{
-                                $loan_text = $loan_text . '<h1>10.50% - 14%</h1>';
+                                $loan_text = $loan_text . '<h1>'.$row['start_rate'].'% - '.$row['end_rate'].'%</h1>';
                             }
                             
                             $loan_text = $loan_text. '<div class="clearfix"></div>
-                            <h4>Business Loan</h4>
-                            <p>Stay turned into the world of finance & business.</p>
-                            <h5>20 months installment</h5>
+                            <h4>'.$row['name'].'</h4>
+                            <p>'.$row['description'].'</p>
+                            <h5>'.$row['installment'].' months installment</h5>
                         </div>
                     </div>
                 </div>
@@ -81,28 +81,28 @@
                                 <div class="front">
                                     <i class="flaticon-money"></i>';
                                     if($row['end_rate'] == null){
-                                        $loan_text = $loan_text . '<h1>10.50%</h1>';
+                                        $loan_text = $loan_text . '<h1>'.$row['start_rate'].'%</h1>';
                                     }else{
-                                        $loan_text = $loan_text . '<h1>10.50% - 14%</h1>';
+                                        $loan_text = $loan_text . '<h1>'.$row['start_rate'].'% - '.$row['end_rate'].'%</h1>';
                                     }
                                     
                                     $loan_text = $loan_text. '<div class="clearfix"></div>
-                                    <h4>Personal Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
+                                    <h4>'.$row['name'].'</h4>
+                                    <p>'.$row['description'].'</p>
+                                    <h5>'.$row['installment'].' months installment</h5>
                                 </div>
                                 <div class="back">    
                                     <i class="flaticon-money"></i>';
                                     if($row['end_rate'] == null){
-                                        $loan_text = $loan_text . '<h1>10.50%</h1>';
+                                        $loan_text = $loan_text . '<h1>'.$row['start_rate'].'%</h1>';
                                     }else{
-                                        $loan_text = $loan_text . '<h1>10.50% - 14%</h1>';
+                                        $loan_text = $loan_text . '<h1>'.$row['start_rate'].'% - '.$row['end_rate'].'%</h1>';
                                     }
                                     
                                     $loan_text = $loan_text. '<div class="clearfix"></div>
-                                    <h4>Personal Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
+                                    <h4>'.$row['name'].'</h4>
+                                    <p>'.$row['description'].'</p>
+                                    <h5>'.$row['installment'].' months installment</h5>
                                 </div>
                             </div>
                         </div>';
@@ -113,28 +113,28 @@
                                 <div class="front">
                                     <i class="flaticon-loan-1"></i>';
                                     if($row['end_rate'] == null){
-                                        $loan_text = $loan_text . '<h1>10.50%</h1>';
+                                        $loan_text = $loan_text . '<h1>'.$row['start_rate'].'%</h1>';
                                     }else{
-                                        $loan_text = $loan_text . '<h1>10.50% - 14%</h1>';
+                                        $loan_text = $loan_text . '<h1>'.$row['start_rate'].'% - '.$row['end_rate'].'%</h1>';
                                     }
                                     
                                     $loan_text = $loan_text.'<div class="clearfix"></div>
-                                    <h4>Education Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
+                                    <h4>'.$row['name'].'</h4>
+                                    <p>'.$row['description'].'</p>
+                                    <h5>'.$row['installment'].' months installment</h5>
                                 </div>
                                 <div class="back">
                                     <i class="flaticon-loan-1"></i>';
                                     if($row['end_rate'] == null){
-                                        $loan_text = $loan_text . '<h1>10.50%</h1>';
+                                        $loan_text = $loan_text . '<h1>'.$row['start_rate'].'%</h1>';
                                     }else{
-                                        $loan_text = $loan_text . '<h1>10.50% - 14%</h1>';
+                                        $loan_text = $loan_text . '<h1>'.$row['start_rate'].'% - '.$row['end_rate'].'%</h1>';
                                     }
                                     
                                     $loan_text = $loan_text. '<div class="clearfix"></div>
-                                    <h4>Education Loan</h4>
-                                    <p>Stay turned into the world of finance & business.</p>
-                                    <h5>20 months installment</h5>
+                                    <h4>'.$row['name'].'</h4>
+                                    <p>'.$row['description'].'</p>
+                                    <h5>'.$row['installment'].' months installment</h5>
                                 </div>
                             </div>
                         </div>

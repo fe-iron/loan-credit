@@ -201,7 +201,7 @@
                                 <a class="sidebar-link" href="bt-plus-loan.php"
                                     aria-expanded="false">
                                     <i class="far fa-clock" aria-hidden="true"></i>
-                                    <span class="hide-menu">BT+ Loan</span>
+                                    <span class="hide-menu">BT + Home Loan</span>
                                 </a>
                             </li> 
                         </div> 
@@ -377,6 +377,7 @@
                                             <th class="border-top-0">Image</th>
                                             <th class="border-top-0">Heading</th>
                                             <th class="border-top-0">Sub heading</th>
+                                            <th class="border-top-0">Remove</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -393,6 +394,9 @@
                                                     <td> <a href="upload/'.$row["image_url"].'">'.$row["image_url"].'</a></td>
                                                     <td>'.$row["heading"].'</td>
                                                     <td>'.$row["sub_heading"].'</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger" value="'.$row['id'].'" onclick="remove(this.value)">Remove</button>    
+                                                    </td>
                                                 </tr>';
                                             }
                                             echo $text;
@@ -427,6 +431,37 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
+
+
+
+    
+
+    <div style="display: hidden">
+        <form action="delete.php" method="post" name="remove_form">
+            <input type="hidden" id="remove_id" name="remove_id">
+            <input type="hidden"  name="page" value="carousal">
+        </form>
+    </div>
+        <!-- Modal -->
+    <div class="modal fade" id="remove" tabindex="-1" role="dialog" aria-labelledby="removeTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Confirmation</h5>
+            
+        </div>
+        <div class="modal-body">
+            <h1 class="text-danger fw-bold" style="text-align: center;">Are you sure?</h1>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close_modal('remove')">No</button>
+            <button type="button" class="btn btn-primary" onclick="submit();">Yes</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
@@ -435,7 +470,7 @@
     <!-- ============================================================== -->
     <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <!-- <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
+    <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="js/app-style-switcher.js"></script> -->
     <script src="plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
     <!--Wave Effects -->

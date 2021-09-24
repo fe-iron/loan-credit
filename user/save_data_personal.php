@@ -159,8 +159,9 @@ if(isset($_POST['s'])){
                }else{
                   //   echo mysqli_error($conn);
                     $msg = "Update Failed!";
+                    header("Location: personal-loan.php?result=".$msg);
                }
-               header("Location: personal-loan.php?result=".$msg);
+               
             
         }
 
